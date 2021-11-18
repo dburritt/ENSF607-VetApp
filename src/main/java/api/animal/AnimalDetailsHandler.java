@@ -66,14 +66,14 @@ public class AnimalDetailsHandler extends Handler {
 		return null;
 	}
 
-	private ResponseEntity doGet(HttpExchange exchange) {
+	private ResponseEntity<AnimalDetailsResponse> doGet(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String noId= "";
         String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
-        List<AnimalDetails> animals;
-        animals = animalService.getAnimalDetails(id);
         
-		return new ResponseEntity<>(animals, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+        AnimalDetailsResponse animalDetailsResponse = new AnimalDetailsResponse(animalService.getAnimalDetails(id));
+        
+		return new ResponseEntity<>(animalDetailsResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 	
 }
