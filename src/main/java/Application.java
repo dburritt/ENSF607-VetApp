@@ -27,7 +27,11 @@ public class Application {
         
         UserRegistrationHandler userRegistrationHandler = new UserRegistrationHandler(Configuration.getUserService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
-            server.createContext("/api/users/register", userRegistrationHandler::handle);
+        server.createContext("/api/users/register", userRegistrationHandler::handle);
+        
+        AdminRegistrationHandler adminRegistrationHandler = new AdminRegistrationHandler(Configuration.getAdminService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/admin/register", adminRegistrationHandler::handle);    
         
         HttpContext context =server.createContext("/api/hello", (exchange -> {
 
