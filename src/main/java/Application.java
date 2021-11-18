@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import api.*;
 import api.admin.AdminEmailHandler;
+import api.admin.CommentHandler;
 import api.animal.AnimalsHandler;
 import api.user.*;
 import api.animal.AnimalDetailsHandler;
@@ -35,6 +36,10 @@ public class Application {
         server.createContext("/api/admin/register", adminRegistrationHandler::handle);   
         
         AdminEmailHandler adminEmailHandler = new AdminEmailHandler(Configuration.getAdminMailingService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/admin/email", adminEmailHandler::handle); 
+        
+        CommentHandler commentHandler = new CommentHandler(Configuration.getCommentService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/admin/email", adminEmailHandler::handle);  
         
