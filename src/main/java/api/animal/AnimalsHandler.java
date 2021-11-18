@@ -17,6 +17,7 @@ import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 import domain.animal.AnimalService;
 import domain.animal.NewAnimal;
+import domain.user.Admin;
 import domain.user.NewUser;
 import api.ApiUtils;
 import api.Constants;
@@ -59,17 +60,31 @@ public class AnimalsHandler extends Handler {
 	        os.close();
 			
 		}
+		String id;
+	    String type;
+	    double weight;
+	    String breed;
+	    String color;
 
-		private ResponseEntity doPut(HttpExchange exchange) {
-			// TODO Auto-generated method stub
-			return null;
+		private ResponseEntity<Animal> doPut(HttpExchange exchange) {
+			Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+	        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
+	        NewAnimal newAnimal = super.readRequest(exchange.getRequestBody(), NewAnimal.class);
+	        Animal animalForUpdate = Animal.builder()
+	                .id(animalId)
+	                .type(newAnimal.getType())
+	                .weight(newAnimal.getWeight())
+	                .breed(newAnimal.getBreed())
+	                .color(newAnimal.getColor())
+	                .build();
+	        Animal animalAfterUpdate = animalService.updateAnimal(animalForUpdate);
+	        return new ResponseEntity<>(animalForUpdate,
+	                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 		}
 
-		private ResponseEntity doPost(InputStream is) {
+		private ResponseEntity<String> doPost(InputStream is) {
 			NewAnimal newAnimal = super.readRequest(is, NewAnimal.class);
-			
 	        String animalId = animalService.createAnimal(newAnimal);
-
 	        return new ResponseEntity<>(animalId,
 	                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 		}
