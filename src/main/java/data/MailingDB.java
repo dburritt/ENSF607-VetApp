@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import domain.admin.Email;
 import domain.admin.EmailRepository;
-import domain.animal.Animal;
 import errors.UserNotFoundException;
 
 public class MailingDB implements EmailRepository{
