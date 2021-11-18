@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import api.*;
 import api.animal.AnimalsHandler;
+import api.user.*;
 import api.animal.AnimalDetailsHandler;
 
 import java.util.Map;
@@ -23,6 +24,10 @@ public class Application {
         AnimalDetailsHandler animalDetailsHandler = new AnimalDetailsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/animals/details", animalDetailsHandler::handle);
+        
+        UserRegistrationHandler userRegistrationHandler = new UserRegistrationHandler(Configuration.getUserService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+            server.createContext("/api/users/register", userRegistrationHandler::handle);
         
         HttpContext context =server.createContext("/api/hello", (exchange -> {
 

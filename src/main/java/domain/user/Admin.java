@@ -5,7 +5,8 @@ import lombok.Value;
 
 @Value
 @Builder
-public class NewAdmin {
-	String login;
+public class Admin {
+	String id;
+    String login;
     String password;
 }
