@@ -10,8 +10,8 @@ import errors.ResourceNotFoundException;
 public class AnimalService {
 	private final AnimalRepository animalRepository;
 	
-	public String create(NewAnimal animal) {
-        return animalRepository.create(animal);
+	public String createAnimal(NewAnimal animal) {
+        return animalRepository.createAnimal(animal);
     }
 
     public List<Animal> getAnimals(){return  animalRepository.getAnimals();}
@@ -31,6 +31,10 @@ public class AnimalService {
     }
 	public List<AnimalDetails> getAnimalDetails(String id) throws ResourceNotFoundException {
 		return animalRepository.getAnimalDetails(id);
+	}
+
+	public AnimalWeight getAnimalWeight(String id) throws ResourceNotFoundException {
+		return animalRepository.getAnimalWeight(id);
 	}
 
 }
