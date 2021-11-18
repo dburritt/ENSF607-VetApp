@@ -42,6 +42,6 @@ public class UserDB implements UserRepository {
     public  User updateUser(User user){
         Optional.of(USERS_STORE.get(user.getId())).orElseThrow(()->  new UserNotFoundException(404, "User not found."));
         USERS_STORE.replace(user.getId(), user);
-        return  user;
+        return user;
     }
 }
