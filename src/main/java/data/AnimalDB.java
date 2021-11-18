@@ -1,13 +1,16 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
 
+import domain.admin.Comment;
 import domain.animal.*;
 import errors.ResourceNotFoundException;
 
@@ -15,22 +18,39 @@ public class AnimalDB implements AnimalRepository{
 	
     private static final Map<String,Animal> ANIMAL_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalDetails> ANIMAL_DETAILS_STORE = new ConcurrentHashMap();
-    
+    private static final Map<String,AnimalWeight> ANIMAL_WEIGHT_STORE = new ConcurrentHashMap();
+
 	@Override
-	public String create(NewAnimal animal) {
-		// TODO Auto-generated method stub
-		return null;
+	public String createAnimal(NewAnimal newAnimal) {
+		String id = UUID.randomUUID().toString();
+		Animal animal = Animal.builder()
+                .id(id)
+                .type(newAnimal.getType())
+                .weight(newAnimal.getWeight())
+                .breed(newAnimal.getBreed())
+                .color(newAnimal.getColor())
+                .build();
+        ANIMAL_STORE.put(id, animal);
+
+       return animal.getId();
 	}
 
 	@Override
 	public List<Animal> getAnimals() {
 		String id = UUID.randomUUID().toString();
 		//CREATE TEST ANIMAL
-		Animal a = Animal.builder().id(id).type("dog").weight(123).breed("big").color("black").build();
-	    ANIMAL_STORE.put(id,a);
-	    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
-	    ANIMAL_DETAILS_STORE.put(id,d);
-	    
+			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("big").color("black").build();
+		    ANIMAL_STORE.put(id,a);
+		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
+		    ANIMAL_DETAILS_STORE.put(id,d);
+				TreeMap<Date, Double> weight = new 	TreeMap<Date, Double>();
+				weight.put(new Date(55415412), 123.1);
+				weight.put(new Date(55445412), 120.0);
+				weight.put(new Date(55455412), 125.1);
+				weight.put(new Date(55459000), 121.1);
+			AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
+			ANIMAL_WEIGHT_STORE.put(id,w);
+
         return new ArrayList<>(ANIMAL_STORE.values());
 	}
 	@Override
@@ -53,7 +73,11 @@ public class AnimalDB implements AnimalRepository{
 		return null;
 	}
 
-	
+	@Override
+	public String createAnimalDetails(NewAnimalDetails animalDetails) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public List<AnimalDetails> getAnimalDetails(String id) {
@@ -63,6 +87,44 @@ public class AnimalDB implements AnimalRepository{
 		return  animalDetail;
 		
 	}
+
+	@Override
+	public void deleteAnimalDetails(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Animal updateAnimalDetails(Animal animal) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String createAnimalWeight(AnimalWeight animalWeight) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AnimalWeight getAnimalWeight(String id) {
+		AnimalWeight animalWeight = Optional.of(ANIMAL_WEIGHT_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		return  animalWeight;
+	}
+
+	@Override
+	public void deleteAnimalWeight(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Animal updateAnimalWeight(Animal animal) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }
 
 

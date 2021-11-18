@@ -11,10 +11,13 @@ import com.sun.net.httpserver.HttpExchange;
 import api.Handler;
 import api.ResponseEntity;
 import api.StatusCode;
+import api.user.PasswordEncoder;
 import domain.animal.Animal;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 import domain.animal.AnimalService;
+import domain.animal.NewAnimal;
+import domain.user.NewUser;
 import api.ApiUtils;
 import api.Constants;
 
@@ -62,9 +65,13 @@ public class AnimalsHandler extends Handler {
 			return null;
 		}
 
-		private ResponseEntity doPost(InputStream requestBody) {
-			// TODO Auto-generated method stub
-			return null;
+		private ResponseEntity doPost(InputStream is) {
+			NewAnimal newAnimal = super.readRequest(is, NewAnimal.class);
+			
+	        String animalId = animalService.createAnimal(newAnimal);
+
+	        return new ResponseEntity<>(animalId,
+	                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 		}
 
 		private ResponseEntity<AnimalListResponse> doGet(HttpExchange exchange) {
