@@ -15,7 +15,9 @@ public class AnimalService {
     }
 
     public List<Animal> getAnimals(){return  animalRepository.getAnimals();}
-
+    
+    public List<Animal> getAnimals(String id) throws ResourceNotFoundException {return animalRepository.getAnimals(id);}
+    
     public void deleteUser(String id) throws ResourceNotFoundException{
         Objects.requireNonNull(id,"User id is required");
         animalRepository.deleteAnimal(id);
@@ -27,5 +29,8 @@ public class AnimalService {
         return  animalRepository.updateAnimal(animal);
 
     }
+	public List<AnimalDetails> getAnimalDetails(String id) throws ResourceNotFoundException {
+		return animalRepository.getAnimalDetails(id);
+	}
 
 }
