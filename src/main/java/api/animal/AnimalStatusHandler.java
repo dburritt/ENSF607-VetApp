@@ -15,15 +15,13 @@ import api.StatusCode;
 import domain.animal.Animal;
 import domain.animal.AnimalDetails;
 import domain.animal.AnimalService;
-import domain.animal.NewAnimal;
-import domain.animal.NewAnimalDetails;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 
-public class AnimalDetailsHandler extends Handler {
+public class AnimalStatusHandler extends Handler {
 	private final AnimalService animalService;
 
-	public AnimalDetailsHandler(AnimalService animalService, ObjectMapper objectMapper, GlobalExceptionHandler exceptionHandler) {
+	public AnimalStatusHandler(AnimalService animalService, ObjectMapper objectMapper, GlobalExceptionHandler exceptionHandler) {
 		super(objectMapper, exceptionHandler);
 		this.animalService = animalService;
 		
@@ -33,7 +31,7 @@ public class AnimalDetailsHandler extends Handler {
 	protected void execute(HttpExchange exchange) throws Exception {
 		byte[] response=null;
 		if ("POST".equals(exchange.getRequestMethod())) {
-            ResponseEntity e = doPost(exchange);
+            ResponseEntity e = doPost(exchange.getRequestBody());
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -44,7 +42,6 @@ public class AnimalDetailsHandler extends Handler {
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
-            
 		} else if ("PUT".equals(exchange.getRequestMethod())) {
 	        ResponseEntity e = doPut(exchange);
 	        exchange.getResponseHeaders().putAll(e.getHeaders());
@@ -60,25 +57,13 @@ public class AnimalDetailsHandler extends Handler {
 	}
 
 	private ResponseEntity doPut(HttpExchange exchange) {
-		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
-        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
-        NewAnimalDetails newAnimalDetails = super.readRequest(exchange.getRequestBody(), NewAnimalDetails.class);
-        AnimalDetails animalDetailsForUpdate = AnimalDetails.builder()
-                .id(animalId)
-                .tattoo(newAnimalDetails.getTattoo())
-                .RFID(newAnimalDetails.getRFID())
-                .DOB(newAnimalDetails.getDOB())
-                .build();
-        AnimalDetails animalDetailsAfterUpdate = animalService.updateAnimalDetails(animalDetailsForUpdate);
-        return new ResponseEntity<>(animalDetailsAfterUpdate,
-                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	private ResponseEntity doPost(HttpExchange exchange) {
-        NewAnimalDetails newAnimalDetails = super.readRequest(exchange.getRequestBody(), NewAnimalDetails.class);
-        String animalId = animalService.createAnimalDetails(newAnimalDetails);
-        return new ResponseEntity<>(animalId,
-                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+	private ResponseEntity doPost(InputStream requestBody) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private ResponseEntity<AnimalDetailsResponse> doGet(HttpExchange exchange) {

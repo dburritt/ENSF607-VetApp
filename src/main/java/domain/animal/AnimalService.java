@@ -29,9 +29,17 @@ public class AnimalService {
         return  animalRepository.updateAnimal(animal);
 
     }
+    public String createAnimalDetails(NewAnimalDetails newAnimalDetails) {
+        return animalRepository.createAnimalDetails(newAnimalDetails);
+    }
 	public List<AnimalDetails> getAnimalDetails(String id) throws ResourceNotFoundException {
 		return animalRepository.getAnimalDetails(id);
 	}
+	public AnimalDetails updateAnimalDetails(AnimalDetails animalDetails) throws ResourceNotFoundException{
+        Objects.requireNonNull(animalDetails.getId(),"animal id is required for update");
+        return  animalRepository.updateAnimalDetails(animalDetails);
+
+    }
 
 	public AnimalWeight getAnimalWeight(String id) throws ResourceNotFoundException {
 		return animalRepository.getAnimalWeight(id);

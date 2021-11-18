@@ -14,10 +14,10 @@ public interface AnimalRepository {
 	 String createAnimalDetails(NewAnimalDetails animalDetails);
 	 List<AnimalDetails> getAnimalDetails(String id);
 	 void deleteAnimalDetails(String id) throws ResourceNotFoundException;
-	 Animal updateAnimalDetails(Animal animal) throws ResourceNotFoundException;
+	 AnimalDetails updateAnimalDetails(AnimalDetails animalDetails) throws ResourceNotFoundException;
 	 
 	 String createAnimalWeight(AnimalWeight animalWeight);
 	 AnimalWeight getAnimalWeight(String id);
 	 void deleteAnimalWeight(String id) throws ResourceNotFoundException;
-	 Animal updateAnimalWeight(Animal animal) throws ResourceNotFoundException;
+	 AnimalWeight updateAnimalWeight(Animal animal) throws ResourceNotFoundException;
 }

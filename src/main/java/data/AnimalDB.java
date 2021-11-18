@@ -75,9 +75,16 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public String createAnimalDetails(NewAnimalDetails animalDetails) {
-		// TODO Auto-generated method stub
-		return null;
+	public String createAnimalDetails(NewAnimalDetails newAnimalDetails) {
+		 AnimalDetails animalDetails = AnimalDetails.builder()
+	                .id(newAnimalDetails.getId())
+	                .tattoo(newAnimalDetails.getTattoo())
+	                .RFID(newAnimalDetails.getRFID())
+	                .DOB(newAnimalDetails.getDOB())
+	                .build();
+        ANIMAL_DETAILS_STORE.put(animalDetails.getId(), animalDetails);
+
+       return animalDetails.getId();
 	}
 
 	@Override
@@ -88,17 +95,17 @@ public class AnimalDB implements AnimalRepository{
 		return  animalDetail;
 		
 	}
-
+	@Override
+	public AnimalDetails updateAnimalDetails(AnimalDetails animalDetails) throws ResourceNotFoundException {
+		Optional.of(ANIMAL_DETAILS_STORE.get(animalDetails.getId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		ANIMAL_DETAILS_STORE.replace(animalDetails.getId(), animalDetails);
+        return  animalDetails;
+	}
+	
 	@Override
 	public void deleteAnimalDetails(String id) throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public Animal updateAnimalDetails(Animal animal) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -119,8 +126,11 @@ public class AnimalDB implements AnimalRepository{
 		
 	}
 
+
+	
+
 	@Override
-	public Animal updateAnimalWeight(Animal animal) throws ResourceNotFoundException {
+	public AnimalWeight updateAnimalWeight(Animal animal) throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

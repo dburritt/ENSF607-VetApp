@@ -78,7 +78,7 @@ public class AnimalsHandler extends Handler {
 	                .color(newAnimal.getColor())
 	                .build();
 	        Animal animalAfterUpdate = animalService.updateAnimal(animalForUpdate);
-	        return new ResponseEntity<>(animalForUpdate,
+	        return new ResponseEntity<>(animalAfterUpdate,
 	                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 		}
 
