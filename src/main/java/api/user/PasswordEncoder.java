@@ -1,4 +1,4 @@
-package api.admin;
+package api.user;
 
 import java.util.Base64;
 
