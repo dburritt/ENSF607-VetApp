@@ -17,9 +17,9 @@ public class AdminMailingService {
 
     public List<Email> getEmails(){return  emailRepository.getEmails();}
 
-    public void deleteEmail(String id) throws UserNotFoundException{
-        Objects.requireNonNull(id,"Email is required");
-        emailRepository.deleteEmail(id);
+    public void deleteEmail(String email) throws UserNotFoundException{
+        Objects.requireNonNull(email,"Email is required");
+        emailRepository.deleteEmail(email);
     }
     public Email updateEmail(Email email) throws UserNotFoundException{
         Objects.requireNonNull(email.getEmail(),"Email is required for update");
