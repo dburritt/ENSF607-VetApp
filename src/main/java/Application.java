@@ -46,7 +46,7 @@ public class Application {
         
         CommentHandler commentHandler = new CommentHandler(Configuration.getCommentService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
-        server.createContext("/api/admin/email", adminEmailHandler::handle);  
+        server.createContext("/api/admin/comment", adminEmailHandler::handle);  
         
         HttpContext context =server.createContext("/api/hello", (exchange -> {
 
