@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import api.*;
 import api.animal.AnimalsHandler;
+import api.animal.AnimalDetailsHandler;
 
 import java.util.Map;
 public class Application {
@@ -15,10 +16,14 @@ public class Application {
 		int serverPort = 8001;
         HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
 
-       AnimalsHandler animalsHandler = new AnimalsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
+        AnimalsHandler animalsHandler = new AnimalsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/animals", animalsHandler::handle);
-
+        
+        AnimalDetailsHandler animalDetailsHandler = new AnimalDetailsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/animals/details", animalDetailsHandler::handle);
+        
         HttpContext context =server.createContext("/api/hello", (exchange -> {
 
             if ("GET".equals(exchange.getRequestMethod())) {

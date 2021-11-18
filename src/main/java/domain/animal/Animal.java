@@ -1,5 +1,7 @@
 package domain.animal;
 
+import java.util.Map;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
@@ -14,5 +16,5 @@ public class Animal {
     double weight;
     String breed;
     String color;
-    
+    	
 }

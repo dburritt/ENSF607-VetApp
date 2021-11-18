@@ -3,6 +3,7 @@ package api.animal;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -14,6 +15,7 @@ import domain.animal.Animal;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 import domain.animal.AnimalService;
+import api.ApiUtils;
 import api.Constants;
 
 public class AnimalsHandler extends Handler {
@@ -36,7 +38,7 @@ public class AnimalsHandler extends Handler {
 
 	        } else if ("GET".equals(exchange.getRequestMethod())) {
 
-	            ResponseEntity e = doGet();
+	            ResponseEntity e = doGet(exchange);
 	            exchange.getResponseHeaders().putAll(e.getHeaders());
 	            exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 	            response = super.writeResponse(e.getBody());
@@ -65,8 +67,17 @@ public class AnimalsHandler extends Handler {
 			return null;
 		}
 
-		private ResponseEntity doGet() {
-			List<Animal> animals = animalService.getAnimals();
+		private ResponseEntity doGet(HttpExchange exchange) {
+			Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+            String noId= "";
+            String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
+            List<Animal> animals;
+            if (id.equals(noId)) {
+            	animals = animalService.getAnimals();
+            }
+            else
+            	animals = animalService.getAnimals(id);
+            
 			return new ResponseEntity<>(animals, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 		}
 		
