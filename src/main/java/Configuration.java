@@ -1,8 +1,11 @@
 
 
 import data.AnimalDB;
+import data.MailingDB;
 import data.UserDB;
 import data.AdminDB;
+import domain.admin.AdminMailingService;
+import domain.admin.EmailRepository;
 import domain.animal.AnimalRepository;
 import domain.animal.AnimalService;
 import domain.user.AdminRepository;
@@ -22,6 +25,8 @@ class Configuration {
     private static final UserService USER_SERVICE = new UserService(USER_REPOSITORY);
     private static final AdminRepository ADMIN_REPOSITORY = new AdminDB();
     private static final AdminService ADMIN_SERVICE = new AdminService(ADMIN_REPOSITORY);
+    private static final EmailRepository EMAIL_REPOSITORY = new MailingDB();
+    private static final AdminMailingService EMAIL_SERVICE = new AdminMailingService(EMAIL_REPOSITORY);
     private static final GlobalExceptionHandler GLOBAL_ERROR_HANDLER = new GlobalExceptionHandler(OBJECT_MAPPER);
 
     static ObjectMapper getObjectMapper() {
@@ -44,7 +49,15 @@ class Configuration {
     	return ADMIN_SERVICE;
     }
 
-    public static GlobalExceptionHandler getErrorHandler() {
+    public static EmailRepository getEmailRepository() {
+		return EMAIL_REPOSITORY;
+	}
+
+	public static AdminMailingService getAdminMailingService() {
+		return EMAIL_SERVICE;
+	}
+
+	public static GlobalExceptionHandler getErrorHandler() {
         return GLOBAL_ERROR_HANDLER;
     }
 }

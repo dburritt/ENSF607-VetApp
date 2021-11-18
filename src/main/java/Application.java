@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.List;
 import api.*;
+import api.admin.AdminEmailHandler;
 import api.animal.AnimalsHandler;
 import api.user.*;
 import api.animal.AnimalDetailsHandler;
@@ -31,7 +32,11 @@ public class Application {
         
         AdminRegistrationHandler adminRegistrationHandler = new AdminRegistrationHandler(Configuration.getAdminService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
-        server.createContext("/api/admin/register", adminRegistrationHandler::handle);    
+        server.createContext("/api/admin/register", adminRegistrationHandler::handle);   
+        
+        AdminEmailHandler adminEmailHandler = new AdminEmailHandler(Configuration.getAdminMailingService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/admin/email", adminEmailHandler::handle);  
         
         HttpContext context =server.createContext("/api/hello", (exchange -> {
 
