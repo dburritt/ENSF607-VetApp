@@ -7,8 +7,7 @@ import lombok.Value;
 @Value
 @Getter
 @Builder
-public class NewAnimalDetails {
-	String tattoo;
-	String RFID;
-    String DOB;	
+public class AnimalStatus {
+	String animalId;
+	String status;
 }

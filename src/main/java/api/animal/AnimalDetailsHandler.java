@@ -75,8 +75,16 @@ public class AnimalDetailsHandler extends Handler {
 	}
 
 	private ResponseEntity doPost(HttpExchange exchange) {
+		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalDetails newAnimalDetails = super.readRequest(exchange.getRequestBody(), NewAnimalDetails.class);
-        String animalId = animalService.createAnimalDetails(newAnimalDetails);
+        AnimalDetails animalDetails = AnimalDetails.builder()
+                .id(animalId)
+                .tattoo(newAnimalDetails.getTattoo())
+                .RFID(newAnimalDetails.getRFID())
+                .DOB(newAnimalDetails.getDOB())
+                .build();
+        animalService.createAnimalDetails(animalDetails);
         return new ResponseEntity<>(animalId,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}

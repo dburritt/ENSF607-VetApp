@@ -10,6 +10,7 @@ import api.admin.CommentHandler;
 import api.animal.AnimalsHandler;
 import api.user.*;
 import api.animal.AnimalDetailsHandler;
+import api.animal.AnimalStatusHandler;
 import api.animal.AnimalWeightHandler;
 
 import java.util.Map;
@@ -31,6 +32,10 @@ public class Application {
         AnimalWeightHandler animalWeightHandler = new AnimalWeightHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/animals/weight", animalWeightHandler::handle);
+        
+        AnimalStatusHandler animalStatusHandler = new AnimalStatusHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/animals/status", animalStatusHandler::handle);
         
         UserRegistrationHandler userRegistrationHandler = new UserRegistrationHandler(Configuration.getUserService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());

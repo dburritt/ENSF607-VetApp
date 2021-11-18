@@ -19,6 +19,7 @@ public class AnimalDB implements AnimalRepository{
     private static final Map<String,Animal> ANIMAL_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalDetails> ANIMAL_DETAILS_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalWeight> ANIMAL_WEIGHT_STORE = new ConcurrentHashMap();
+    private static final Map<String,AnimalStatus> ANIMAL_STATUS_STORE = new ConcurrentHashMap();
 
 	@Override
 	public String createAnimal(NewAnimal newAnimal) {
@@ -50,6 +51,8 @@ public class AnimalDB implements AnimalRepository{
 				weight.put(new Date(55459000), 121.1);
 			AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
 			ANIMAL_WEIGHT_STORE.put(id,w);
+			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
+			ANIMAL_STATUS_STORE.put(id,s);
 
         return new ArrayList<>(ANIMAL_STORE.values());
 	}
@@ -74,14 +77,9 @@ public class AnimalDB implements AnimalRepository{
         return  animal;
 	}
 
-	@Override
-	public String createAnimalDetails(NewAnimalDetails newAnimalDetails) {
-		 AnimalDetails animalDetails = AnimalDetails.builder()
-	                .id(newAnimalDetails.getId())
-	                .tattoo(newAnimalDetails.getTattoo())
-	                .RFID(newAnimalDetails.getRFID())
-	                .DOB(newAnimalDetails.getDOB())
-	                .build();
+	@Override //FIX THIS should be ANIMAL NOT NewAnimal
+	public String createAnimalDetails(AnimalDetails animalDetails) {
+		
         ANIMAL_DETAILS_STORE.put(animalDetails.getId(), animalDetails);
 
        return animalDetails.getId();
@@ -126,11 +124,26 @@ public class AnimalDB implements AnimalRepository{
 		
 	}
 
-
-	
-
 	@Override
 	public AnimalWeight updateAnimalWeight(Animal animal) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String createAnimalStatus(AnimalStatus animalStatus) {
+        ANIMAL_STATUS_STORE.put(animalStatus.getAnimalId(), animalStatus);
+       return animalStatus.getAnimalId();
+	}
+
+	@Override
+	public AnimalStatus getAnimalStatus(String id) {
+		AnimalStatus status = Optional.ofNullable(ANIMAL_STATUS_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		return  status;
+	}
+
+	@Override
+	public AnimalDetails updateAnimalStatus(AnimalStatus animalStatus) {
 		// TODO Auto-generated method stub
 		return null;
 	}
