@@ -71,7 +71,6 @@ public class CommentHandler extends Handler{
     	CommentRequest commentRequest = super.readRequest(is, CommentRequest.class);
 
     	Comment comment = Comment.builder()
-    			.id(commentRequest.getId())
                 .commenter(commentRequest.getCommenter())
                 .text(commentRequest.getText())
                 .build();
