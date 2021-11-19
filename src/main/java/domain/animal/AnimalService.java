@@ -71,5 +71,24 @@ public class AnimalService {
 	public AnimalHealthRecord getAnimalHealthRecord(String id) {
 		return animalRepository.getAnimalHealthRecord(id);
 	}
+	
+    public String createAnimalReminder(NewAnimalReminder newAnimalReminder) {
+        return animalRepository.createAnimalReminder(newAnimalReminder);
+    }
+
+    public List<AnimalReminder> getAnimalReminders(){return  animalRepository.getAnimalReminders();}
+
+    public void deleteAnimalReminder(String id) throws ResourceNotFoundException{
+        Objects.requireNonNull(id,"Reminder id is required");
+        animalRepository.deleteAnimalReminder(id);
+    }
+    public AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException{
+    	Objects.requireNonNull(animalReminder.getReminderId(),"Reminder Id is required for update");
+        Objects.requireNonNull(animalReminder.getReminder(),"Reminder text is required for update");
+        Objects.requireNonNull(animalReminder.getDateEntered(),"Date of entry is required for update");
+        Objects.requireNonNull(animalReminder.getDateDue(),"Due date is required for update");
+        return  animalRepository.updateAnimalReminder(animalReminder);
+
+    }
 
 }

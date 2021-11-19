@@ -185,7 +185,7 @@ public class AnimalDB implements AnimalRepository{
 	public String createAnimalReminder(NewAnimalReminder newAnimalReminder) {
 		String id = UUID.randomUUID().toString();
         AnimalReminder animalReminder = AnimalReminder.builder()
-                .animalId(id)
+                .reminderId(id)
                 .reminder(newAnimalReminder.getReminder())
                 .dateEntered(newAnimalReminder.getDateEntered())
                 .dateDue(newAnimalReminder.getDateDue())
@@ -203,14 +203,14 @@ public class AnimalDB implements AnimalRepository{
 	@Override
 	public void deleteAnimalReminder(String id) throws ResourceNotFoundException {
         AnimalReminder deleteReminder = Optional.of(ANIMAL_REMINDER_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
-        ANIMAL_REMINDER_STORE.remove(deleteReminder.getAnimalId(),deleteReminder);
+        ANIMAL_REMINDER_STORE.remove(deleteReminder.getReminderId(),deleteReminder);
 		
 	}
 
 	@Override
 	public AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException {
-		Optional.of(ANIMAL_REMINDER_STORE.get(animalReminder.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
-		ANIMAL_REMINDER_STORE.replace(animalReminder.getAnimalId(), animalReminder);
+		Optional.of(ANIMAL_REMINDER_STORE.get(animalReminder.getReminderId())).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
+		ANIMAL_REMINDER_STORE.replace(animalReminder.getReminderId(), animalReminder);
         return  animalReminder;
 	}
 

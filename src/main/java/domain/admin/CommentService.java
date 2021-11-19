@@ -22,7 +22,7 @@ public class CommentService {
         commentRepository.deleteComment(id);
     }
     public Comment updateComment(Comment comment) throws ResourceNotFoundException{
-    	Objects.requireNonNull(comment.getId(),"Email is required for update");
+    	Objects.requireNonNull(comment.getId(),"Comment Id is required for update");
         Objects.requireNonNull(comment.getText(),"Comment text is required for update");
         Objects.requireNonNull(comment.getCommenter(),"Commenter's name is required for update");
         return  commentRepository.updateComment(comment);

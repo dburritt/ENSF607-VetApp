@@ -8,7 +8,7 @@ import lombok.Value;
 @Getter
 @Builder
 public class AnimalReminder {
-	String animalId;
+	String reminderId;
 	String reminder;
 	String dateEntered;
 	String dateDue;
