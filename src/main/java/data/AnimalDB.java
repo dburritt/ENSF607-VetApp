@@ -25,7 +25,7 @@ public class AnimalDB implements AnimalRepository{
     public AnimalDB() {
     	//CREATE TEST ANIMAL
     	String id = UUID.randomUUID().toString();
-			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("big").color("black").build();
+			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("lab").color("black").build();
 		    ANIMAL_STORE.put(id,a);
 		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
 		    ANIMAL_DETAILS_STORE.put(id,d);
