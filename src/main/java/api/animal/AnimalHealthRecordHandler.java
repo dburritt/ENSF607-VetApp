@@ -91,14 +91,14 @@ public class AnimalHealthRecordHandler extends Handler {
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 
-	private ResponseEntity<AnimalDetailsResponse> doGet(HttpExchange exchange) {
+	private ResponseEntity<AnimalHealthRecord> doGet(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String noId= "";
         String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
         
-        AnimalDetailsResponse animalDetailsResponse = new AnimalDetailsResponse(animalService.getAnimalDetails(id));
+        AnimalHealthRecord animalHealthRecordResponse = animalService.getAnimalHealthRecord(id);
         
-		return new ResponseEntity<>(animalDetailsResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+		return new ResponseEntity<>(animalHealthRecordResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 	
 }
