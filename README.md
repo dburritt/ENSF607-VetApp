@@ -253,6 +253,64 @@ Response
 "da0c9f06-b71f-427b-947e-cbb99614b183"
 ```
 
+# VET000-52 GET Animal Reminders
+
+Path: localhost:8001/api/animals/reminders  
+Verb: GET  
+Request: get all animal reminders
+Response: Animal reminders - json  
+ 
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/animals/reminders
+```
+
+Response
+
+```
+
+{"animalReminders":[{"reminderId":"3208d93a-68d3-475f-befa-7e066c6078c8","reminder":"Feed dog","dateEntered":"November 19","dateDue":"November 25"}]}
+
+```
+# VET000-52 update animal reminder
+
+Path: localhost:8001/api/animals/reminders?reminderId= " "  
+Verb: PUT  
+Request: update animal reminder matching reminderID in json format - {"reminder": String, "dateEntered": String, "dateDue": String} 
+Response: updated animal reminder - json  
+ 
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/animals/reminders?reminderId="3208d93a-68d3-475f-befa-7e066c6078c8" -d '{"reminder": "Feed cat", "dateEntered": "Nov 19, 2021", "dateDue": "Nov 22, 2021"}'
+```
+
+Response
+
+```
+{"reminderId":"3208d93a-68d3-475f-befa-7e066c6078c8","reminder":"Feed cat","dateEntered":"Nov 19, 2021","dateDue":"Nov 22, 2021"}
+```
+
+# VET000-52 add animal reminder
+
+Path: Path: localhost:8001/api/animals/reminder " "  
+Verb: POST  
+Request: add new animal reminder in json format with matching reminderId - {"reminder": String, "dateEntered": String, "dateDue": String}  
+Response: ID of reminder
+ 
+EXAMPLE: 
+
+```
+curl -X POST localhost:8001/api/animals/reminders -d '{"reminder": "Treat horse", "dateEntered": "Nov 18, 2021", "dateDue": "Nov 19, 2021"}'
+```
+
+Response
+
+```
+{"reminderId":"2404fb99-6c44-4f5f-8bb9-5758f5a0c22f"}
+```
+
 # Administration
 
 # VET000-62 create user
