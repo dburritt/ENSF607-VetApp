@@ -19,7 +19,7 @@ public interface AnimalRepository {
 	 String createAnimalWeight(AnimalWeight animalWeight);
 	 AnimalWeight getAnimalWeight(String id);
 	 void deleteAnimalWeight(String id) throws ResourceNotFoundException;
-	 AnimalWeight updateAnimalWeight(Animal animal) throws ResourceNotFoundException;
+	 AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) throws ResourceNotFoundException;
 	 
 	 String createAnimalStatus(AnimalStatus animalStatus);
 	 AnimalStatus getAnimalStatus(String id);
@@ -29,5 +29,6 @@ public interface AnimalRepository {
 	 AnimalHealthRecord getAnimalHealthRecord(String id);
 	 void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException;
 	 AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
+	 
 	
 }

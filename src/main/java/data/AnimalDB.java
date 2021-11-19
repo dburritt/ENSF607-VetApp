@@ -110,8 +110,8 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimalWeight(AnimalWeight animalWeight) {
-		// TODO Auto-generated method stub
-		return null;
+		 ANIMAL_WEIGHT_STORE.put(animalWeight.getId(), animalWeight);
+	     return animalWeight.getId();
 	}
 
 	@Override
@@ -127,9 +127,10 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public AnimalWeight updateAnimalWeight(Animal animal) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) throws ResourceNotFoundException {
+		Optional.of(ANIMAL_WEIGHT_STORE.get(animalWeight.getId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		ANIMAL_WEIGHT_STORE.replace(animalWeight.getId(), animalWeight);
+        return  animalWeight;
 	}
 
 	@Override

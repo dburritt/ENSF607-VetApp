@@ -18,14 +18,8 @@ public class AnimalService {
     
     public List<Animal> getAnimals(String id) throws ResourceNotFoundException {return animalRepository.getAnimals(id);}
     
-    public void deleteUser(String id) throws ResourceNotFoundException{
-        Objects.requireNonNull(id,"User id is required");
-        animalRepository.deleteAnimal(id);
-    }
     public Animal updateAnimal(Animal animal) throws ResourceNotFoundException{
         Objects.requireNonNull(animal.getId(),"animal id is required for update");
-        //Objects.requireNonNull(animal.getLogin(),"User login is required for update");
-        //Objects.requireNonNull(animal.getPassword(),"User password is required for update");
         return  animalRepository.updateAnimal(animal);
 
     }
