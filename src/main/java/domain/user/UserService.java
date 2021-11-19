@@ -18,6 +18,8 @@ public class UserService {
     }
 
     public List<User> getUsers(){return  userRepository.getUsers();}
+    
+    public List<User> getUsers(String id) throws UserNotFoundException {return  userRepository.getUsers(id);}
 
     public void deleteUser(String id) throws UserNotFoundException{
         Objects.requireNonNull(id,"User id is required");

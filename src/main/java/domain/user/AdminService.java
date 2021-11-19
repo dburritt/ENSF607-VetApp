@@ -18,6 +18,7 @@ public class AdminService {
     }
 
     public List<Admin> getAdmin(){return  adminRepository.getAdmin();}
+    public List<Admin> getAdmin(String id) throws UserNotFoundException {return  adminRepository.getAdmin(id);}
 
     public void deleteAdmin(String id) throws UserNotFoundException{
         Objects.requireNonNull(id,"User id is required");

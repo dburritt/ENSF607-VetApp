@@ -197,3 +197,317 @@ Response
 ```
 "da0c9f06-b71f-427b-947e-cbb99614b183"
 ```
+
+# VET000-52 GET Animal Reminders
+
+Path: localhost:8001/api/animals/reminders  
+Verb: GET  
+Request: get all animal reminders
+Response: Animal reminders - json  
+ 
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/animals/reminders
+```
+
+Response
+
+```
+
+{"animalReminders":[{"reminderId":"3208d93a-68d3-475f-befa-7e066c6078c8","reminder":"Feed dog","dateEntered":"November 19","dateDue":"November 25"}]}
+
+```
+# VET000-52 update animal reminder
+
+Path: localhost:8001/api/animals/reminders?reminderId= " "  
+Verb: PUT  
+Request: update animal reminder matching reminderID in json format - {"reminder": String, "dateEntered": String, "dateDue": String} 
+Response: updated animal reminder - json  
+ 
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/animals/reminders?reminderId="3208d93a-68d3-475f-befa-7e066c6078c8" -d '{"reminder": "Feed cat", "dateEntered": "Nov 19, 2021", "dateDue": "Nov 22, 2021"}'
+```
+
+Response
+
+```
+{"reminderId":"3208d93a-68d3-475f-befa-7e066c6078c8","reminder":"Feed cat","dateEntered":"Nov 19, 2021","dateDue":"Nov 22, 2021"}
+```
+
+# VET000-52 add animal reminder
+
+Path: Path: localhost:8001/api/animals/reminder " "  
+Verb: POST  
+Request: add new animal reminder in json format with matching reminderId - {"reminder": String, "dateEntered": String, "dateDue": String}  
+Response: ID of reminder
+ 
+EXAMPLE: 
+
+```
+curl -X POST localhost:8001/api/animals/reminders -d '{"reminder": "Treat horse", "dateEntered": "Nov 18, 2021", "dateDue": "Nov 19, 2021"}'
+```
+
+Response
+
+```
+{"reminderId":"2404fb99-6c44-4f5f-8bb9-5758f5a0c22f"}
+```
+
+# Administration
+
+# VET000-62 create user
+
+Path: localhost:8001/api/users/register -d { }
+Verb: POST
+Request: add new user login and password in json format for user matching id - {"login": String, "password": String}
+Response: ID of new user
+
+EXAMPLE:
+
+```
+curl -X POST localhost:8001/api/users/register -d '{"login": "test", "password": "test"}'
+```
+
+Response
+
+```
+"da0c9f06-b71f-427b-947e-cbb99614b183"
+```
+
+# VET000-66 view all users
+
+Path: localhost:8001/api/users/register
+Verb: GET
+Request: get all users registered in database
+Response: list of all users in database
+
+EXAMPLE:
+
+```
+curl -X GET localhost:8001/users/register
+```
+
+Response
+
+```
+{"users":[{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test1","password":"test1"},{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test2","password":"test2"}]}
+
+```
+
+# VET000-66 get one user 
+Path: localhost:8001/api/users/register?id= " "
+Verb: GET  
+Response: User matching id - json
+ 
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/user/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"
+
+```
+
+Response
+
+```
+{"users":[{"id":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","login":"test","password":"test"}]}  
+```
+
+# VET000-62 update user  
+
+Path: localhost:8001/api/users/register?id= " " -d { }  
+Verb: PUT  
+Request: update user based on user id parameter, new user information in json format {"login": String, "password": String}   
+Response: updated user in database - json
+
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/users/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b" -d '{"login":"test2","password":"test2"}'  
+
+```
+
+Response
+
+```
+{"id":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","login":"test2","password":"test2"}
+
+```
+
+# VET000-62 delete user
+
+Path: localhost:8001/api/users/register?id= " " -d { }  
+Verb: DELETE  
+Request: removes user from database  
+Response: user is removed from database
+
+EXAMPLE: 
+
+```
+curl -X DELETE localhost:8001/api/users/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"  
+
+```
+
+Response
+
+```
+"User successfully deleted"
+
+```
+
+# VET000-62 create administrator
+
+Path: localhost:8001/api/admin/register -d { }
+Verb: POST
+Request: add new administrator login and password in json format for user matching id - {"login": String, "password": String}
+Response: ID of new administrator
+
+EXAMPLE:
+
+```
+curl -X POST localhost:8001/api/admin/register -d '{"login": "test", "password": "test"}'
+```
+
+Response
+
+```
+"da0c9f06-b71f-427b-947e-cbb99614b183"
+```
+
+# VET000-66 view all administrators
+
+Path: localhost:8001/api/admin/register
+Verb: GET
+Request: get all administrators registered in database
+Response: list of all administrators in database
+
+EXAMPLE:
+
+```
+curl -X GET localhost:8001/admin/register
+```
+
+Response
+
+```
+{"admin":[{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test1","password":"test1"},{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test2","password":"test2"}]}
+
+```
+
+# VET000-62 update administrator
+
+Path: localhost:8001/api/admin/register?id= " " -d { }  
+Verb: PUT  
+Request: update administrator based on user id parameter, new administrator information in json format {"login": String, "password": String}   
+Response: updated administrator in database - json
+
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/admin/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b" -d '{"login":"test2","password":"test2"}'  
+
+```
+
+Response
+
+```
+{"id":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","login":"test2","password":"test2"}
+
+```
+
+# VET000-62 delete administrator
+
+Path: localhost:8001/api/admin/register?id= " " -d { }  
+Verb: DELETE  
+Request: removes administrator from database  
+Response: administrator is removed from database
+
+EXAMPLE: 
+
+```
+curl -X DELETE localhost:8001/api/admin/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"  
+
+```
+
+Response
+
+```
+"Administrator successfully deleted"
+
+```
+
+# VET000-63 create email listing
+
+Path: localhost:8001/api/admin/email -d { }
+Verb: POST
+Request: add new email in json format - {"email": String, "name": String}
+Response: email added - json
+
+EXAMPLE:
+
+```
+curl -X POST localhost:8001/api/admin/email -d '{"email": "test@test.com", "name": "greg slowski"}'
+```
+
+Response
+
+```
+{"email":"test@test.com"}
+```
+
+# VET000-63 update email listing
+Path: localhost:8001/api/admin/email?email= " " -d { }
+Verb: PUT
+Request: update email in json format for matching email - {"name": String}
+Response: updated email - json
+
+EXAMPLE:
+
+```
+curl -X PUT localhost:8001/api/admin/email?email="test@test.com" -d '{"name": "greg"}'
+```
+
+Response
+
+```
+{"email":"test@test.com", "name":"greg"}
+```
+
+# VET000-63 get email listings
+Path: localhost:8001/api/admin/email 
+Verb: GET  
+Request: get all listed emails
+Response: Listed emails - json  
+ 
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/admin/email
+```
+
+Response (after having add another email)
+
+```
+{"emails":[{"email":"updatedtest@test.com","name":"Thomas"},{"email":"test@test.com","name":"greg"}]}
+```
+
+# VET000-63 delete email
+Path: localhost:8001/api/admin/email?email=" "
+Verb: DELETE
+Request: delete specified email from database
+Response: Listed emails - json  
+ 
+EXAMPLE: 
+
+```
+curl -X DELETE localhost:8001/api/admin/email?email="test@test.com"
+```
+
+Response (after having added another email)
+
+```
+"User successfully deleted"
+```
+

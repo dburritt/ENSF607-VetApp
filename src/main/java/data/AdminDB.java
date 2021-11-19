@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import domain.user.Admin;
 import domain.user.NewAdmin;
-import domain.user.NewUser;
 import domain.user.User;
 import domain.user.AdminRepository;
+import errors.ResourceNotFoundException;
 import errors.UserNotFoundException;
 
 public class AdminDB implements AdminRepository {
@@ -31,6 +31,14 @@ public class AdminDB implements AdminRepository {
     @Override
     public List<Admin> getAdmin(){
         return new ArrayList<>( ADMIN_STORE.values());
+    }
+    
+    @Override
+    public List<Admin> getAdmin(String id) throws UserNotFoundException{
+    	Admin admin = Optional.ofNullable(ADMIN_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "admin not found."));
+		List<Admin> adminList = new ArrayList<Admin>();
+		adminList.add(admin);
+		return adminList;
     }
     
     @Override

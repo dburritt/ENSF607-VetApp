@@ -1,6 +1,7 @@
 package api.user;
 
 import api.*;
+import api.animal.AnimalListResponse;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 import domain.user.NewUser;
@@ -37,7 +38,7 @@ public class UserRegistrationHandler extends Handler {
 
         } else if ("GET".equals(exchange.getRequestMethod())) {
 
-            ResponseEntity e = doGet();
+            ResponseEntity e = doGet(exchange);
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -70,7 +71,7 @@ public class UserRegistrationHandler extends Handler {
 
         NewUser user = NewUser.builder()
                 .login(registerRequest.getLogin())
-                .password(PasswordEncoder.encode(registerRequest.getPassword()))
+                .password(registerRequest.getPassword())
                 .build();
 
         String userId = userService.create(user);
@@ -81,11 +82,23 @@ public class UserRegistrationHandler extends Handler {
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
     }
 
-    private ResponseEntity<UserListResponse> doGet() {
+    private ResponseEntity<UserListResponse> doGet(HttpExchange exchange) {
 
-             UserListResponse UserListResponse=new UserListResponse(userService.getUsers());
-        return new ResponseEntity<>(UserListResponse,
-                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+        //UserListResponse UserListResponse=new UserListResponse(userService.getUsers());
+        //return new ResponseEntity<>(UserListResponse,
+         //       getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+        
+        Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+        String noId= "";
+        String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
+        UserListResponse response;
+        if (id.equals(noId)) {
+        	response = new UserListResponse(userService.getUsers());
+        }
+        else
+        	response = new UserListResponse(userService.getUsers(id));
+        
+		return new ResponseEntity<UserListResponse>(response, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 
     }
 

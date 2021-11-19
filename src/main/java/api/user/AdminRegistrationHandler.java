@@ -37,7 +37,7 @@ public class AdminRegistrationHandler extends Handler {
 
         } else if ("GET".equals(exchange.getRequestMethod())) {
 
-            ResponseEntity e = doGet();
+            ResponseEntity e = doGet(exchange);
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -70,7 +70,7 @@ public class AdminRegistrationHandler extends Handler {
 
         NewAdmin admin = NewAdmin.builder()
                 .login(registerRequest.getLogin())
-                .password(PasswordEncoder.encode(registerRequest.getPassword()))
+                .password(registerRequest.getPassword())
                 .build();
 
         String adminId = adminService.create(admin);
@@ -81,12 +81,23 @@ public class AdminRegistrationHandler extends Handler {
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
     }
 
-    private ResponseEntity<AdminListResponse> doGet() {
+    private ResponseEntity<AdminListResponse> doGet(HttpExchange exchange) {
 
-             AdminListResponse AdminListResponse = new AdminListResponse(adminService.getAdmin());
-        return new ResponseEntity<>(AdminListResponse,
-                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+        //AdminListResponse AdminListResponse = new AdminListResponse(adminService.getAdmin());
+        //return new ResponseEntity<>(AdminListResponse,
+        //       getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 
+        Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+        String noId= "";
+        String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
+        AdminListResponse response;
+        if (id.equals(noId)) {
+        	response = new AdminListResponse(adminService.getAdmin());
+        }
+        else
+        	response = new AdminListResponse(adminService.getAdmin(id));
+        
+		return new ResponseEntity<AdminListResponse>(response, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
     }
 
     private ResponseEntity<Admin> doPut(HttpExchange exchange) {
@@ -105,7 +116,7 @@ public class AdminRegistrationHandler extends Handler {
         Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String adminId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse(null);
         adminService.deleteAdmin(adminId);
-       return new ResponseEntity<>("User successfully deleted",
+       return new ResponseEntity<>("Administrator successfully deleted",
                 getHeaders(Constants.CONTENT_TYPE, Constants.PLAIN_TXT), StatusCode.OK);
     }
 
