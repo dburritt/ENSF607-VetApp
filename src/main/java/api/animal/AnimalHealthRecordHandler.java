@@ -14,18 +14,18 @@ import api.ResponseEntity;
 import api.StatusCode;
 import domain.animal.Animal;
 import domain.animal.AnimalDetails;
+import domain.animal.AnimalHealthRecord;
 import domain.animal.AnimalService;
-import domain.animal.AnimalStatus;
 import domain.animal.NewAnimal;
 import domain.animal.NewAnimalDetails;
-import domain.animal.NewAnimalStatus;
+import domain.animal.NewAnimalHealthRecord;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 
-public class AnimalStatusHandler extends Handler {
+public class AnimalHealthRecordHandler extends Handler {
 	private final AnimalService animalService;
 
-	public AnimalStatusHandler(AnimalService animalService, ObjectMapper objectMapper, GlobalExceptionHandler exceptionHandler) {
+	public AnimalHealthRecordHandler(AnimalService animalService, ObjectMapper objectMapper, GlobalExceptionHandler exceptionHandler) {
 		super(objectMapper, exceptionHandler);
 		this.animalService = animalService;
 		
@@ -64,35 +64,41 @@ public class AnimalStatusHandler extends Handler {
 	private ResponseEntity doPut(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
-        NewAnimalStatus newAnimalStatus = super.readRequest(exchange.getRequestBody(), NewAnimalStatus.class);
-        AnimalStatus animalStatusForUpdate = AnimalStatus.builder()
+        NewAnimalHealthRecord newAnimalHealthRecord = super.readRequest(exchange.getRequestBody(), NewAnimalHealthRecord.class);
+        AnimalHealthRecord animalHealthRecordForUpdate = AnimalHealthRecord.builder()
                 .animalId(animalId)
-                .status(newAnimalStatus.getStatus())
+                .date(newAnimalHealthRecord.getDate())
+                .type(newAnimalHealthRecord.getType())
+                .record(newAnimalHealthRecord.getRecord())
                 .build();
-        AnimalDetails animalDetailsAfterUpdate = animalService.updateAnimalStatus(animalStatusForUpdate);
-        return new ResponseEntity<>(animalDetailsAfterUpdate,
+        AnimalHealthRecord animalHealthRecordAfterUpdate = animalService.updateAnimalHealthRecord(animalHealthRecordForUpdate);
+        return new ResponseEntity<>(animalHealthRecordAfterUpdate,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 
 	private ResponseEntity doPost(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
-		NewAnimalStatus newAnimalStatus = super.readRequest(exchange.getRequestBody(), NewAnimalStatus.class);
-		AnimalStatus animalStatusToCreate = AnimalStatus.builder()
-	                .animalId(animalId)
-	                .status(newAnimalStatus.getStatus())
-	                .build();
-        animalService.createAnimalStatus(animalStatusToCreate);
+        NewAnimalHealthRecord newAnimalHealthRecord = super.readRequest(exchange.getRequestBody(), NewAnimalHealthRecord.class);
+        AnimalHealthRecord animalHealthRecord = AnimalHealthRecord.builder()
+        		.animalId(animalId)
+                .date(newAnimalHealthRecord.getDate())
+                .type(newAnimalHealthRecord.getType())
+                .record(newAnimalHealthRecord.getRecord())
+                .build();
+        animalService.createAnimalHealthRecord(animalHealthRecord);
         return new ResponseEntity<>(animalId,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 
-	private ResponseEntity<AnimalStatusResponse> doGet(HttpExchange exchange) {
+	private ResponseEntity<AnimalDetailsResponse> doGet(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String noId= "";
         String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
-        AnimalStatusResponse animalStatusResponse = new AnimalStatusResponse(animalService.getAnimalStatus(id));
-		return new ResponseEntity<AnimalStatusResponse>(animalStatusResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+        
+        AnimalDetailsResponse animalDetailsResponse = new AnimalDetailsResponse(animalService.getAnimalDetails(id));
+        
+		return new ResponseEntity<>(animalDetailsResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 	
 }

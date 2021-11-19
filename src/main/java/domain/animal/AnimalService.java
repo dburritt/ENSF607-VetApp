@@ -54,5 +54,14 @@ public class AnimalService {
 	public AnimalStatus getAnimalStatus(String id) throws ResourceNotFoundException {
 		return animalRepository.getAnimalStatus(id);
 	}
+	
+	public AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
+		Objects.requireNonNull(animalHealthRecord.getAnimalId(),"animal id is required for update");
+        return  animalRepository.updateAnimalHealthRecord(animalHealthRecord);
+	}
+
+	public String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
+		return animalRepository.createAnimalHealthRecord(animalHealthRecord);		
+	}
 
 }

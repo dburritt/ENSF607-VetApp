@@ -24,5 +24,10 @@ public interface AnimalRepository {
 	 String createAnimalStatus(AnimalStatus animalStatus);
 	 AnimalStatus getAnimalStatus(String id);
 	 AnimalDetails updateAnimalStatus(AnimalStatus animalStatus);
+	 
+	 String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
+	 AnimalHealthRecord getAnimalHealthRecord(String id);
+	 void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException;
+	 AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
 	
 }

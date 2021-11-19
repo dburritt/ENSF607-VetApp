@@ -20,7 +20,27 @@ public class AnimalDB implements AnimalRepository{
     private static final Map<String,AnimalDetails> ANIMAL_DETAILS_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalWeight> ANIMAL_WEIGHT_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalStatus> ANIMAL_STATUS_STORE = new ConcurrentHashMap();
-
+    private static final Map<String,AnimalHealthRecord> ANIMAL_HEALTH_RECORD_STORE = new ConcurrentHashMap();
+    
+    public AnimalDB() {
+    	//CREATE TEST ANIMAL
+    	String id = UUID.randomUUID().toString();
+			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("big").color("black").build();
+		    ANIMAL_STORE.put(id,a);
+		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
+		    ANIMAL_DETAILS_STORE.put(id,d);
+				TreeMap<Date, Double> weight = new 	TreeMap<Date, Double>();
+				weight.put(new Date(55415412), 123.1);
+				weight.put(new Date(55445412), 120.0);
+				weight.put(new Date(55455412), 125.1);
+				weight.put(new Date(55459000), 121.1);
+			AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
+			ANIMAL_WEIGHT_STORE.put(id,w);
+			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
+			ANIMAL_STATUS_STORE.put(id,s);
+			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(55415412)).type("temp").record("37 degrees").build();
+			ANIMAL_HEALTH_RECORD_STORE.put(id,h);
+    }
 	@Override
 	public String createAnimal(NewAnimal newAnimal) {
 		String id = UUID.randomUUID().toString();
@@ -38,22 +58,6 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public List<Animal> getAnimals() {
-		String id = UUID.randomUUID().toString();
-		//CREATE TEST ANIMAL
-			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("big").color("black").build();
-		    ANIMAL_STORE.put(id,a);
-		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
-		    ANIMAL_DETAILS_STORE.put(id,d);
-				TreeMap<Date, Double> weight = new 	TreeMap<Date, Double>();
-				weight.put(new Date(55415412), 123.1);
-				weight.put(new Date(55445412), 120.0);
-				weight.put(new Date(55455412), 125.1);
-				weight.put(new Date(55459000), 121.1);
-			AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
-			ANIMAL_WEIGHT_STORE.put(id,w);
-			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
-			ANIMAL_STATUS_STORE.put(id,s);
-
         return new ArrayList<>(ANIMAL_STORE.values());
 	}
 	@Override
@@ -77,11 +81,9 @@ public class AnimalDB implements AnimalRepository{
         return  animal;
 	}
 
-	@Override //FIX THIS should be ANIMAL NOT NewAnimal
-	public String createAnimalDetails(AnimalDetails animalDetails) {
-		
+	@Override
+	public String createAnimalDetails(AnimalDetails animalDetails) {	
         ANIMAL_DETAILS_STORE.put(animalDetails.getId(), animalDetails);
-
        return animalDetails.getId();
 	}
 
@@ -146,6 +148,31 @@ public class AnimalDB implements AnimalRepository{
 	public AnimalDetails updateAnimalStatus(AnimalStatus animalStatus) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
+		ANIMAL_HEALTH_RECORD_STORE.put(animalHealthRecord.getAnimalId(), animalHealthRecord);
+	    return animalHealthRecord.getAnimalId();
+	}
+
+	@Override
+	public AnimalHealthRecord getAnimalHealthRecord(String id) {
+		AnimalHealthRecord animalHealthRecord = Optional.ofNullable(ANIMAL_HEALTH_RECORD_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		return  animalHealthRecord;
+	}
+
+	@Override
+	public void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
+		Optional.of(ANIMAL_HEALTH_RECORD_STORE.get(animalHealthRecord.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		ANIMAL_HEALTH_RECORD_STORE.replace(animalHealthRecord.getAnimalId(), animalHealthRecord);
+        return  animalHealthRecord;
 	}
 
 	
