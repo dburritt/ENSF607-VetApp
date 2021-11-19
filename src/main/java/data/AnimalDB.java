@@ -40,7 +40,7 @@ public class AnimalDB implements AnimalRepository{
 			ANIMAL_WEIGHT_STORE.put(id,w);
 			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
 			ANIMAL_STATUS_STORE.put(id,s);
-			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(55415412)).type("temp").record("37 degrees").build();
+			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(2020,03,01)).type("temp").record("37 degrees").build();
 			ANIMAL_HEALTH_RECORD_STORE.put(id,h);
     }
 
