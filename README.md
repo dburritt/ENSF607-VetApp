@@ -197,3 +197,185 @@ Response
 ```
 "da0c9f06-b71f-427b-947e-cbb99614b183"
 ```
+
+# Administration
+
+# VET000-62 create user
+
+Path: localhost:8001/api/users/register -d { }
+Verb: POST
+Request: add new user login and password in json format for user matching id - {"login": String, "password": String}
+Response: ID of new user
+
+EXAMPLE:
+
+```
+curl -X POST localhost:8001/api/users/register -d '{"login": "test", "password": "test"}'
+```
+
+Response
+
+```
+"da0c9f06-b71f-427b-947e-cbb99614b183"
+```
+
+# VET000-66 view all users
+
+Path: localhost:8001/api/users/register
+Verb: GET
+Request: get all users registered in database
+Response: list of all users in database
+
+EXAMPLE:
+
+```
+curl -X GET localhost:8001/users/register
+```
+
+Response
+
+```
+{"users":[{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test1","password":"test1"},{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test2","password":"test2"}]}
+
+```
+
+# VET000-66 get one user 
+Path: localhost:8001/api/users/register?id= " "
+Verb: GET  
+Response: User matching id - json
+ 
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/user/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"
+
+```
+
+Response
+
+```
+{"users":[{"id":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","login":"test","password":"test"}]}  
+```
+
+# VET000-62 update user  
+
+Path: localhost:8001/api/users/register?id= " " -d { }  
+Verb: PUT  
+Request: update user based on user id parameter, new user information in json format {"login": String, "password": String}   
+Response: updated user in database - json
+
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/users/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b" -d '{"login":"test2","password":"test2"}'  
+
+```
+
+Response
+
+```
+{"id":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","login":"test2","password":"test2"}
+
+```
+
+# VET000-62 delete user
+
+Path: localhost:8001/api/users/register?id= " " -d { }  
+Verb: DELETE  
+Request: removes user from database  
+Response: user is removed from database
+
+EXAMPLE: 
+
+```
+curl -X DELETE localhost:8001/api/users/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"  
+
+```
+
+Response
+
+```
+"User successfully deleted"
+
+```
+
+# VET000-62 create administrator
+
+Path: localhost:8001/api/admin/register -d { }
+Verb: POST
+Request: add new administrator login and password in json format for user matching id - {"login": String, "password": String}
+Response: ID of new administrator
+
+EXAMPLE:
+
+```
+curl -X POST localhost:8001/api/admin/register -d '{"login": "test", "password": "test"}'
+```
+
+Response
+
+```
+"da0c9f06-b71f-427b-947e-cbb99614b183"
+```
+
+# VET000-66 view all administrators
+
+Path: localhost:8001/api/admin/register
+Verb: GET
+Request: get all administrators registered in database
+Response: list of all administrators in database
+
+EXAMPLE:
+
+```
+curl -X GET localhost:8001/admin/register
+```
+
+Response
+
+```
+{"admin":[{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test1","password":"test1"},{"id":"7d2676be-82e0-4c5a-9cc7-6f8a82fc8943","login":"test2","password":"test2"}]}
+
+```
+
+# VET000-62 update administrator
+
+Path: localhost:8001/api/admin/register?id= " " -d { }  
+Verb: PUT  
+Request: update administrator based on user id parameter, new administrator information in json format {"login": String, "password": String}   
+Response: updated administrator in database - json
+
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/admin/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b" -d '{"login":"test2","password":"test2"}'  
+
+```
+
+Response
+
+```
+{"id":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","login":"test2","password":"test2"}
+
+```
+
+# VET000-62 delete administrator
+
+Path: localhost:8001/api/admin/register?id= " " -d { }  
+Verb: DELETE  
+Request: removes administrator from database  
+Response: administrator is removed from database
+
+EXAMPLE: 
+
+```
+curl -X DELETE localhost:8001/api/admin/register?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"  
+
+```
+
+Response
+
+```
+"Administrator successfully deleted"
+
+```
