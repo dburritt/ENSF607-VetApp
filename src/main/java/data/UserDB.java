@@ -1,15 +1,12 @@
 package data;
 
 import java.util.*;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import domain.user.Admin;
-import domain.user.NewAdmin;
 import domain.user.NewUser;
 import domain.user.User;
 import domain.user.UserRepository;
+import errors.ResourceNotFoundException;
 import errors.UserNotFoundException;
 
 public class UserDB implements UserRepository {
@@ -32,6 +29,14 @@ public class UserDB implements UserRepository {
     @Override
     public List<User> getUsers(){
         return new ArrayList<>( USERS_STORE.values());
+    }
+    
+    @Override
+    public List<User> getUsers(String id) throws UserNotFoundException{
+    	User user = Optional.ofNullable(USERS_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "user not found."));
+		List<User> users = new ArrayList<User>();
+		users.add(user);
+		return users;
     }
     
     @Override

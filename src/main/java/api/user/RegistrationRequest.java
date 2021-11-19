@@ -4,7 +4,7 @@ import lombok.Value;
 
 @Value
 class RegistrationRequest {
-
-    String login;
+	
+	String login;
     String password;
 }
