@@ -60,12 +60,6 @@ public class AnimalsHandler extends Handler {
 	        os.close();
 			
 		}
-		String id;
-	    String type;
-	    double weight;
-	    String breed;
-	    String color;
-
 		private ResponseEntity<Animal> doPut(HttpExchange exchange) {
 			Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
 	        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
