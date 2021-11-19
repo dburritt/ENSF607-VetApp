@@ -13,6 +13,7 @@ import java.util.UUID;
 import domain.admin.Comment;
 import domain.animal.*;
 import errors.ResourceNotFoundException;
+import errors.UserNotFoundException;
 
 public class AnimalDB implements AnimalRepository{
 	
@@ -20,6 +21,7 @@ public class AnimalDB implements AnimalRepository{
     private static final Map<String,AnimalDetails> ANIMAL_DETAILS_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalWeight> ANIMAL_WEIGHT_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalStatus> ANIMAL_STATUS_STORE = new ConcurrentHashMap();
+    private static final Map<String,AnimalReminder> ANIMAL_REMINDER_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalHealthRecord> ANIMAL_HEALTH_RECORD_STORE = new ConcurrentHashMap();
     
     public AnimalDB() {
@@ -41,6 +43,7 @@ public class AnimalDB implements AnimalRepository{
 			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(55415412)).type("temp").record("37 degrees").build();
 			ANIMAL_HEALTH_RECORD_STORE.put(id,h);
     }
+
 	@Override
 	public String createAnimal(NewAnimal newAnimal) {
 		String id = UUID.randomUUID().toString();
@@ -175,6 +178,40 @@ public class AnimalDB implements AnimalRepository{
 		Optional.of(ANIMAL_HEALTH_RECORD_STORE.get(animalHealthRecord.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
 		ANIMAL_HEALTH_RECORD_STORE.replace(animalHealthRecord.getAnimalId(), animalHealthRecord);
         return  animalHealthRecord;
+
+	}
+
+	@Override
+	public String createAnimalReminder(NewAnimalReminder newAnimalReminder) {
+		String id = UUID.randomUUID().toString();
+        AnimalReminder animalReminder = AnimalReminder.builder()
+                .animalId(id)
+                .reminder(newAnimalReminder.getReminder())
+                .dateEntered(newAnimalReminder.getDateEntered())
+                .dateDue(newAnimalReminder.getDateDue())
+                .build();
+        ANIMAL_REMINDER_STORE.put(id, animalReminder);
+
+            return id;
+	}
+	
+	@Override
+	public List<AnimalReminder> getAnimalReminders() {
+		return new ArrayList<>( ANIMAL_REMINDER_STORE.values());
+	}
+
+	@Override
+	public void deleteAnimalReminder(String id) throws ResourceNotFoundException {
+        AnimalReminder deleteReminder = Optional.of(ANIMAL_REMINDER_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
+        ANIMAL_REMINDER_STORE.remove(deleteReminder.getAnimalId(),deleteReminder);
+		
+	}
+
+	@Override
+	public AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException {
+		Optional.of(ANIMAL_REMINDER_STORE.get(animalReminder.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
+		ANIMAL_REMINDER_STORE.replace(animalReminder.getAnimalId(), animalReminder);
+        return  animalReminder;
 	}
 
 	

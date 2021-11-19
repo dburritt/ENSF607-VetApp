@@ -25,10 +25,15 @@ public interface AnimalRepository {
 	 AnimalStatus getAnimalStatus(String id);
 	 AnimalStatus updateAnimalStatus(AnimalStatus animalStatus);
 	 
+	 String createAnimalReminder(NewAnimalReminder animalReminder);
+	 void deleteAnimalReminder(String id) throws ResourceNotFoundException;
+	 AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException;
+	 List<AnimalReminder> getAnimalReminders();
+	 
+
 	 String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
 	 AnimalHealthRecord getAnimalHealthRecord(String id);
 	 void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException;
 	 AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
-	 
 	
 }
