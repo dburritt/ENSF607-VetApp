@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 import java.util.Objects;
 
+import domain.admin.Comment;
 import errors.ResourceNotFoundException;
 
 @AllArgsConstructor
