@@ -58,4 +58,13 @@ public class AnimalService {
 		return animalRepository.createAnimalHealthRecord(animalHealthRecord);		
 	}
 
+	public AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) {
+		Objects.requireNonNull(animalWeight.getId(),"animal id is required for update");
+        return  animalRepository.updateAnimalWeight(animalWeight);
+	}
+
+	public String createAnimalWeight(AnimalWeight animalWeight) {
+		return animalRepository.createAnimalWeight(animalWeight);				
+	}
+
 }

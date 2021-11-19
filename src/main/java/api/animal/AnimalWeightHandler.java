@@ -13,7 +13,10 @@ import api.Handler;
 import api.ResponseEntity;
 import api.StatusCode;
 import domain.animal.Animal;
+import domain.animal.AnimalDetails;
 import domain.animal.AnimalWeight;
+import domain.animal.NewAnimalDetails;
+import domain.animal.NewAnimalWeight;
 import domain.animal.AnimalService;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
@@ -31,7 +34,7 @@ public class AnimalWeightHandler extends Handler {
 	protected void execute(HttpExchange exchange) throws Exception {
 		byte[] response=null;
 		if ("POST".equals(exchange.getRequestMethod())) {
-            ResponseEntity e = doPost(exchange.getRequestBody());
+            ResponseEntity e = doPost(exchange);
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -56,14 +59,30 @@ public class AnimalWeightHandler extends Handler {
         os.close();
 	}
 
-	private ResponseEntity doPut(HttpExchange exchange) {
-		// TODO Auto-generated method stub
-		return null;
+	private ResponseEntity<AnimalWeight> doPut(HttpExchange exchange) {
+		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
+        NewAnimalWeight newAnimalWeight = super.readRequest(exchange.getRequestBody(), NewAnimalWeight.class);
+        AnimalWeight animalWeightForUpdate = AnimalWeight.builder()
+                .id(animalId)
+                .weight(newAnimalWeight.getWeight())
+                .build();
+        AnimalWeight animalWeightAfterUpdate = animalService.updateAnimalWeight(animalWeightForUpdate);
+        return new ResponseEntity<>(animalWeightAfterUpdate,
+                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 
-	private ResponseEntity doPost(InputStream requestBody) {
-		// TODO Auto-generated method stub
-		return null;
+	private ResponseEntity<String> doPost(HttpExchange exchange) {
+		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
+        NewAnimalWeight newAnimalWeight = super.readRequest(exchange.getRequestBody(), NewAnimalWeight.class);
+        AnimalWeight animalWeight = AnimalWeight.builder()
+                .id(animalId)
+                .weight(newAnimalWeight.getWeight())
+                .build();
+        animalService.createAnimalWeight(animalWeight);
+        return new ResponseEntity<>(animalId,
+                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 
 	private ResponseEntity<AnimalWeightResponse> doGet(HttpExchange exchange) {
