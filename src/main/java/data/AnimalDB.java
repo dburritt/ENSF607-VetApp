@@ -42,6 +42,8 @@ public class AnimalDB implements AnimalRepository{
 			ANIMAL_STATUS_STORE.put(id,s);
 			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(55415412)).type("temp").record("37 degrees").build();
 			ANIMAL_HEALTH_RECORD_STORE.put(id,h);
+			NewAnimalReminder nr = NewAnimalReminder.builder().reminder("Feed dog").dateEntered("November 19").dateDue("November 25").build();
+			String r = createAnimalReminder(nr);
     }
 
 	@Override

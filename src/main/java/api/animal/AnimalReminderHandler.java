@@ -69,6 +69,7 @@ public class AnimalReminderHandler extends Handler{
     }
 	
 	private ResponseEntity<AnimalReminderResponse> doPost(InputStream is) {
+		
 		AnimalReminderRequest animalReminderRequest = super.readRequest(is, AnimalReminderRequest.class);
 
        NewAnimalReminder newReminder = NewAnimalReminder.builder()

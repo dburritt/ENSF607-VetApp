@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import domain.admin.*;
@@ -16,8 +17,9 @@ public class CommentDB implements CommentRepository{
 	
 	@Override
 	public String create(Comment newComment) {
+		String id = UUID.randomUUID().toString();
         Comment comment = Comment.builder()
-                .id(newComment.getId())
+                .id(id)
                 .commenter(newComment.getCommenter())
                 .text(newComment.getText())
                 .build();
