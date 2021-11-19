@@ -61,7 +61,7 @@ public class AnimalStatusHandler extends Handler {
         os.close();
 	}
 
-	private ResponseEntity doPut(HttpExchange exchange) {
+	private ResponseEntity<AnimalStatusResponse> doPut(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalStatus newAnimalStatus = super.readRequest(exchange.getRequestBody(), NewAnimalStatus.class);
@@ -69,12 +69,12 @@ public class AnimalStatusHandler extends Handler {
                 .animalId(animalId)
                 .status(newAnimalStatus.getStatus())
                 .build();
-        AnimalDetails animalDetailsAfterUpdate = animalService.updateAnimalStatus(animalStatusForUpdate);
-        return new ResponseEntity<>(animalDetailsAfterUpdate,
+        AnimalStatusResponse animalStatusResponse = new AnimalStatusResponse(animalService.updateAnimalStatus(animalStatusForUpdate));
+        return new ResponseEntity<>(animalStatusResponse,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
 
-	private ResponseEntity doPost(HttpExchange exchange) {
+	private ResponseEntity<String> doPost(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
 		NewAnimalStatus newAnimalStatus = super.readRequest(exchange.getRequestBody(), NewAnimalStatus.class);

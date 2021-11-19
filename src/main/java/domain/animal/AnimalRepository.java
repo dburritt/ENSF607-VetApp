@@ -23,7 +23,7 @@ public interface AnimalRepository {
 	 
 	 String createAnimalStatus(AnimalStatus animalStatus);
 	 AnimalStatus getAnimalStatus(String id);
-	 AnimalDetails updateAnimalStatus(AnimalStatus animalStatus);
+	 AnimalStatus updateAnimalStatus(AnimalStatus animalStatus);
 	 
 	 String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
 	 AnimalHealthRecord getAnimalHealthRecord(String id);

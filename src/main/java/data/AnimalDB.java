@@ -146,9 +146,10 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public AnimalDetails updateAnimalStatus(AnimalStatus animalStatus) {
-		// TODO Auto-generated method stub
-		return null;
+	public AnimalStatus updateAnimalStatus(AnimalStatus animalStatus) {
+		Optional.of(ANIMAL_STATUS_STORE.get(animalStatus.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		ANIMAL_STATUS_STORE.replace(animalStatus.getAnimalId(), animalStatus);
+        return  animalStatus;
 	}
 
 	@Override

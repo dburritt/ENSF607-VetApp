@@ -41,7 +41,7 @@ public class AnimalService {
 	public String createAnimalStatus(AnimalStatus animalStatus) {
         return animalRepository.createAnimalStatus(animalStatus);
     }
-	public AnimalDetails updateAnimalStatus(AnimalStatus animalStatus) {
+	public AnimalStatus updateAnimalStatus(AnimalStatus animalStatus) {
 		 Objects.requireNonNull(animalStatus.getAnimalId(),"animal id is required for update");
 	        return  animalRepository.updateAnimalStatus(animalStatus);
 	}
@@ -65,6 +65,10 @@ public class AnimalService {
 
 	public String createAnimalWeight(AnimalWeight animalWeight) {
 		return animalRepository.createAnimalWeight(animalWeight);				
+	}
+
+	public AnimalHealthRecord getAnimalHealthRecord(String id) {
+		return animalRepository.getAnimalHealthRecord(id);
 	}
 
 }
