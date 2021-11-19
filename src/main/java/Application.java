@@ -11,6 +11,7 @@ import api.animal.AnimalsHandler;
 import api.user.*;
 import api.animal.AnimalDetailsHandler;
 import api.animal.AnimalHealthRecordHandler;
+import api.animal.AnimalReminderHandler;
 import api.animal.AnimalStatusHandler;
 import api.animal.AnimalWeightHandler;
 
@@ -41,6 +42,10 @@ public class Application {
         AnimalHealthRecordHandler animalHealthRecordHandler = new AnimalHealthRecordHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/animals/healthrecord", animalHealthRecordHandler::handle);
+        
+        AnimalReminderHandler animalReminderHandler = new AnimalReminderHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/animals/reminders", animalReminderHandler::handle);
         
         UserRegistrationHandler userRegistrationHandler = new UserRegistrationHandler(Configuration.getUserService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
