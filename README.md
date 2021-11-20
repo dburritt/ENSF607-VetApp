@@ -260,9 +260,9 @@ Response
 
 # VET000-62 create user
 
-Path: localhost:8001/api/users/register -d { }
-Verb: POST
-Request: add new user login and password in json format for user matching id - {"login": String, "password": String}
+Path: localhost:8001/api/users/register -d { }  
+Verb: POST  
+Request: add new user login and password in json format for user matching id - {"login": String, "password": String}  
 Response: ID of new user
 
 EXAMPLE:
@@ -279,10 +279,10 @@ Response
 
 # VET000-66 view all users
 
-Path: localhost:8001/api/users/register
-Verb: GET
-Request: get all users registered in database
-Response: list of all users in database
+Path: localhost:8001/api/users/register  
+Verb: GET  
+Request: get all users registered in database  
+Response: list of all users in database  
 
 EXAMPLE:
 
@@ -298,9 +298,9 @@ Response
 ```
 
 # VET000-66 get one user 
-Path: localhost:8001/api/users/register?id= " "
+Path: localhost:8001/api/users/register?id= " "  
 Verb: GET  
-Response: User matching id - json
+Response: User matching id - json  
  
 EXAMPLE: 
 
@@ -341,7 +341,7 @@ Response
 Path: localhost:8001/api/users/register?id= " " -d { }  
 Verb: DELETE  
 Request: removes user from database  
-Response: user is removed from database
+Response: user is removed from database  
 
 EXAMPLE: 
 
@@ -359,10 +359,10 @@ Response
 
 # VET000-62 create administrator
 
-Path: localhost:8001/api/admin/register -d { }
-Verb: POST
-Request: add new administrator login and password in json format for user matching id - {"login": String, "password": String}
-Response: ID of new administrator
+Path: localhost:8001/api/admin/register -d { }  
+Verb: POST  
+Request: add new administrator login and password in json format for user matching id - {"login": String, "password": String}  
+Response: ID of new administrator  
 
 EXAMPLE:
 
@@ -378,10 +378,10 @@ Response
 
 # VET000-66 view all administrators
 
-Path: localhost:8001/api/admin/register
-Verb: GET
-Request: get all administrators registered in database
-Response: list of all administrators in database
+Path: localhost:8001/api/admin/register  
+Verb: GET  
+Request: get all administrators registered in database  
+Response: list of all administrators in database  
 
 EXAMPLE:
 
@@ -401,7 +401,7 @@ Response
 Path: localhost:8001/api/admin/register?id= " " -d { }  
 Verb: PUT  
 Request: update administrator based on user id parameter, new administrator information in json format {"login": String, "password": String}   
-Response: updated administrator in database - json
+Response: updated administrator in database - json  
 
 EXAMPLE: 
 
@@ -422,7 +422,7 @@ Response
 Path: localhost:8001/api/admin/register?id= " " -d { }  
 Verb: DELETE  
 Request: removes administrator from database  
-Response: administrator is removed from database
+Response: administrator is removed from database  
 
 EXAMPLE: 
 
@@ -440,10 +440,10 @@ Response
 
 # VET000-63 create email listing
 
-Path: localhost:8001/api/admin/email -d { }
-Verb: POST
-Request: add new email in json format - {"email": String, "name": String}
-Response: email added - json
+Path: localhost:8001/api/admin/email -d { }  
+Verb: POST  
+Request: add new email in json format - {"email": String, "name": String}  
+Response: email added - json  
 
 EXAMPLE:
 
@@ -458,10 +458,10 @@ Response
 ```
 
 # VET000-63 update email listing
-Path: localhost:8001/api/admin/email?email= " " -d { }
-Verb: PUT
-Request: update email in json format for matching email - {"name": String}
-Response: updated email - json
+Path: localhost:8001/api/admin/email?email= " " -d { }  
+Verb: PUT  
+Request: update email in json format for matching email - {"name": String}  
+Response: updated email - json  
 
 EXAMPLE:
 
@@ -478,7 +478,7 @@ Response
 # VET000-63 get email listings
 Path: localhost:8001/api/admin/email 
 Verb: GET  
-Request: get all listed emails
+Request: get all listed emails  
 Response: Listed emails - json  
  
 EXAMPLE: 
@@ -494,10 +494,10 @@ Response (after having add another email)
 ```
 
 # VET000-63 delete email
-Path: localhost:8001/api/admin/email?email=" "
-Verb: DELETE
-Request: delete specified email from database
-Response: Confirmation string 
+Path: localhost:8001/api/admin/email?email=" "  
+Verb: DELETE  
+Request: delete specified email from database  
+Response: Confirmation string  
  
 EXAMPLE: 
 
@@ -508,15 +508,15 @@ curl -X DELETE localhost:8001/api/admin/email?email="test@test.com"
 Response
 
 ```
-"User successfully deleted"
+"Email successfully deleted"
 ```
 
 # VET000-65 create a comment
 
-Path: localhost:8001/api/admin/comment -d { }
-Verb: POST
-Request: add new comment in json format - {"commenter": String, "text": String}
-Response: email added - json
+Path: localhost:8001/api/admin/comment -d { }  
+Verb: POST  
+Request: add new comment in json format - {"commenter": String, "text": String}  
+Response: email added - json  
 
 EXAMPLE:
 
@@ -531,10 +531,10 @@ Response
 ```
 
 # VET000-63 edit comment
-Path: localhost:8001/api/admin/comment?commentId= " " -d { }
-Verb: PUT
-Request: update comment in json format for matching commentId - {"commenter": String, "text": String}
-Response: updated commentId - json
+Path: localhost:8001/api/admin/comment?commentId= " " -d { }  
+Verb: PUT  
+Request: update comment in json format for matching commentId - {"commenter": String, "text": String}  
+Response: updated commentId - json  
 
 EXAMPLE:
 
@@ -551,7 +551,7 @@ Response
 # VET000-63 get comments
 Path: localhost:8001/api/admin/comment 
 Verb: GET  
-Request: get all comments
+Request: get all comments  
 Response: Listed comments - json  
  
 EXAMPLE: 
@@ -566,10 +566,10 @@ Response
 {"comments":[{"id":"18ffeb63-cfbf-4623-a137-1ca35fccbb37","commenter":"greg","text":"this is an updated test comment"}]}
 ```
 
-# VET000-63 delete comment
-Path: localhost:8001/api/admin/comment?id=" "
-Verb: DELETE
-Request: delete specified comment
+# VET000-63 delete comment  
+Path: localhost:8001/api/admin/comment?id=" "  
+Verb: DELETE  
+Request: delete specified comment  
 Response: confirmation string
  
 EXAMPLE: 
