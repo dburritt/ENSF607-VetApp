@@ -288,7 +288,7 @@ Response
 {"animalId":"481bce09-d7be-4f90-ac43-e798764ba2eb","date":1580515200000,"type":"BP","record":"120"}
 ```
 
-# VET000-42 add animal status
+# VET000-42 add animal health record
 
 Path: Path: localhost:8001/api/animals/healthrecord?id= " "  
 Verb: POST  
