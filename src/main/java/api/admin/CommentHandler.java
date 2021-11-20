@@ -70,14 +70,14 @@ public class CommentHandler extends Handler{
     private ResponseEntity<CommentResponse> doPost(InputStream is) {
     	CommentRequest commentRequest = super.readRequest(is, CommentRequest.class);
 
-    	Comment comment = Comment.builder()
+    	NewComment newComment = NewComment.builder()
                 .commenter(commentRequest.getCommenter())
                 .text(commentRequest.getText())
                 .build();
 
-        String newComment = commentService.create(comment);
+        String comment = commentService.create(newComment);
 
-        CommentResponse response = new CommentResponse(newComment);
+        CommentResponse response = new CommentResponse(comment);
 
         return new ResponseEntity<>(response,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
@@ -97,7 +97,7 @@ public class CommentHandler extends Handler{
         String commentId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         CommentRequest commentRequest = super.readRequest(exchange.getRequestBody(), CommentRequest.class);
         Comment commentForUpdate = Comment.builder()
-    			.id(commentRequest.getId())
+    			.id(commentId)
                 .commenter(commentRequest.getCommenter())
                 .text(commentRequest.getText())
                 .build();

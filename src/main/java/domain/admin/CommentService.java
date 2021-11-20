@@ -11,7 +11,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public String create(Comment comment) {
+    public String create(NewComment comment) {
         return commentRepository.create(comment);
     }
 

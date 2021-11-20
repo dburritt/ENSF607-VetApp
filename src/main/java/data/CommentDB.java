@@ -16,16 +16,16 @@ public class CommentDB implements CommentRepository{
 	private static final Map<String,Comment> COMMENTS_STORE = new ConcurrentHashMap();
 	
 	@Override
-	public String create(Comment newComment) {
+	public String create(NewComment newComment) {
 		String id = UUID.randomUUID().toString();
         Comment comment = Comment.builder()
                 .id(id)
                 .commenter(newComment.getCommenter())
                 .text(newComment.getText())
                 .build();
-        COMMENTS_STORE.put(newComment.getId(), comment);
+        COMMENTS_STORE.put(id, comment);
 
-            return newComment.getId();
+            return id;
 	}
 
 	@Override
