@@ -2,7 +2,8 @@
 607 final project
 
 
-NOTE: ID NUMBERS ARE RANDOM AND WILL NOT MATCH THE EXAMPLES# Animal
+NOTE: ID NUMBERS ARE RANDOM AND WILL NOT MATCH THE EXAMPLES
+# Animal
 
 # VET000-57 list all animals  
 
@@ -10,7 +11,7 @@ Path: localhost:8001/api/animals
 Verb: GET
 Response: list of all animals in database
 
-EXAMPLE:
+EXAMPLE:       
 
 ```
 curl -X GET localhost:8001/api/animals
@@ -196,7 +197,7 @@ Response
 ```
 "da0c9f06-b71f-427b-947e-cbb99614b183"
 ```
-# VET000-42 GET Animal Status
+# VET000-46 GET Animal Status
 
 Path: localhost:8001/api/animals/status?id= " "   
 Verb: GET  
@@ -214,7 +215,7 @@ Response
 ```
 {"animalStatus":{"animalId":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","status":"GOOD"}}  
 ```
-# VET000-42 update animal status
+# VET000-46 update animal status
 
 Path: localhost:8001/api/animals/status?id= " "  -d { }
 Verb: PUT  
@@ -233,7 +234,7 @@ Response
 {"animalStatus":{"animalId":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","status":"Bad"}}
 ```
 
-# VET000-42 add animal status
+# VET000-46 add animal status
 
 Path: Path: localhost:8001/api/animals/weight?id= " "  
 Verb: POST  
@@ -251,7 +252,7 @@ Response
 ```
 "da0c9f06-b71f-427b-947e-cbb99614b183"
 ```
-# VET000-42 GET Animal health record
+# VET000-43 GET Animal health record
 
 Path: localhost:8001/api/animals/healthrecord?id= " "   
 Verb: GET  
@@ -269,7 +270,7 @@ Response
 ```
 {"animalId":"d7494b63-9736-4242-a486-f61e4465c9b2","date":55415412,"type":"temp","record":"37 degrees"}
 ```
-# VET000-42 update animal health record
+# VET000-43 update animal health record
 
 Path: localhost:8001/api/animals/healthrecord?id= " "  -d { }
 Verb: PUT  
@@ -288,7 +289,7 @@ Response
 {"animalId":"481bce09-d7be-4f90-ac43-e798764ba2eb","date":1580515200000,"type":"BP","record":"120"}
 ```
 
-# VET000-42 add animal health record
+# VET000-43 add animal health record
 
 Path: Path: localhost:8001/api/animals/healthrecord?id= " "  
 Verb: POST  
