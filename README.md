@@ -2,14 +2,16 @@
 607 final project
 
 
-NOTE: ID NUMBERS ARE RANDOM AND WILL NOT MATCH THE EXAMPLES
+NOTE: ID NUMBERS ARE RANDOM AND WILL NOT MATCH THE EXAMPLES  
+All listed calls tested using console command  
+
 # Animal
 
 # VET000-57 list all animals  
 
-Path: localhost:8001/api/animals
-Verb: GET
-Response: list of all animals in database
+Path: localhost:8001/api/animals  
+Verb: GET  
+Response: list of all animals in database  
 
 EXAMPLE:       
 
@@ -24,9 +26,9 @@ Response
 
 ```
 # VET000-57 GET one animal 
-Path: localhost:8001/api/animals?id= " "
+Path: localhost:8001/api/animals?id= " "  
 Verb: GET  
-Response: Animal matching id - json
+Response: Animal matching id - json  
  
 EXAMPLE: 
 
@@ -46,7 +48,7 @@ Response
 Path: localhost:8001/api/animals?id= " " -d { }  
 Verb: PUT  
 Request: update animal based on animal id parameter, new animal information in json format {type": String ,"weight": Double, "breed": String, "color": String}   
-Response: updated animal animal in database - json
+Response: updated animal animal in database - json  
 
 EXAMPLE: 
 
@@ -85,9 +87,9 @@ Response
 
 # VET000-57 GET animal details
 
-Path: localhost:8001/api/animals/details?id= " " 
+Path: localhost:8001/api/animals/details?id= " "  
 Verb: GET  
-Request: get animal details for animal matching ID
+Request: get animal details for animal matching ID  
 Response: Animal details - json  
  
 EXAMPLE: 
@@ -104,10 +106,10 @@ Response
 ```
 # VET000-57 update animal details
 
-Path: localhost:8001/api/animals/details?id= " " 
+Path: localhost:8001/api/animals/details?id= " "  
 Verb: PUT  
-Request: update animal details for animal matching ID in json format - {"tattoo": String ,"RFID": String ,"DOB": Date}
-Response: updated animal details - json  
+Request: update animal details for animal matching ID in json format - {"tattoo": String ,"RFID": String ,"DOB": Date}  
+Response: updated animal details - json   
  
 EXAMPLE: 
 
@@ -145,7 +147,7 @@ Response
 
 Path: localhost:8001/api/animals/weight?id= " "   
 Verb: GET  
-Request: get animal weight history for animal matching ID
+Request: get animal weight history for animal matching ID  
 Response: Animal weight - json  
  
 EXAMPLE: 
@@ -201,7 +203,7 @@ Response
 
 Path: localhost:8001/api/animals/status?id= " "   
 Verb: GET  
-Request: get animal status for animal matching ID
+Request: get animal status for animal matching ID  
 Response: Animal weight - json  
 
 EXAMPLE: 
@@ -217,7 +219,7 @@ Response
 ```
 # VET000-46 update animal status
 
-Path: localhost:8001/api/animals/status?id= " "  -d { }
+Path: localhost:8001/api/animals/status?id= " "  -d { }  
 Verb: PUT  
 Request: update animal weight for animal matching ID in json format - {"status": String}  
 Response: updated animal status - json  
@@ -256,7 +258,7 @@ Response
 
 Path: localhost:8001/api/animals/healthrecord?id= " "   
 Verb: GET  
-Request: get animal health record for animal matching ID
+Request: get animal health record for animal matching ID  
 Response: Animal health record - json  {"animalId": String ,"date": Date,"type": String ,"record": String}  
 
 EXAMPLE: 
@@ -272,9 +274,9 @@ Response
 ```
 # VET000-43 update animal health record
 
-Path: localhost:8001/api/animals/healthrecord?id= " "  -d { }
+Path: localhost:8001/api/animals/healthrecord?id= " "  -d { }  
 Verb: PUT  
-Request: update health record for animal matching ID in json format - {"date": Date,"type": String ,"record": String}
+Request: update health record for animal matching ID in json format - {"date": Date,"type": String ,"record": String}  
 Response: updated animal health record - json  {"animalId": String ,"date": Date,"type": String ,"record": String}  
 
 EXAMPLE: 
@@ -293,7 +295,7 @@ Response
 
 Path: Path: localhost:8001/api/animals/healthrecord?id= " "  
 Verb: POST  
-Request: add new animal helth recrod in json format for animal matching id json format-  {"date": Date,"type": String ,"record": String}
+Request: add new animal helth recrod in json format for animal matching id json format-  {"date": Date,"type": String ,"record": String}  
 Response: ID of animal  
 
 EXAMPLE: 
@@ -312,7 +314,7 @@ Response
 
 Path: localhost:8001/api/animals/reminders  
 Verb: GET  
-Request: get all animal reminders
+Request: get all animal reminders  
 Response: Animal reminders - json  
  
 EXAMPLE: 
@@ -332,7 +334,7 @@ Response
 
 Path: localhost:8001/api/animals/reminders?reminderId= " "  
 Verb: PUT  
-Request: update animal reminder matching reminderID in json format - {"reminder": String, "dateEntered": String, "dateDue": String} 
+Request: update animal reminder matching reminderID in json format - {"reminder": String, "dateEntered": String, "dateDue": String}  
 Response: updated animal reminder - json  
  
 EXAMPLE: 
@@ -352,7 +354,7 @@ Response
 Path: Path: localhost:8001/api/animals/reminder " "  
 Verb: POST  
 Request: add new animal reminder in json format with matching reminderId - {"reminder": String, "dateEntered": String, "dateDue": String}  
-Response: ID of reminder
+Response: ID of reminder  
  
 EXAMPLE: 
 
