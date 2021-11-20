@@ -2,8 +2,7 @@
 607 final project
 
 
-Path , Verb, Request, Response
-# Animal
+NOTE: ID NUMBERS ARE RANDOM AND WILL NOT MATCH THE EXAMPLES# Animal
 
 # VET000-57 list all animals  
 
@@ -196,6 +195,116 @@ Response
 
 ```
 "da0c9f06-b71f-427b-947e-cbb99614b183"
+```
+# VET000-42 GET Animal Status
+
+Path: localhost:8001/api/animals/status?id= " "   
+Verb: GET  
+Request: get animal status for animal matching ID
+Response: Animal weight - json  
+
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/animals/status?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b"
+```
+
+Response
+
+```
+{"animalStatus":{"animalId":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","status":"GOOD"}}  
+```
+# VET000-42 update animal status
+
+Path: localhost:8001/api/animals/status?id= " "  -d { }
+Verb: PUT  
+Request: update animal weight for animal matching ID in json format - {"status": String}  
+Response: updated animal status - json  
+
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/animals/weight?id="8cc87d4a-4b68-4853-b506-6376e5dc2a7b" -d '{"weight":{"2000-08-12":100, "2000-09-10": 105}}'
+```
+
+Response
+
+```
+{"animalStatus":{"animalId":"8cc87d4a-4b68-4853-b506-6376e5dc2a7b","status":"Bad"}}
+```
+
+# VET000-42 add animal status
+
+Path: Path: localhost:8001/api/animals/weight?id= " "  
+Verb: POST  
+Request: add new animal weight in json format for animal matching id json format- {"status": String} 
+Response: ID of animal  
+
+EXAMPLE: 
+
+```
+curl -X POST localhost:8001/api/animals/status?id="da0c9f06-b71f-427b-947e-cbb99614b183" -d '{"status":"good"}'
+```
+
+Response
+
+```
+"da0c9f06-b71f-427b-947e-cbb99614b183"
+```
+# VET000-42 GET Animal health record
+
+Path: localhost:8001/api/animals/healthrecord?id= " "   
+Verb: GET  
+Request: get animal health record for animal matching ID
+Response: Animal health record - json  {"animalId": String ,"date": Date,"type": String ,"record": String}  
+
+EXAMPLE: 
+
+```
+curl -X GET localhost:8001/api/animals/healthrecord?id="d7494b63-9736-4242-a486-f61e4465c9b2"
+```
+
+Response
+
+```
+{"animalId":"d7494b63-9736-4242-a486-f61e4465c9b2","date":55415412,"type":"temp","record":"37 degrees"}
+```
+# VET000-42 update animal health record
+
+Path: localhost:8001/api/animals/healthrecord?id= " "  -d { }
+Verb: PUT  
+Request: update health record for animal matching ID in json format - {"date": Date,"type": String ,"record": String}
+Response: updated animal health record - json  {"animalId": String ,"date": Date,"type": String ,"record": String}  
+
+EXAMPLE: 
+
+```
+curl -X PUT localhost:8001/api/animals/healthrecord?id="481bce09-d7be-4f90-ac43-e798764ba2eb" -d '{"date":"2020-02-01","type":"BP","record":"120"}'
+```
+
+Response
+
+```
+{"animalId":"481bce09-d7be-4f90-ac43-e798764ba2eb","date":1580515200000,"type":"BP","record":"120"}
+```
+
+# VET000-42 add animal status
+
+Path: Path: localhost:8001/api/animals/healthrecord?id= " "  
+Verb: POST  
+Request: add new animal helth recrod in json format for animal matching id json format-  {"date": Date,"type": String ,"record": String}
+Response: ID of animal  
+
+EXAMPLE: 
+
+```
+curl -X POST localhost:8001/api/animals/healthrecord?id="c32afa18-b3b5-41c6-ae62-c1adc3f86e9f" -d '{"date":"2020-02-01","type":"BP","record":"120"}'
+```
+
+Response
+
+```
+"c32afa18-b3b5-41c6-ae62-c1adc3f86e9f"  
 ```
 
 # VET000-52 GET Animal Reminders
