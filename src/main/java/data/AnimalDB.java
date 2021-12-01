@@ -53,8 +53,7 @@ public class AnimalDB implements AnimalRepository{
     }
 
 	@Override
-	public String createAnimal(NewAnimal newAnimal) {
-		
+	public String createAnimal(NewAnimal newAnimal) {	
 		String id = UUID.randomUUID().toString();
 		Animal animal = Animal.builder()
                 .id(id)
@@ -80,9 +79,17 @@ public class AnimalDB implements AnimalRepository{
 	}
 	@Override
 	public List<Animal> getAnimals(String id) throws ResourceNotFoundException{
-		Animal animal= Optional.ofNullable(ANIMAL_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		List<Animal> animals = new ArrayList<Animal>();
-		animals.add(animal);
+		//Animal animal= Optional.ofNullable(ANIMAL_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		List<Animal> animals = null;
+		try {
+			animals = DB.getAnimal(id);
+			if (animals == null)
+				throw new ResourceNotFoundException(404, "animal not found.");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return  animals;
 	}
 	
@@ -94,8 +101,15 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public Animal updateAnimal(Animal animal) throws ResourceNotFoundException {
-		Optional.of(ANIMAL_STORE.get(animal.getId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		ANIMAL_STORE.replace(animal.getId(), animal);
+		//Optional.of(ANIMAL_STORE.get(animal.getId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		//ANIMAL_STORE.replace(animal.getId(), animal);
+		try {
+			DB.updateAnimal(animal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
         return  animal;
 	}
 

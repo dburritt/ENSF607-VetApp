@@ -5,7 +5,12 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import com.mysql.cj.protocol.StandardSocketFactory;
+
 import java.sql.*;
 import domain.animal.*;
 
@@ -50,7 +55,7 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 
 	public void insertAnimal(Animal animal) throws SQLException {
-		String query = "INSERT INTO ANIMAL (animalId, type, weight, breed, color) values(?,?,?,?,?)";
+		String query = "INSERT INTO ANIMAL (animalId, type, weight, breed, color) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, animal.getId());
 		pStat.setString(2, animal.getType());
@@ -60,6 +65,44 @@ public class MySQLJDBC implements IDBCredentials {
 		int rowCount = pStat.executeUpdate();
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
+	}
+	
+	public void updateAnimal(Animal animal) throws SQLException {
+		String query = "UPDATE ANIMAL SET type=? , weight =? , breed=? , color=? WHERE animalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animal.getType());
+		pStat.setDouble(2,  animal.getWeight());
+		pStat.setString(3,  animal.getBreed());
+		pStat.setString(4,  animal.getColor());
+		pStat.setString(5, animal.getId());
+		int rowCount = pStat.executeUpdate();
+		
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+	}
+	
+	public List<Animal> getAnimal(String id) throws SQLException {
+		List<Animal> r =null;
+
+		String query = "SELECT * FROM ANIMAL WHERE animalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		List<Animal> animals = new ArrayList<Animal>();
+		while(rs.next()) {
+			Animal a = Animal.builder()
+	                .id(rs.getString("animalId"))
+	                .type(rs.getString("type"))
+	                .weight(rs.getDouble("weight"))
+	                .breed(rs.getString("breed"))
+	                .color(rs.getString("color"))
+	                .build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+		
+		return r;
 	}
 
 	
