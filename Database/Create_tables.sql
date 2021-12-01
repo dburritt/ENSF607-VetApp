@@ -1,6 +1,17 @@
-DROP DATABASE IF EXISTS VETAPP;
+-- DROP DATABASE IF EXISTS VETAPP;
 CREATE DATABASE VETAPP; 
 USE VETAPP;
+
+CREATE TABLE `animal` (
+  `AnimalId` varchar(45) NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `weight` double DEFAULT NULL,
+  `breed` varchar(45) DEFAULT NULL,
+  `color` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`AnimalId`),
+  UNIQUE KEY `AnimalId_UNIQUE` (`AnimalId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DROP TABLE IF EXISTS PRESCRIPTION;
 CREATE TABLE PRESCRIPTION (
 	PrescriptionId			integer	not null,

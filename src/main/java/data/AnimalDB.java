@@ -1,5 +1,6 @@
 package data;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,11 +24,16 @@ public class AnimalDB implements AnimalRepository{
     private static final Map<String,AnimalStatus> ANIMAL_STATUS_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalReminder> ANIMAL_REMINDER_STORE = new ConcurrentHashMap();
     private static final Map<String,AnimalHealthRecord> ANIMAL_HEALTH_RECORD_STORE = new ConcurrentHashMap();
+    MySQLJDBC DB;
+   
     
     public AnimalDB() {
+    	 DB = new MySQLJDBC();
+    	 DB.initializeConnection();
     	//CREATE TEST ANIMAL
     	String id = UUID.randomUUID().toString();
 			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("lab").color("black").build();
+			
 		    ANIMAL_STORE.put(id,a);
 		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
 		    ANIMAL_DETAILS_STORE.put(id,d);
@@ -48,6 +54,7 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimal(NewAnimal newAnimal) {
+		
 		String id = UUID.randomUUID().toString();
 		Animal animal = Animal.builder()
                 .id(id)
@@ -56,9 +63,15 @@ public class AnimalDB implements AnimalRepository{
                 .breed(newAnimal.getBreed())
                 .color(newAnimal.getColor())
                 .build();
-        ANIMAL_STORE.put(id, animal);
-
-       return animal.getId();
+        //ANIMAL_STORE.put(id, animal);
+	
+		try {
+			DB.insertAnimal(animal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return id;//animal.getId();
 	}
 
 	@Override

@@ -5,7 +5,9 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.sql.*;
+import domain.animal.*;
 
 public class MySQLJDBC implements IDBCredentials {
 
@@ -45,6 +47,19 @@ public class MySQLJDBC implements IDBCredentials {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
 		//myApp.close();
+	}
+
+	public void insertAnimal(Animal animal) throws SQLException {
+		String query = "INSERT INTO ANIMAL (animalId, type, weight, breed, color) values(?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animal.getId());
+		pStat.setString(2, animal.getType());
+		pStat.setDouble(3,  animal.getWeight());
+		pStat.setString(4,  animal.getBreed());
+		pStat.setString(5,  animal.getColor());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
 	}
 
 	
