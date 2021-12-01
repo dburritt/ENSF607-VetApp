@@ -14,9 +14,9 @@ DROP TABLE IF EXISTS COMMENTS;
 CREATE TABLE COMMENTS (
 	CommentId			integer	not null,
 	UserId				integer not null,
-	AnimalId				integer not null,
-    CommentDate				DATETIME not null,
-    CommentText					mediumtext not null,
+	AnimalId			integer not null,
+    CommentDate			DATETIME not null,
+    CommentText			mediumtext not null,
 	primary key (PrescriptionId),
     foreign key (UserId) references USER(UserId),
 	foreign key (AnimalId) references Animal(AnimalId)
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS ANIMAL_STATUS;
 CREATE TABLE ANIMAL_STATUS (
 	AnimalId			integer	not null,
 	AnimalStatus		VARCHAR(100) not null,
-    StatusDate				DATETIME not null,
+    StatusDate			DATETIME not null,
 	primary key (AnimalId),
 	foreign key (AnimalId) references Animal(AnimalId)
 );
