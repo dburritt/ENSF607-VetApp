@@ -114,11 +114,11 @@ CREATE TABLE PRESCRIPTION (
 );
 
 DROP TABLE IF EXISTS COMMENTS;
-CREATE TABLE COMMENTS (
+CREATE TABLE COMMENT (
 	CommentId			VARCHAR(100) not null,
 	UserId				VARCHAR(100) not null,
 	AnimalId			VARCHAR(100) not null,
-    CommentDate			DATETIME not null,
+    CommentDate			DATE not null,
     CommentText			mediumtext not null,
 	primary key (CommentId),
     foreign key (UserId) references USER(UserId),
