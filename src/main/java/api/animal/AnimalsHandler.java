@@ -43,11 +43,8 @@ public class AnimalsHandler extends Handler {
 	        } else if ("GET".equals(exchange.getRequestMethod())) {
 
 	            ResponseEntity e = doGet(exchange);
-	       	   	exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 	            exchange.getResponseHeaders().putAll(e.getHeaders());
-	            System.out.println(exchange.getResponseHeaders());
 	            
-	            exchange.getResponseHeaders().putAll(e.getHeaders());
 	            exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 	            response = super.writeResponse(e.getBody());
 			} else if ("PUT".equals(exchange.getRequestMethod())) {

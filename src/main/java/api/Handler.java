@@ -38,6 +38,7 @@ public abstract class Handler {
     protected static Headers getHeaders(String key, String value) {
         Headers headers = new Headers();
         headers.set(key, value);
+   	   	headers.add("Access-Control-Allow-Origin", "*");
         return headers;
     }
 }
