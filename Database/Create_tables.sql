@@ -52,7 +52,7 @@ CREATE TABLE `ANIMAL` (
   PRIMARY KEY (`AnimalId`)
 );
 
-INSERT INTO `ANIMAL` (AnimalId, `Name`, Species, Subspecies, Breed, Sex, Colour, Features, BirthDate, RFID, Microchip, TattooNum)
+INSERT INTO ANIMAL (AnimalId, `Name`, Species, Subspecies, Breed, Sex, Colour, Features, BirthDate, RFID, Microchip, TattooNum)
 VALUES
 ('53195','Rex', 'Canine', 'Dog', 'Pitbull', 'M', 'beige', 'flat face', '2015-11-29', 'adlkfneo2342334', 'ieupaenr14234524342', '1234'),
 ('53196','Spot', 'Canine', 'Dog', 'Labrador', 'F', 'chocolate', 'big smile', '2014-11-29', 'adlkaefeo2342334', 'ieupaenr167896342', '1235'),
@@ -101,35 +101,35 @@ VALUES
 --   UNIQUE KEY `AnimalId_UNIQUE` (`AnimalId`)
 -- );
 
-DROP TABLE IF EXISTS PRESCRIPTION;
-CREATE TABLE PRESCRIPTION (
-	PrescriptionId			VARCHAR(100) not null,
-	TreatmentId				VARCHAR(100) not null,
-	AnimalId				VARCHAR(100) not null,
-    Prescription			VARCHAR(100) not null,
-    Notes					mediumtext,
+DROP TABLE IF EXISTS `PRESCRIPTION`;
+CREATE TABLE `PRESCRIPTION` (
+	`PrescriptionId`		VARCHAR(100) not null,
+	`TreatmentId`				VARCHAR(100) not null,
+	`AnimalId`				VARCHAR(100) not null,
+    `Prescription`			VARCHAR(100) not null,
+    `Notes`					mediumtext,
 	primary key (PrescriptionId),
     foreign key (TreatmentId) references TREATMENT(TreatmentId),
 	foreign key (AnimalId) references Animal(AnimalId)
 );
 
-DROP TABLE IF EXISTS COMMENTS;
-CREATE TABLE COMMENT (
-	CommentId			VARCHAR(100) not null,
-	UserId				VARCHAR(100) not null,
-	AnimalId			VARCHAR(100) not null,
-    CommentDate			DATE not null,
-    CommentText			mediumtext not null,
+DROP TABLE IF EXISTS `COMMENTS`;
+CREATE TABLE `COMMENTS` (
+	`CommentId`			VARCHAR(100) not null,
+	`UserId`				VARCHAR(100) not null,
+	`AnimalId`			VARCHAR(100) not null,
+    `CommentDate`			DATE not null,
+    `CommentText`			mediumtext not null,
 	primary key (CommentId),
-    foreign key (UserId) references USER(UserId),
+	foreign key (UserId) references USER(UserId),
 	foreign key (AnimalId) references Animal(AnimalId)
 );
 
-DROP TABLE IF EXISTS ANIMAL_STATUS;
-CREATE TABLE ANIMAL_STATUS (
-	AnimalId			VARCHAR(100) not null,
-	AnimalStatus		VARCHAR(100) not null,
-    StatusDate			DATETIME not null,
+DROP TABLE IF EXISTS `ANIMAL_STATUS`;
+CREATE TABLE `ANIMAL_STATUS` (
+	`AnimalId`			VARCHAR(100) not null,
+	`AnimalStatus`		VARCHAR(100) not null,
+    `StatusDate`			DATETIME not null,
 	primary key (AnimalId),
 	foreign key (AnimalId) references Animal(AnimalId)
 );
