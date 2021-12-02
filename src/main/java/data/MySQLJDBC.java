@@ -133,6 +133,9 @@ public class MySQLJDBC implements IDBCredentials {
 		int rowCount = pStat.executeUpdate();
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
+		
+		// for testing on windows curl -X POST localhost:8001/api/admin/comment -d "{\"userId\": \"1\", \"animalId\": \"53195\", \"commentDate\": \"2021-11-29\", \"commentText\": \"this is a test comment\"}"
+		
 	}
 	
 	public static void main(String[] args0) {
