@@ -8,11 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.sql.Date;
 
 import com.mysql.cj.protocol.StandardSocketFactory;
 
 import java.sql.*;
 import domain.animal.*;
+import domain.admin.*;
 
 public class MySQLJDBC implements IDBCredentials {
 
@@ -118,6 +120,22 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.close();
 		
 		return r;
+	}
+	
+	public void insertComment(Comment comment) throws SQLException {
+		String query = "INSERT INTO COMMENT (CommentId, UserId, AnimalId, CommentDate, CommentText) VALUES(?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, comment.getCommentId());
+		pStat.setString(2, comment.getUserId());
+		pStat.setString(3,  comment.getAnimalId());
+		pStat.setDate(4, java.sql.Date.valueOf(comment.getCommentDate()));
+		pStat.setString(5,  comment.getCommentText());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
+		// for testing on windows curl -X POST localhost:8001/api/admin/comment -d "{\"userId\": \"1\", \"animalId\": \"53195\", \"commentDate\": \"2021-11-29\", \"commentText\": \"this is a test comment\"}"
+		
 	}
 	
 	public static void main(String[] args0) {

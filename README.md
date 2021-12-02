@@ -633,7 +633,7 @@ Response: email added - json
 EXAMPLE:
 
 ```
-curl -X POST localhost:8001/api/admin/email -d '{"commenter": "Greg Slowski", "text": "this is a test comment"}'
+curl -X POST localhost:8001/api/admin/comment -d '{"commenter": "Greg Slowski", "text": "this is a test comment"}'
 ```
 
 Response

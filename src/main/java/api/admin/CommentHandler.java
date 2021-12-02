@@ -3,6 +3,7 @@ package api.admin;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -71,8 +72,10 @@ public class CommentHandler extends Handler{
     	CommentRequest commentRequest = super.readRequest(is, CommentRequest.class);
 
     	NewComment newComment = NewComment.builder()
-                .commenter(commentRequest.getCommenter())
-                .text(commentRequest.getText())
+                .userId(commentRequest.getUserId())
+                .animalId(commentRequest.getAnimalId())
+                .commentDate(commentRequest.getCommentDate())
+                .commentText(commentRequest.getCommentText())
                 .build();
 
         String comment = commentService.create(newComment);
@@ -97,9 +100,11 @@ public class CommentHandler extends Handler{
         String commentId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         CommentRequest commentRequest = super.readRequest(exchange.getRequestBody(), CommentRequest.class);
         Comment commentForUpdate = Comment.builder()
-    			.id(commentId)
-                .commenter(commentRequest.getCommenter())
-                .text(commentRequest.getText())
+    			.commentId(commentId)
+                .userId(commentRequest.getUserId())
+                .animalId(commentRequest.getAnimalId())
+                .commentDate(commentRequest.getCommentDate())
+                .commentText(commentRequest.getCommentText())
                 .build();
         Comment commentAfterUpdate= commentService.updateComment(commentForUpdate);
         return new ResponseEntity<>(commentAfterUpdate,
