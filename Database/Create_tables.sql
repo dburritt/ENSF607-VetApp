@@ -4,13 +4,13 @@ USE VETAPP;
 
 DROP TABLE IF EXISTS `USER`;
 CREATE TABLE `USER` (
-  `UserId` INT NOT NULL,
-  `Username` VARCHAR(45) DEFAULT NULL,
-  `Password` VARCHAR(45) DEFAULT NULL,
-  `AccountType` VARCHAR(45) DEFAULT NULL,
+  `UserId` VARCHAR(100) NOT NULL,
+  `Username` VARCHAR(100) DEFAULT NULL,
+  `Password` VARCHAR(100) DEFAULT NULL,
+  `AccountType` VARCHAR(100) DEFAULT NULL,
   `ActivationDate` DATE DEFAULT NULL,
-  `FName` VARCHAR(45) DEFAULT NULL,
-  `LName` VARCHAR(45) DEFAULT NULL,
+  `FName` VARCHAR(100) DEFAULT NULL,
+  `LName` VARCHAR(100) DEFAULT NULL,
   `Email` VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -23,8 +23,8 @@ VALUES
 
 DROP TABLE IF EXISTS `STUDENT`;
 CREATE TABLE `STUDENT` (
-  `StudentId` INT NOT NULL,
-  `UserId` INT DEFAULT NULL,
+  `StudentId` VARCHAR(100) NOT NULL,
+  `UserId` VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (`StudentId`),
   FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`)
   );
@@ -37,7 +37,7 @@ VALUES
 
 DROP TABLE IF EXISTS `ANIMAL`;
 CREATE TABLE `ANIMAL` (
-  `AnimalId` INT NOT NULL,
+  `AnimalId` VARCHAR(100) NOT NULL,
   `Name` VARCHAR(100) DEFAULT NULL,
   `Species` VARCHAR(100) DEFAULT NULL,
   `Subspecies` VARCHAR(100) DEFAULT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE `ANIMAL` (
   `BirthDate` DATE DEFAULT NULL,
   `RFID` VARCHAR(100) DEFAULT NULL,
   `Microchip` VARCHAR(100) DEFAULT NULL,
-  `TattooNum` INT DEFAULT NULL,
+  `TattooNum` VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (`AnimalId`)
 );
 
@@ -60,10 +60,10 @@ VALUES
 
 DROP TABLE IF EXISTS `TREATMENT`;
 CREATE TABLE `TREATMENT` (
-  `TreatmentId` INT NOT NULL,
-  `AnimalId` INT NOT NULL,
+  `TreatmentId` VARCHAR(100) NOT NULL,
+  `AnimalId` VARCHAR(100) NOT NULL,
   `Date` DATE DEFAULT NULL,
-  `AdministeredBy` INT DEFAULT NULL,
+  `AdministeredBy` VARCHAR(100) DEFAULT NULL,
   `Description` mediumtext DEFAULT NULL,
   PRIMARY KEY (`TreatmentId`, `AnimalId`),
   FOREIGN KEY (`AnimalId`) REFERENCES `ANIMAL` (`AnimalId`)
@@ -78,7 +78,7 @@ VALUES
 
 DROP TABLE IF EXISTS `WEIGHT`;
 CREATE TABLE `WEIGHT` (
-  `AnimalId` INT NOT NULL,
+  `AnimalId` VARCHAR(100) NOT NULL,
   `Date` DATE NOT NULL,
   `Weight` FLOAT DEFAULT NULL,
   PRIMARY KEY (`AnimalId`, `Date`),
@@ -103,10 +103,10 @@ VALUES
 
 DROP TABLE IF EXISTS PRESCRIPTION;
 CREATE TABLE PRESCRIPTION (
-	PrescriptionId			integer	not null,
-	TreatmentId				integer not null,
-	AnimalId				integer not null,
-    Prescription			varchar(50) not null,
+	PrescriptionId			VARCHAR(100) not null,
+	TreatmentId				VARCHAR(100) not null,
+	AnimalId				VARCHAR(100) not null,
+    Prescription			VARCHAR(100) not null,
     Notes					mediumtext,
 	primary key (PrescriptionId),
     foreign key (TreatmentId) references TREATMENT(TreatmentId),
@@ -115,9 +115,9 @@ CREATE TABLE PRESCRIPTION (
 
 DROP TABLE IF EXISTS COMMENTS;
 CREATE TABLE COMMENTS (
-	CommentId			integer	not null,
-	UserId				integer not null,
-	AnimalId			integer not null,
+	CommentId			VARCHAR(100) not null,
+	UserId				VARCHAR(100) not null,
+	AnimalId			VARCHAR(100) not null,
     CommentDate			DATETIME not null,
     CommentText			mediumtext not null,
 	primary key (CommentId),
@@ -127,7 +127,7 @@ CREATE TABLE COMMENTS (
 
 DROP TABLE IF EXISTS ANIMAL_STATUS;
 CREATE TABLE ANIMAL_STATUS (
-	AnimalId			integer	not null,
+	AnimalId			VARCHAR(100) not null,
 	AnimalStatus		VARCHAR(100) not null,
     StatusDate			DATETIME not null,
 	primary key (AnimalId),
