@@ -1,5 +1,7 @@
 package api.admin;
 
+import java.sql.Date;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -7,7 +9,9 @@ import lombok.Value;
 @Value
 public class CommentRequest {
 	
-    String commenter;
-    String text;
+	String userId;
+	String animalId;
+	String commentDate;
+	String commentText;
 
 }
