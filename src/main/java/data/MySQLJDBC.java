@@ -181,17 +181,45 @@ public class MySQLJDBC implements IDBCredentials {
 		
 	}
 	
+
+	public List<AnimalRequest> getAnimalRequestsUserId()throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<AnimalRequest> getAllAnimalRequests() throws SQLException {
+		List<AnimalRequest> r =null;
+
+		String query = "SELECT * FROM ANIMAL_REQUEST";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<AnimalRequest> animalRequests = new ArrayList<AnimalRequest>();
+		while(rs.next()) {
+			AnimalRequest ar = AnimalRequest.builder()
+	                .requestId(rs.getString("animalRequestId"))
+	                .animalId(rs.getString("animalId"))
+	                .userId(rs.getString("userID"))
+	                .state(rs.getString("state"))
+	                .build();
+			animalRequests.add(ar);
+			r = animalRequests;
+		}
+		pStat.close();
+		
+		return r;
+	}
+	
+	
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
 		try {
-			System.out.println(myApp.getAllAnimals());
+			System.out.println(myApp.getAllAnimalRequests());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//myApp.close();
 	}
-	
 
 }

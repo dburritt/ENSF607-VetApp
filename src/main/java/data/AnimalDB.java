@@ -261,14 +261,20 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public List<AnimalRequest> getAnimalRequests() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return DB.getAllAnimalRequests();
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
 	}
 
 	@Override
 	public List<AnimalRequest> getAnimalRequests(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return DB.getAnimalRequestsUserId();
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
 	}
 
 	@Override
