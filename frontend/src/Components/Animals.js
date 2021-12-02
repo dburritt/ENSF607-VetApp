@@ -12,9 +12,8 @@ const Animals = () => {
         axios.get('http://localhost:8001/api/animals')
             
             .then((res) => {
-               setAnimals(res); 
-               console.log(res.data.animals)
-               console.log(animals.id)
+               setAnimals(res.data.animals); 
+               console.log()
             })
             .catch((err) => {
                 console.log(err);
@@ -22,7 +21,22 @@ const Animals = () => {
     };
   return (
     <div>
-      <pre>{JSON.stringify(animals.data, null, 1)}</pre>
+      <>
+      <p>----</p>
+      {animals.map((animal) => (
+        <>
+            <h1>
+            ID: {animal.id} 
+            </h1>
+            <> 
+            Type: {animal.type}, Weight: {animal.weight}lbs, Breed: {animal.breed}, Color: {animal.color}
+            </>
+            <p>----</p>
+            
+        </>
+    
+        ))}
+      </>
     </div>
   )
 }
