@@ -36,4 +36,10 @@ public interface AnimalRepository {
 	 void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException;
 	 AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
 	
+	 String createAnimalRequest(NewAnimalRequest animalRequest);
+	 List<AnimalRequest> getAnimalRequests();
+	 List<AnimalRequest> getAnimalRequests(String id);
+	 void deleteAnimalRequest(String id) throws ResourceNotFoundException;
+	 AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException;
+
 }

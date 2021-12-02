@@ -253,6 +253,36 @@ public class AnimalDB implements AnimalRepository{
         return  animalReminder;
 	}
 
+	@Override
+	public String createAnimalRequest(NewAnimalRequest animalRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AnimalRequest> getAnimalRequests() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AnimalRequest> getAnimalRequests(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteAnimalRequest(String id) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }
 

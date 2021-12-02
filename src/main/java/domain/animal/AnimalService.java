@@ -90,5 +90,21 @@ public class AnimalService {
         return  animalRepository.updateAnimalReminder(animalReminder);
 
     }
+	public String createAnimalRequest(NewAnimalRequest animalRequest) {
+		return null;
+	}
 
+    public List<AnimalRequest> getAnimalRequests(){
+    	return null;
+    }
+    public List<AnimalRequest> getAnimalRequests(String id){
+    	return null;
+
+    }
+	public  void deleteAnimalRequest(String id) throws ResourceNotFoundException{
+		
+	}
+	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException{
+		return null;
+	}
 }

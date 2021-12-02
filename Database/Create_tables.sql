@@ -134,4 +134,16 @@ CREATE TABLE `ANIMAL_STATUS` (
 	foreign key (AnimalId) references Animal(AnimalId)
 );
 
+CREATE TABLE `animal_request` (
+  `animaRequesId` varchar(100) NOT NULL,
+  `animalId` varchar(45) NOT NULL,
+  `userID` varchar(45) NOT NULL,
+  `state` varchar(45) NOT NULL,
+  PRIMARY KEY (`animaRequesId`),
+  KEY `userId_idx` (`userID`),
+  KEY `animalId_idx` (`animalId`),
+  CONSTRAINT `animalId` FOREIGN KEY (`animalId`) REFERENCES `animal` (`AnimalId`),
+  CONSTRAINT `userId` FOREIGN KEY (`userID`) REFERENCES `user` (`UserId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- SELECT * FROM `Weight`;
