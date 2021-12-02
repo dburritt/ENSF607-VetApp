@@ -47,13 +47,6 @@ public class MySQLJDBC implements IDBCredentials {
 		}
 	}
 	
-
-	public static void main(String[] args0) {
-		MySQLJDBC myApp = new MySQLJDBC();
-		myApp.initializeConnection();
-		//myApp.close();
-	}
-
 	public void insertAnimal(Animal animal) throws SQLException {
 		String query = "INSERT INTO ANIMAL (animalId, type, weight, breed, color) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
@@ -104,7 +97,34 @@ public class MySQLJDBC implements IDBCredentials {
 		
 		return r;
 	}
+	public List<Animal> getAllAnimals() throws SQLException {
+		List<Animal> r =null;
 
+		String query = "SELECT * FROM ANIMAL";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Animal> animals = new ArrayList<Animal>();
+		while(rs.next()) {
+			Animal a = Animal.builder()
+	                .id(rs.getString("animalId"))
+	                .type(rs.getString("type"))
+	                .weight(rs.getDouble("weight"))
+	                .breed(rs.getString("breed"))
+	                .color(rs.getString("color"))
+	                .build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+		
+		return r;
+	}
+	
+	public static void main(String[] args0) {
+		MySQLJDBC myApp = new MySQLJDBC();
+		myApp.initializeConnection();
+		//myApp.close();
+	}
 	
 
 }

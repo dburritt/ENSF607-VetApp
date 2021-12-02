@@ -67,15 +67,19 @@ public class AnimalDB implements AnimalRepository{
 		try {
 			DB.insertAnimal(animal);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ResourceNotFoundException(404, "animal not found.");
 		}
 		return id;//animal.getId();
 	}
 
 	@Override
 	public List<Animal> getAnimals() {
-        return new ArrayList<>(ANIMAL_STORE.values());
+        //return new ArrayList<>(ANIMAL_STORE.values());
+		try {
+			return DB.getAllAnimals();
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
 	}
 	@Override
 	public List<Animal> getAnimals(String id) throws ResourceNotFoundException{
@@ -86,8 +90,7 @@ public class AnimalDB implements AnimalRepository{
 			if (animals == null)
 				throw new ResourceNotFoundException(404, "animal not found.");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ResourceNotFoundException(404, "animal not found.");
 		}
 		
 		return  animals;
