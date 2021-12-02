@@ -26,10 +26,10 @@ const Animals = () => {
       {animals.map((animal) => (
         <>
             <h1>
-            ID: {animal.id} 
+            ID: {animal.animlaid} 
             </h1>
             <> 
-            Type: {animal.type}, Weight: {animal.weight}lbs, Breed: {animal.breed}, Color: {animal.color}
+            Name: {animal.name}, Species: {animal.species}, Breed: {animal.breed}, Color: {animal.color}
             </>
             <p>----</p>
             
