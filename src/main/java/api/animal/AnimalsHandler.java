@@ -66,11 +66,18 @@ public class AnimalsHandler extends Handler {
 	        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
 	        NewAnimal newAnimal = super.readRequest(exchange.getRequestBody(), NewAnimal.class);
 	        Animal animalForUpdate = Animal.builder()
-	                .id(animalId)
-	                .type(newAnimal.getType())
-	                .weight(newAnimal.getWeight())
+	        		.id(animalId)
+	                .name(newAnimal.getName())
+	                .species(newAnimal.getSpecies())
+	                .subspecies(newAnimal.getSubspecies())
 	                .breed(newAnimal.getBreed())
+	                .sex(newAnimal.getSex())
 	                .color(newAnimal.getColor())
+	                .features(newAnimal.getFeatures())
+	                .bithdate(newAnimal.getBithdate())
+	                .rfid(newAnimal.getRfid())
+	                .microchip(newAnimal.getMicrochip())
+	                .tattooNum(newAnimal.getTattooNum())
 	                .build();
 	        Animal animalAfterUpdate = animalService.updateAnimal(animalForUpdate);
 	        return new ResponseEntity<>(animalAfterUpdate,

@@ -50,6 +50,26 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 	
 	public void insertAnimal(Animal animal) throws SQLException {
+		String query = "INSERT INTO ANIMAL (AnimalId, Name, Species, Subspecies,Breed, Sex, Colour ,Features, Birthdate, RFID, Microchip, TattooNum) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animal.getId());
+		pStat.setString(2, animal.getName());
+		pStat.setString(3,  animal.getSpecies());
+		pStat.setString(4, animal.getSubspecies());
+		pStat.setString(5,  animal.getBreed());
+		pStat.setString(6,  animal.getColor());
+		pStat.setString(7,  animal.getSex());
+		pStat.setString(8, animal.getFeatures());
+		pStat.setDate(9,  animal.getBithdate());
+		pStat.setString(10,  animal.getRfid());
+		pStat.setString(11,  animal.getMicrochip());
+		pStat.setString(12,  animal.getTattooNum());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+	}
+	/*
+	public void insertAnimal(Animal animal) throws SQLException {
 		String query = "INSERT INTO ANIMAL (animalId, type, weight, breed, color) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, animal.getId());
@@ -61,15 +81,24 @@ public class MySQLJDBC implements IDBCredentials {
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
 	}
+	*/
 	
 	public void updateAnimal(Animal animal) throws SQLException {
-		String query = "UPDATE ANIMAL SET type=? , weight =? , breed=? , color=? WHERE animalId = ?";
+		String query = "UPDATE ANIMAL SET Name=?, Species=?, Subspecies=?, Breed=?, Sex=?,Colour=?,Features=?, Birthdate=?, RFID=?, Microchip=?, TattooNum=? WHERE animalId = ?";
 		PreparedStatement pStat = conn.prepareStatement(query);
-		pStat.setString(1, animal.getType());
-		pStat.setDouble(2,  animal.getWeight());
-		pStat.setString(3,  animal.getBreed());
-		pStat.setString(4,  animal.getColor());
-		pStat.setString(5, animal.getId());
+		pStat.setString(1, animal.getName());
+		pStat.setString(2,  animal.getSpecies());
+		pStat.setString(3, animal.getSubspecies());
+		pStat.setString(4,  animal.getBreed());
+		pStat.setString(5,  animal.getSex());
+		pStat.setString(6,  animal.getColor());
+		pStat.setString(7, animal.getFeatures());
+		pStat.setDate(8,  animal.getBithdate());
+		pStat.setString(9,  animal.getRfid());
+		pStat.setString(10,  animal.getMicrochip());
+		pStat.setString(11,  animal.getTattooNum());
+		pStat.setString(12, animal.getId());
+
 		int rowCount = pStat.executeUpdate();
 		
 		System.out.println("row Count = " + rowCount);
@@ -87,10 +116,17 @@ public class MySQLJDBC implements IDBCredentials {
 		while(rs.next()) {
 			Animal a = Animal.builder()
 	                .id(rs.getString("animalId"))
-	                .type(rs.getString("type"))
-	                .weight(rs.getDouble("weight"))
+	                .name(rs.getString("name"))
+	                .species(rs.getString("species"))
+	                .subspecies(rs.getString("subspecies"))
 	                .breed(rs.getString("breed"))
-	                .color(rs.getString("color"))
+	                .sex(rs.getString("sex"))
+	                .color(rs.getString("colour"))
+	                .features(rs.getString("features"))
+	                .bithdate(rs.getDate("birthdate"))
+	                .rfid(rs.getString("birthdate"))
+	                .microchip(rs.getString("microchip"))
+	                .tattooNum(rs.getString("tattooNum"))
 	                .build();
 			animals.add(a);
 			r = animals;
@@ -109,10 +145,17 @@ public class MySQLJDBC implements IDBCredentials {
 		while(rs.next()) {
 			Animal a = Animal.builder()
 	                .id(rs.getString("animalId"))
-	                .type(rs.getString("type"))
-	                .weight(rs.getDouble("weight"))
+	                .name(rs.getString("name"))
+	                .species(rs.getString("species"))
+	                .subspecies(rs.getString("subspecies"))
 	                .breed(rs.getString("breed"))
-	                .color(rs.getString("color"))
+	                .sex(rs.getString("sex"))
+	                .color(rs.getString("colour"))
+	                .features(rs.getString("features"))
+	                .bithdate(rs.getDate("birthdate"))
+	                .rfid(rs.getString("birthdate"))
+	                .microchip(rs.getString("microchip"))
+	                .tattooNum(rs.getString("tattooNum"))
 	                .build();
 			animals.add(a);
 			r = animals;
@@ -141,6 +184,12 @@ public class MySQLJDBC implements IDBCredentials {
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
+		try {
+			System.out.println(myApp.getAllAnimals());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//myApp.close();
 	}
 	

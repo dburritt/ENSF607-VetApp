@@ -31,10 +31,10 @@ public class AnimalDB implements AnimalRepository{
     	 DB = new MySQLJDBC();
     	 DB.initializeConnection();
     	//CREATE TEST ANIMAL
-    	String id = UUID.randomUUID().toString();
-			Animal a = Animal.builder().id(id).type("dog").weight(123).breed("lab").color("black").build();
+    	 String id = UUID.randomUUID().toString();
+			//Animal a = Animal.builder().id(id).type("dog").weight(123).breed("lab").color("black").build();
 			
-		    ANIMAL_STORE.put(id,a);
+		  //  ANIMAL_STORE.put(id,a);
 		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
 		    ANIMAL_DETAILS_STORE.put(id,d);
 				TreeMap<Date, Double> weight = new 	TreeMap<Date, Double>();
@@ -55,12 +55,19 @@ public class AnimalDB implements AnimalRepository{
 	@Override
 	public String createAnimal(NewAnimal newAnimal) {	
 		String id = UUID.randomUUID().toString();
-		Animal animal = Animal.builder()
-                .id(id)
-                .type(newAnimal.getType())
-                .weight(newAnimal.getWeight())
+			Animal animal = Animal.builder()
+				.id(id)
+                .name(newAnimal.getName())
+                .species(newAnimal.getSpecies())
+                .subspecies(newAnimal.getSubspecies())
                 .breed(newAnimal.getBreed())
+                .sex(newAnimal.getSex())
                 .color(newAnimal.getColor())
+                .features(newAnimal.getFeatures())
+                .bithdate(newAnimal.getBithdate())
+                .rfid(newAnimal.getRfid())
+                .microchip(newAnimal.getMicrochip())
+                .tattooNum(newAnimal.getTattooNum())
                 .build();
         //ANIMAL_STORE.put(id, animal);
 	
