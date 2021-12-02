@@ -22,7 +22,7 @@ public class Application {
 	public static void main(String[] args) throws IOException{
 		int serverPort = 8001;
         HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
-
+        
         AnimalsHandler animalsHandler = new AnimalsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/animals", animalsHandler::handle);

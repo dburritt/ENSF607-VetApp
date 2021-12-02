@@ -39,8 +39,8 @@ public class AnimalDetailsHandler extends Handler {
             response = super.writeResponse(e.getBody());
 
         } else if ("GET".equals(exchange.getRequestMethod())) {
-
             ResponseEntity e = doGet(exchange);
+            
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
