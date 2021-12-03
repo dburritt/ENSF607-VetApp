@@ -150,4 +150,10 @@ CREATE TABLE `animal_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
+INSERT INTO `animal_request` (animalRequestId, `animalId`, userId, state)
+VALUES
+(5, '53195', '1', 'requested'),
+(6, '53196', '1', 'approved'),
+(7, '53197', '1', 'declined');
+
 -- SELECT * FROM `Weight`;
