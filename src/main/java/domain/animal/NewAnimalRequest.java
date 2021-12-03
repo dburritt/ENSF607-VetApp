@@ -7,6 +7,6 @@ public class NewAnimalRequest {
 		
 	private String animalId;
 	private String userId;
-	private String state;
+	private String state = "requested";
 	
 }

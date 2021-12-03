@@ -38,10 +38,10 @@ public abstract class Handler {
     protected static Headers getHeaders(String key, String value) {
         Headers headers = new Headers();
         headers.set(key, value);
-   	   	headers.add("Access-Control-Allow-Origin", "http://localhost:3000");
-   	   	headers.add("Access-Control-Allow-Credentials", "True");
+   	   	headers.add("Access-Control-Allow-Origin", "*");
+   	   	headers.add("Access-Control-Allow-Credentials", "true");
    	   	headers.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-   	 	headers.add("Access-Control-Allow-Headers","True");
+   	 	headers.add("Access-Control-Allow-Headers","true");
         return headers;
     }
 }

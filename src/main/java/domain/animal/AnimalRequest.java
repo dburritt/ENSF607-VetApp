@@ -9,20 +9,7 @@ public class AnimalRequest {
 	private String requestId;
 	private String animalId;
 	private String userId;
-	private String currentState = "requested";
+	private String currentState;
 	
-	public void nextState() {
-		/*String 
-		switch(currentState) {
-		  case "requested":
-		    nextState
-		    break;
-		  case y:
-		    // code block
-		    break;
-		  default:
-		    // code block
-		}
-		*/
-	}
+	
 }

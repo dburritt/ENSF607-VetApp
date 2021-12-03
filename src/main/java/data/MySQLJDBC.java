@@ -200,6 +200,7 @@ public class MySQLJDBC implements IDBCredentials {
 	                .requestId(rs.getString("animalRequestId"))
 	                .animalId(rs.getString("animalId"))
 	                .userId(rs.getString("userID"))
+	                .currentState(rs.getString("state"))
 	                .build();
 			animalRequests.add(ar);
 			r = animalRequests;

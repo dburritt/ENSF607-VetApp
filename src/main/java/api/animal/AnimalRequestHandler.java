@@ -69,6 +69,7 @@ public class AnimalRequestHandler extends Handler {
                 .requestId(requestId)
                 .userId(newAnimalRequest.getUserId())
                 .animalId(newAnimalRequest.getAnimalId())
+                .currentState(newAnimalRequest.getState())
                 .build();
         AnimalRequest animalDetailsAfterUpdate = animalService.updateAnimalRequest(animalRequestForUpdate);
         return new ResponseEntity<>(animalDetailsAfterUpdate,

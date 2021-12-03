@@ -49,22 +49,6 @@ public class UserLoginHandler extends Handler {
 
     }
 
-    private ResponseEntity<RegistrationResponse> doPost(InputStream is) {
-        RegistrationRequest registerRequest = super.readRequest(is, RegistrationRequest.class);
-
-        NewUser user = NewUser.builder()
-                .username(registerRequest.getUsername())
-                .password(registerRequest.getPassword())
-                .build();
-
-        String userId = userService.create(user);
-
-        RegistrationResponse response = new RegistrationResponse(userId);
-
-        return new ResponseEntity<>(response,
-                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
-    }
-
     private ResponseEntity<UserListResponse> doPost(HttpExchange exchange) {
         //UserListResponse UserListResponse=new UserListResponse(userService.getUsers());
         //return new ResponseEntity<>(UserListResponse,
