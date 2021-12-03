@@ -6,13 +6,16 @@ import axios from 'axios';
 const Login = ({ loginDispatch, userDispatch }) => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     const loginChangeHandler = (event) => {
         setUserName(event.target.value)
+        setMessage("")
     }
 
     const passwordChangeHandler = (event) => {
         setPassword(event.target.value)
+        setMessage("")
     }
 
     const loginHandler = () => {
@@ -34,6 +37,7 @@ const Login = ({ loginDispatch, userDispatch }) => {
                 });
             })
             .catch((err) => {
+                setMessage("Invalid credentials.")
                 console.log(err);
             });
 
@@ -42,8 +46,9 @@ const Login = ({ loginDispatch, userDispatch }) => {
     };
 
     return (
-        <div class="columns is-multiline is-mobile">
-            <div class="column">
+        <div class="columns is-multiline is-mobile"
+        css={css`vertical-align: top;`}>
+            <div class="column" css={css`text-align: center; padding: 10px;`}>
                 <input
                     value={username}
                     onChange={loginChangeHandler}
@@ -52,7 +57,7 @@ const Login = ({ loginDispatch, userDispatch }) => {
                     placeholder="Enter username." />
             </div>
 
-            <div class="column">
+            <div class="column" css={css`text-align: center; padding: 10px;`}>
             <input
                 value={password}
                 onChange={passwordChangeHandler}
@@ -61,10 +66,14 @@ const Login = ({ loginDispatch, userDispatch }) => {
                 placeholder="Enter password." />
             </div>
 
-            <div class="column">
+            <div class="column" css={css`text-align: center; padding: 10px;`}>
             <button
                 onClick={loginHandler}
                 className="button is-small is-success">Login</button>
+            </div>
+
+            <div class="column" css={css`text-align: center; padding: 10px; font-size: small;`}>
+                <p>{message}</p>
             </div>
 
         </div>

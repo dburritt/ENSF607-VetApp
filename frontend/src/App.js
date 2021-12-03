@@ -41,9 +41,11 @@ function App() {
 
   return (
     <>
-
       <div className="App-header">
         <header>U of C Veterinary Medicine Management System</header>
+      </div>
+
+      <div className="App-background">
         {currentView === "login" ? (
               <Login
               loginDispatch={pageDispatch}
