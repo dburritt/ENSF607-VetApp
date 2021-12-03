@@ -115,6 +115,35 @@ public class AnimalDB implements AnimalRepository{
 		
 		return  animals;
 	}
+	
+	@Override
+	public List<Animal> getAnimalSubspecies() {
+		List<Animal> animals = null;
+		try {
+			animals = DB.getAnimalSubspecies();
+			if (animals == null)
+				throw new ResourceNotFoundException(404, "animal not found.");
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
+		
+		return  animals;
+	}
+
+	@Override
+	public List<Animal> getAnimalsBySubspecies(String subspecies) {
+		List<Animal> animals = null;
+		try {
+			animals = DB.getAnimalsBySubspecies(subspecies);
+			if (animals == null)
+				throw new ResourceNotFoundException(404, "animals not found.");
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
+		
+		return  animals;
+	}
+	
 	@Override
 	public void deleteAnimal(String id) throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
@@ -366,6 +395,8 @@ public class AnimalDB implements AnimalRepository{
 		*/
 		return null;
 	}
+
+	
 	
 
 	
