@@ -22,7 +22,7 @@ const Login = ({ loginDispatch, userDispatch }) => {
             return
         }
 
-        axios.post(`http://localhost:8001/api/login/ `, JSON.stringify({username: username, password: password}), {headers: {"Content-Type" : "application/json"}})
+        axios.post('http://localhost:8001/api/login/', JSON.stringify({username: username, password: password}), {headers: {"Content-Type" : "application/json"}})
         .then((response) => {
             let s = JSON.parse(response.data.user)
             userDispatch({command: "add",
@@ -68,7 +68,7 @@ const Login = ({ loginDispatch, userDispatch }) => {
                             `}
                         className="input is-small"
                         type="text"
-                        placeholder="Enter username." />
+                        placeholder="Enter password." />
 
                 <button
                     onClick={loginHandler}
