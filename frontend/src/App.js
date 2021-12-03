@@ -24,7 +24,21 @@ function App() {
 
   }
 
+  const userReducer = (state, action) => {
+    let dict = {};
+
+    if (action.command === "add") {
+      dict["name"] = action.name;
+      dict["accountType"] = action.accountType;
+    }
+
+    console.log(dict)
+    return dict;
+
+  }
+
   const [currentView, pageDispatch] = useReducer(pageReducer, "login")
+  const [user, userDispatch] = useReducer(userReducer, {})
 
   return (
     <>
@@ -33,11 +47,13 @@ function App() {
         <header>Vet Management System</header>
         {currentView === "login" ? (
               <Login
-                dispatch={pageDispatch} />
+              loginDispatch={pageDispatch}
+              userDispatch={userDispatch} />
             ) : null}
         {currentView === "animal" ? (
               <Animals
-                dispatch={pageDispatch} />
+              loginDispatch={pageDispatch}
+              userDispatch={userDispatch} />
             ) : null}
       </div>
     </>

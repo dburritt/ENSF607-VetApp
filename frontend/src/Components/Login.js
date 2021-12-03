@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
+import axios from 'axios';
 
-const Login = ({ dispatch }) => {
+const Login = ({ loginDispatch, userDispatch }) => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
@@ -19,9 +20,21 @@ const Login = ({ dispatch }) => {
             alert("Username and password must be entered.")
             return
         }
-        dispatch({
-            nextPage: "animal"
+        
+        axios.post('http://localhost:8001/api/login/', JSON.stringify({username, password}), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+        .then((response) => {
+            let s = response.data.users[0]
+            userDispatch({command: "add",
+                            name: s.fname, 
+                            accountType: s.accountType});
+            loginDispatch({
+                nextPage: "animal"
+            });
+         })
+        .catch((err) => {
+            console.log(err);
         });
+
         setUserName("");
         setPassword("");
     };
@@ -53,7 +66,7 @@ const Login = ({ dispatch }) => {
                             `}
                         className="input is-small"
                         type="text"
-                        placeholder="Enter username." />
+                        placeholder="Enter password." />
 
                 <button
                     onClick={loginHandler}
