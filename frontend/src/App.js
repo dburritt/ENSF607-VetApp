@@ -3,7 +3,6 @@ import 'bulma/css/bulma.css'
 import Animals from './Components/Animals';
 import Login from './Components/Login'
 import React, { useReducer } from 'react';
-import { css } from "@emotion/react";
 
 function App() {
 
@@ -53,6 +52,7 @@ function App() {
             ) : null}
         {currentView === "animal" ? (
               <Animals
+              user={user}
               loginDispatch={pageDispatch}
               userDispatch={userDispatch} />
             ) : null}
