@@ -194,7 +194,56 @@ public class MySQLJDBC implements IDBCredentials {
 		
 		return r;
 	}
+	public List<Animal> getAnimalSubspecies() throws SQLException {
+		List<Animal> r =null;
+		String query = "SELECT DISTINCT Species, Subspecies FROM ANIMAL";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Animal> animals = new ArrayList<Animal>();
+		while(rs.next()) {
+			Animal a = Animal.builder()
+	                .species(rs.getString("species"))
+	                .subspecies(rs.getString("subspecies"))
+	                .build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+		
+		return r;
+	}
 
+	public List<Animal> getAnimalsBySubspecies(String subspecies) throws SQLException {
+		List<Animal> r =null;
+		String query = "SELECT * FROM ANIMAL WHERE Subspecies = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, subspecies);
+		rs = pStat.executeQuery();
+		List<Animal> animals = new ArrayList<Animal>();
+		
+		
+		while(rs.next()) {
+			Animal a = Animal.builder()
+	                .id(rs.getString("animalId"))
+	                .name(rs.getString("name"))
+	                .species(rs.getString("species"))
+	                .subspecies(rs.getString("subspecies"))
+	                .breed(rs.getString("breed"))
+	                .sex(rs.getString("sex"))
+	                .color(rs.getString("colour"))
+	                .features(rs.getString("features"))
+	                .bithdate(rs.getDate("birthdate"))
+	                .rfid(rs.getString("birthdate"))
+	                .microchip(rs.getString("microchip"))
+	                .tattooNum(rs.getString("tattooNum"))
+	                .build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+		
+		return r;
+	}
 	public void insertComment(Comment comment) throws SQLException {
 		String query = "INSERT INTO COMMENT (CommentId, UserId, AnimalId, CommentDate, CommentText) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
@@ -360,13 +409,20 @@ public class MySQLJDBC implements IDBCredentials {
 			//System.out.println(myApp.getAnimalRequestsUser("2"));
 			//System.out.println(myApp.getAllUsers());
 		
-			System.out.println(myApp.getAvailableAnimals());
+			System.out.println(myApp.getAnimalsBySubspecies("Dog"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//myApp.close();
 	}
+
+	public void insertAnimalRequest(AnimalRequest animalRequest)throws SQLException  {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 	
 	

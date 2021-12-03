@@ -43,7 +43,7 @@ const AnimalMenu = () => {
             
             .then((res) => {
                setAnimals(res.data.animals); 
-               console.log()
+               console.log(animals)
             })
             .catch((err) => {
                 console.log(err);
