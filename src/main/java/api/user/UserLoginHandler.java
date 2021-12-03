@@ -30,9 +30,9 @@ public class UserLoginHandler extends Handler {
     @Override
     protected void execute(HttpExchange exchange) throws IOException {
         byte[] response=null;
-        if ("GET".equals(exchange.getRequestMethod())) {
+        if ("POST".equals(exchange.getRequestMethod())) {
 
-            ResponseEntity e = doGet(exchange);
+            ResponseEntity e = doPost(exchange);
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -65,7 +65,7 @@ public class UserLoginHandler extends Handler {
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
     }
 
-    private ResponseEntity<UserListResponse> doGet(HttpExchange exchange) {
+    private ResponseEntity<UserListResponse> doPost(HttpExchange exchange) {
         //UserListResponse UserListResponse=new UserListResponse(userService.getUsers());
         //return new ResponseEntity<>(UserListResponse,
          //       getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
@@ -80,24 +80,6 @@ public class UserLoginHandler extends Handler {
 
     }
 
-    private ResponseEntity<User> doPut(HttpExchange exchange) {
-
-        Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
-        String userId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
-        RegistrationRequest registerRequest = super.readRequest(exchange.getRequestBody(), RegistrationRequest.class);
-        User userForUpdate=User.builder().id(userId).username(registerRequest.getUsername()).password(registerRequest.getPassword()).build();
-        User userAfterUpdate= userService.updateUser(userForUpdate);
-        return new ResponseEntity<>(userAfterUpdate,
-                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
-
-    }
-
-    private ResponseEntity<String> doDelete(HttpExchange exchange) {
-        Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
-        String userId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse(null);
-        userService.deleteUser(userId);
-       return new ResponseEntity<>("User successfully deleted",
-                getHeaders(Constants.CONTENT_TYPE, Constants.PLAIN_TXT), StatusCode.OK);
-    }
+   
 
 }
