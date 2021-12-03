@@ -165,7 +165,36 @@ public class MySQLJDBC implements IDBCredentials {
 		
 		return r;
 	}
-	
+	public List<Animal> getAvailableAnimals() throws SQLException {
+		List<Animal> r =null;
+
+		String query = "SELECT * FROM ANIMAL WHERE animalId NOT IN (SELECT animalId FROM ANIMAL_REQUEST)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Animal> animals = new ArrayList<Animal>();
+		while(rs.next()) {
+			Animal a = Animal.builder()
+	                .id(rs.getString("animalId"))
+	                .name(rs.getString("name"))
+	                .species(rs.getString("species"))
+	                .subspecies(rs.getString("subspecies"))
+	                .breed(rs.getString("breed"))
+	                .sex(rs.getString("sex"))
+	                .color(rs.getString("colour"))
+	                .features(rs.getString("features"))
+	                .bithdate(rs.getDate("birthdate"))
+	                .rfid(rs.getString("birthdate"))
+	                .microchip(rs.getString("microchip"))
+	                .tattooNum(rs.getString("tattooNum"))
+	                .build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+		
+		return r;
+	}
+
 	public void insertComment(Comment comment) throws SQLException {
 		String query = "INSERT INTO COMMENT (CommentId, UserId, AnimalId, CommentDate, CommentText) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
@@ -327,10 +356,11 @@ public class MySQLJDBC implements IDBCredentials {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
 		try {
-			System.out.println(myApp.getAllAnimalRequests());
-			System.out.println(myApp.getAnimalRequestsUser("2"));
-			System.out.println(myApp.getAllUsers());
-
+			//System.out.println(myApp.getAllAnimalRequests());
+			//System.out.println(myApp.getAnimalRequestsUser("2"));
+			//System.out.println(myApp.getAllUsers());
+		
+			System.out.println(myApp.getAvailableAnimals());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -338,6 +368,7 @@ public class MySQLJDBC implements IDBCredentials {
 		//myApp.close();
 	}
 
+	
 	
 
 

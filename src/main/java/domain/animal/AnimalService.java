@@ -18,7 +18,7 @@ public class AnimalService {
     public List<Animal> getAnimals(){return  animalRepository.getAnimals();}
     
     public List<Animal> getAnimals(String id) throws ResourceNotFoundException {return animalRepository.getAnimals(id);}
-    
+    public List<Animal> getAvailableAnimals() {return animalRepository.getAvailableAnimals();}
     public Animal updateAnimal(Animal animal) throws ResourceNotFoundException{
         Objects.requireNonNull(animal.getId(),"animal id is required for update");
         return  animalRepository.updateAnimal(animal);
@@ -106,4 +106,6 @@ public class AnimalService {
 	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException{
 		return null;
 	}
+
+	
 }
