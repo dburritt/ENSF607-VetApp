@@ -63,7 +63,7 @@ public class AnimalRequestHandler extends Handler {
 
 	private ResponseEntity doPut(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
-        String requestId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
+        String requestId = params.getOrDefault("userid", List.of("")).stream().findFirst().orElse("");
         NewAnimalRequest newAnimalRequest = super.readRequest(exchange.getRequestBody(), NewAnimalRequest.class);
         AnimalRequest animalRequestForUpdate = AnimalRequest.builder()
                 .requestId(requestId)
@@ -87,9 +87,14 @@ public class AnimalRequestHandler extends Handler {
 	private ResponseEntity<AnimalRequestResponse> doGet(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String noId= "";
-        String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
-        
-        AnimalRequestResponse animalRequestResponse = new AnimalRequestResponse(animalService.getAnimalRequests(id));
+        String userId = params.getOrDefault("userid", List.of(noId)).stream().findFirst().orElse(noId);
+        String animalId = params.getOrDefault("userid", List.of(noId)).stream().findFirst().orElse(noId);
+        AnimalRequestResponse animalRequestResponse;
+        if (userId.equals(noId)) {
+        	animalRequestResponse = new AnimalRequestResponse(animalService.getAnimalRequests());
+        }
+        else
+        	animalRequestResponse = new AnimalRequestResponse(animalService.getAnimalRequestsUser(userId));
         
 		return new ResponseEntity<>(animalRequestResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}

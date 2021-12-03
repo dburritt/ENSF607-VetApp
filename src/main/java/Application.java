@@ -14,6 +14,7 @@ import api.user.*;
 import api.animal.AnimalDetailsHandler;
 import api.animal.AnimalHealthRecordHandler;
 import api.animal.AnimalReminderHandler;
+import api.animal.AnimalRequestHandler;
 import api.animal.AnimalStatusHandler;
 import api.animal.AnimalWeightHandler;
 
@@ -29,6 +30,10 @@ public class Application {
                 Configuration.getErrorHandler());
         HttpContext context = server.createContext("/api/animals", animalsHandler::handle);
 
+        AnimalRequestHandler animalRequestHandler = new AnimalRequestHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/animals/requests", animalRequestHandler::handle);
+        
         AnimalDetailsHandler animalDetailsHandler = new AnimalDetailsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         server.createContext("/api/animals/details", animalDetailsHandler::handle);
@@ -69,7 +74,7 @@ public class Application {
                 Configuration.getErrorHandler());
         server.createContext("/api/login", userLoginHandler::handle);
         
-        
+ 
         HttpContext context1 =server.createContext("/api/hello", (exchange -> {
 
             if ("GET".equals(exchange.getRequestMethod())) {

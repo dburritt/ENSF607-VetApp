@@ -95,11 +95,10 @@ public class AnimalService {
 	}
 
     public List<AnimalRequest> getAnimalRequests(){
-    	return null;
+    	return  animalRepository.getAnimalRequests();
     }
-    public List<AnimalRequest> getAnimalRequests(String id){
-    	return null;
-
+    public List<AnimalRequest> getAnimalRequestsUser(String userId){
+    	return  animalRepository.getAnimalRequestsUser(userId);
     }
 	public  void deleteAnimalRequest(String id) throws ResourceNotFoundException{
 		

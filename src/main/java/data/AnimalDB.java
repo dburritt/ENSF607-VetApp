@@ -86,7 +86,7 @@ public class AnimalDB implements AnimalRepository{
 		try {
 			return DB.getAllAnimals();
 		} catch (SQLException e) {
-			throw new ResourceNotFoundException(404, "animal not found.");
+			throw new ResourceNotFoundException(404, "animals not found.");
 		}
 	}
 	@Override
@@ -270,9 +270,9 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public List<AnimalRequest> getAnimalRequests(String userId) {
+	public List<AnimalRequest> getAnimalRequestsUser(String userId) {
 		try {
-			return DB.getAnimalRequestsUserId(userId);
+			return DB.getAnimalRequestsUser(userId);
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "animal not found.");
 		}
@@ -286,21 +286,64 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequestToUpdate) throws ResourceNotFoundException {
-		
+		/*
 		try {
 			AnimalRequest currentAnimalRequest = DB.getAnimalRequest(animalRequestToUpdate.getRequestId());
+			
 			User u = DB.getUser(animalRequestToUpdate.getUserId()).get(0);
 			
-			String nextState = animalRequestToUpdate.getCurrentState();
+			String requestedState = animalRequestToUpdate.getCurrentState();
+			String currentState = currentAnimalRequest.getCurrentState();
+
+			AnimalRequest newAnimalRequest = null;
 			
-			if(u.getAccountType().equalsIgnoreCase("admin")) {
-				if(nextState.equalsIgnoreCase("reject")){
+			switch(requestedState) {
+			
+				case "approve":
+					switch(currentState) {
 					
+						case "requested":
+							if(u.getAccountType().equalsIgnoreCase("admin")) {
+								currentAnimalRequest.setCurrentState("Accept_by_Admin");
+							}
+							break;
+						case "Accept_by_Admin":
+							if(u.getAccountType().equalsIgnoreCase("Health Technician")) {
+								currentAnimalRequest.setCurrentState("Ready");
+							}
+							break;
+					}
+					break;
+				case "reject":
+					switch(currentState) {
+						case "requested":
+							if(u.getAccountType().equalsIgnoreCase("admin")) {
+								currentAnimalRequest.setCurrentState("Reject");
+							}
+							break;
+						case "Accept_by_Admin":
+							if(u.getAccountType().equalsIgnoreCase("Health Technician")) {
+								currentAnimalRequest.setCurrentState("Reject");
+							}
+							break;	
+					}
+					break;
+				case "cancel":
+					switch(currentState) {
+						case "requested":
+							if(u.getAccountType().equalsIgnoreCase("Instructor")) {
+								currentAnimalRequest.setCurrentState("Cancel");
+							}
+							break;
+						case "Accept_by_Admin":
+							if(u.getAccountType().equalsIgnoreCase("Instructor")) {
+								currentAnimalRequest.setCurrentState("Cancel");
+							}
+							break;	
 				}
-				else if(nextState.equalsIgnoreCase("Accept")) {
-					
-				}
+				break;
 			}
+			
 			
 			
 			
@@ -309,7 +352,10 @@ public class AnimalDB implements AnimalRepository{
 			e.printStackTrace();
 		}
 		return animalRequestToUpdate;
+		*/
+		return null;
 	}
+	
 
 	
 }

@@ -38,7 +38,7 @@ public interface AnimalRepository {
 	
 	 String createAnimalRequest(NewAnimalRequest animalRequest);
 	 List<AnimalRequest> getAnimalRequests();
-	 List<AnimalRequest> getAnimalRequests(String id);
+	 List<AnimalRequest> getAnimalRequestsUser(String userId);
 	 void deleteAnimalRequest(String id) throws ResourceNotFoundException;
 	 AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException;
 

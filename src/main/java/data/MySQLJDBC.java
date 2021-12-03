@@ -182,10 +182,32 @@ public class MySQLJDBC implements IDBCredentials {
 		
 	}
 	
-
-	public List<AnimalRequest> getAnimalRequestsUserId(String userId)throws SQLException {
+	public AnimalRequest getAnimalRequest(String requestId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<AnimalRequest> getAnimalRequestsUser(String userId)throws SQLException {
+		List<AnimalRequest> r =null;
+
+		String query = "SELECT * FROM ANIMAL_REQUEST WHERE userId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, userId);
+		rs = pStat.executeQuery();
+		List<AnimalRequest> animalRequests = new ArrayList<AnimalRequest>();
+		while(rs.next()) {
+			AnimalRequest ar = AnimalRequest.builder()
+	                .requestId(rs.getString("animalRequestId"))
+	                .animalId(rs.getString("animalId"))
+	                .userId(rs.getString("userID"))
+	                .currentState(rs.getString("state"))
+	                .build();
+			animalRequests.add(ar);
+			r = animalRequests;
+		}
+		pStat.close();
+		
+		return r;
 	}
 
 	public List<AnimalRequest> getAllAnimalRequests() throws SQLException {
@@ -209,7 +231,7 @@ public class MySQLJDBC implements IDBCredentials {
 		
 		return r;
 	}
-	
+
 	public void insertUser(User user) throws SQLException {
 		// TODO Auto-generated method stub
 		
@@ -274,18 +296,7 @@ public class MySQLJDBC implements IDBCredentials {
 		
 	}
 
-	public static void main(String[] args0) {
-		MySQLJDBC myApp = new MySQLJDBC();
-		myApp.initializeConnection();
-		try {
-			System.out.println(myApp.getUserUsername("dburritt"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//myApp.close();
-	}
-
+	
 	public User getUserUsername(String username) throws SQLException{
 		User r =null;
 
@@ -311,10 +322,23 @@ public class MySQLJDBC implements IDBCredentials {
 		return r;
 	}
 
-	public AnimalRequest getAnimalRequest(String requestId) {
-		return null;
+	
+	public static void main(String[] args0) {
+		MySQLJDBC myApp = new MySQLJDBC();
+		myApp.initializeConnection();
+		try {
+			System.out.println(myApp.getAllAnimalRequests());
+			System.out.println(myApp.getAnimalRequestsUser("2"));
+			System.out.println(myApp.getAllUsers());
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//myApp.close();
 	}
 
+	
 
 
 }
