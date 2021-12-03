@@ -6,19 +6,24 @@ import axios from 'axios';
 
 const RequestApprovals = () => {
 
-    const [animalRequests, setRequests] = useState([]);
+    const [animalRequests, setAnimalRequests] = useState([]);
     //{ requestId: "none", animalId: "none", userId: "none", currentState: "none" }
     const [requestedAnimals, setRequestedAnimals] = useState([]);
 
     useEffect(() => {
         fetchAnimalRequests();
+       // console.log(animalRequests); 
     }, []);
+
+    useEffect(() => {
+        fetchAnimal(animalRequests);
+        //console.log(animalRequests); 
+    }, [animalRequests]);
 
     const fetchAnimalRequests = () => {
         axios.get('http://localhost:8001/api/animals/requests')
             .then((res) => {
-                setRequests(res.data.animalRequests);
-                console.log(animalRequests);
+                setAnimalRequests(res.data.animalRequests);//, function() {console.log(animalRequests); } );
                 // for (let i = 0; i < animalRequests.length; i++) {
                 //     fetchAnimal(animalRequests[i].animalId)
                 // }
@@ -26,18 +31,22 @@ const RequestApprovals = () => {
             .catch((err) => {
                 console.log(err);
             });
+            
     };
-
-    const fetchAnimal = ({ animalId }) => {
-
-        axios.get(`localhost:8001/api/animals?id="${animalId}"`)
-            .then((res) => {
-                setRequestedAnimals(res.data.animals)
-                console.log(requestedAnimals)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+   // { animalRequests }
+    const fetchAnimal = () => {
+        console.log(animalRequests.length);
+        for (let i = 0; i < animalRequests.length; i++) {
+            console.log(animalRequests[i].animalId);
+        //     axios.get('localhost:8001/api/animals?id='+ animalRequests[i].animalId)
+        //         .then((res) => {
+        //             setRequestedAnimals(res.data.animals)
+        //             console.log(requestedAnimals)
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
+         }
     };
 
     return (
