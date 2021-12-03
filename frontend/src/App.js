@@ -29,8 +29,10 @@ function App() {
 
     if (action.command === "add") {
       dict["name"] = action.name;
-      dict["accounType"] = action.accountType;
+      dict["accountType"] = action.accountType;
     }
+
+    return dict;
 
   }
 
@@ -41,7 +43,7 @@ function App() {
     <>
 
       <div className="App-header">
-        <header>Vet Management System</header>
+        <header>U of C Veterinary Medicine Management System</header>
         {currentView === "login" ? (
               <Login
               loginDispatch={pageDispatch}

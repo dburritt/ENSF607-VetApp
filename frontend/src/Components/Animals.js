@@ -3,7 +3,8 @@ import React, {useState, useEffect} from 'react';
 
 const AnimalMenu = () => {
 
-  const [animals,setAnimals] = useState([])
+  const [animals,setAnimals] = useState([]);
+  const [animalStatus, setAnimalStatus] = useState(0);
 
     useEffect(() => {
         fetchAnimals();
@@ -22,21 +23,22 @@ const AnimalMenu = () => {
     };
 
   return (
-    <div class="dropdown is-active">
-      <div class="dropdown-trigger">
-        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-          <span>Select Animal</span>
-          <span class="icon is-small">
-            <i class="fa fa-angle-down" aria-hidden="true"></i>
-          </span>
-        </button>
-      </div>
-      <div class="dropdown-menu" id="dropdown-menu" role="menu">
-        <div class="dropdown-content">
+    <div>
+      <div class="select is-primary">
+        <select>
+          <option>Select Animal</option>
           {animals.map((animal) => (
-          <a class="dropdown-item">{animal.color}</a>
-          ))}
-        </div>
+            <option class="button" onClick = {() => setAnimalStatus(animal.species)}>{animal.name}</option>
+            ))}
+        </select>
+      </div>
+      <div>{animalStatus}</div>
+      <div class="select is-primary">
+        <select>
+          <option>Checkout?</option>
+          <option class="button">Yes</option>
+          <option class="button">No</option>
+        </select>
       </div>
     </div>
   );
