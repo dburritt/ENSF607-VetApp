@@ -5,44 +5,47 @@ import axios from 'axios';
 
 const RequestApprovals = () => {
 
-    const [animalRequests, setRequests] = useState([]);
+    const [animalRequests, setAnimalRequests] = useState([]);
+    //{ requestId: "none", animalId: "none", userId: "none", currentState: "none" }
     const [requestedAnimals, setRequestedAnimals] = useState([]);
 
     useEffect(() => {
-
-        const fetchData = async () => {
-            const respRequests = await fetchAnimalRequests();
-            setRequests(respRequests.data.animalRequests);
-            const respAnimals = await fetchAnimals();
-            setRequestedAnimals(respAnimals)
-        }
-
-        fetchData()
+        fetchAnimalRequests();
+       // console.log(animalRequests); 
     }, []);
 
+    useEffect(() => {
+        fetchAnimal(animalRequests);
+        //console.log(animalRequests); 
+    }, [animalRequests]);
+
     const fetchAnimalRequests = () => {
-        return axios.get('http://localhost:8001/api/animals/requests')
+        axios.get('http://localhost:8001/api/animals/requests')
+            .then((res) => {
+                setAnimalRequests(res.data.animalRequests);//, function() {console.log(animalRequests); } );
+                // for (let i = 0; i < animalRequests.length; i++) {
+                //     fetchAnimal(animalRequests[i].animalId)
+                // }
+            })
             .catch((err) => {
                 console.log(err);
             });
+            
     };
-
-    const fetchAnimals = () => {
-
-        let temp = [];
-
+   // { animalRequests }
+    const fetchAnimal = () => {
+        console.log(animalRequests.length);
         for (let i = 0; i < animalRequests.length; i++) {
-            axios.get(`localhost:8001/api/animals?id="${animalRequests[i].animalId}"`)
-                .then((res) => {
-                    temp = [...temp, res.data.animalRequests[0]]
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            }
-        
-        return temp;
-
+            console.log(animalRequests[i].animalId);
+        //     axios.get('localhost:8001/api/animals?id='+ animalRequests[i].animalId)
+        //         .then((res) => {
+        //             setRequestedAnimals(res.data.animals)
+        //             console.log(requestedAnimals)
+        //         })
+        //         .catch((err) => {
+        //             console.log(err);
+        //         });
+         }
     };
 
     return (

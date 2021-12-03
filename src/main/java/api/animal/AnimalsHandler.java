@@ -95,12 +95,23 @@ public class AnimalsHandler extends Handler {
 			Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
             String noId= "";
             String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
+            String subspecies = params.getOrDefault("subspecies", List.of(noId)).stream().findFirst().orElse("");
+            
             AnimalListResponse animalListResponse;
-            if (id.equals(noId)) {
+            if (!id.equals(noId)) {
+            	animalListResponse = new AnimalListResponse(animalService.getAnimals(id));
+            	System.out.println("Species");
+
+            }
+            else if (subspecies.equals("0")) {
+            	animalListResponse = new AnimalListResponse(animalService.getAnimalSubspecies());
+            }
+            else if (!subspecies.equals("0")) {
+            	animalListResponse = new AnimalListResponse(animalService.getAnimalsBySubspecies(subspecies));
+            }
+            else {
             	animalListResponse = new AnimalListResponse(animalService.getAnimals());
             }
-            else
-            	animalListResponse = new AnimalListResponse(animalService.getAnimals(id));
             
 			return new ResponseEntity<AnimalListResponse>(animalListResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 		}
