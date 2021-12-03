@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 
-const Animals = () => {
-    const [animals,setAnimals] = useState([])
+const AnimalMenu = () => {
+
+  const [animals,setAnimals] = useState([])
 
     useEffect(() => {
         fetchAnimals();
@@ -19,25 +20,27 @@ const Animals = () => {
                 console.log(err);
             });
     };
+
   return (
-    <div>
-      <>
-      <p>----</p>
-      {animals.map((animal) => (
-        <>
-            <h1>
-            ID: {animal.animlaid} 
-            </h1>
-            <> 
-            Name: {animal.name}, Species: {animal.species}, Breed: {animal.breed}, Color: {animal.color}
-            </>
-            <p>----</p>
-            
-        </>
-    
-        ))}
-      </>
+    <div class="dropdown is-active">
+      <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+          <span>Select Animal</span>
+          <span class="icon is-small">
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </span>
+        </button>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+          {animals.map((animal) => (
+          <a class="dropdown-item">{animal.color}</a>
+          ))}
+        </div>
+      </div>
     </div>
-  )
+  );
+  
 }
-export default Animals;
+
+export default AnimalMenu;
