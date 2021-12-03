@@ -63,15 +63,10 @@ public class AnimalRequestHandler extends Handler {
 
 	private ResponseEntity doPut(HttpExchange exchange) {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
-        String requestId = params.getOrDefault("userid", List.of("")).stream().findFirst().orElse("");
-        NewAnimalRequest newAnimalRequest = super.readRequest(exchange.getRequestBody(), NewAnimalRequest.class);
-        AnimalRequest animalRequestForUpdate = AnimalRequest.builder()
-                .requestId(requestId)
-                .userId(newAnimalRequest.getUserId())
-                .animalId(newAnimalRequest.getAnimalId())
-                .currentState(newAnimalRequest.getState())
-                .build();
-        AnimalRequest animalDetailsAfterUpdate = animalService.updateAnimalRequest(animalRequestForUpdate);
+        String userId = params.getOrDefault("userid", List.of("")).stream().findFirst().orElse("");
+        AnimalRequest animalRequest = super.readRequest(exchange.getRequestBody(), AnimalRequest.class);
+        
+        AnimalRequest animalDetailsAfterUpdate = animalService.updateAnimalRequest(userId, animalRequest);
         return new ResponseEntity<>(animalDetailsAfterUpdate,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}

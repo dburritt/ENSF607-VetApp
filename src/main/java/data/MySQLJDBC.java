@@ -260,9 +260,39 @@ public class MySQLJDBC implements IDBCredentials {
 		
 	}
 	
-	public AnimalRequest getAnimalRequest(String requestId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertAnimalRequest(AnimalRequest animalRequest)throws SQLException  {
+		String query = "INSERT INTO ANIMAL_REQUEST (RequestId, AnimalId, UserId, State) VALUES(?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalRequest.getRequestId());
+		pStat.setString(2, animalRequest.getAnimalId());
+		pStat.setString(3,  animalRequest.getUserId());
+		pStat.setString(4,  animalRequest.getCurrentState());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
+	}
+	
+	public List<AnimalRequest> getAnimalRequest(String requestId) throws SQLException {
+		List<AnimalRequest> r =null;
+		String query = "SELECT * FROM ANIMAL_REQUEST WHERE AnimalrequestId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, requestId);
+		rs = pStat.executeQuery();
+		List<AnimalRequest> animalRequests = new ArrayList<AnimalRequest>();
+		while(rs.next()) {
+			AnimalRequest ar = AnimalRequest.builder()
+	                .requestId(rs.getString("animalRequestId"))
+	                .animalId(rs.getString("animalId"))
+	                .userId(rs.getString("userID"))
+	                .currentState(rs.getString("state"))
+	                .build();
+			animalRequests.add(ar);
+			r = animalRequests;
+		}
+		pStat.close();
+		
+		return r;
 	}
 	
 	public List<AnimalRequest> getAnimalRequestsUser(String userId)throws SQLException {
@@ -308,6 +338,18 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.close();
 		
 		return r;
+	}
+	
+	public void updateAnimalRequest(AnimalRequest newAnimalRequest) throws SQLException {
+		String query = "UPDATE ANIMAL_REQUEST SET state=? WHERE animalRequestId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1,  newAnimalRequest.getCurrentState());
+		pStat.setString(2,  newAnimalRequest.getRequestId());
+		int rowCount = pStat.executeUpdate();
+		
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
 	}
 
 	public void insertUser(User user) throws SQLException {
@@ -404,6 +446,13 @@ public class MySQLJDBC implements IDBCredentials {
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
+		
+		AnimalRequest ar = AnimalRequest.builder()
+                .requestId("195")
+                .animalId("53195")
+                .userId("1")
+                .currentState("state")
+                .build();
 		try {
 			//System.out.println(myApp.getAllAnimalRequests());
 			//System.out.println(myApp.getAnimalRequestsUser("2"));
@@ -417,10 +466,9 @@ public class MySQLJDBC implements IDBCredentials {
 		//myApp.close();
 	}
 
-	public void insertAnimalRequest(AnimalRequest animalRequest)throws SQLException  {
-		// TODO Auto-generated method stub
-		
-	}
+
+
+
 
 	
 

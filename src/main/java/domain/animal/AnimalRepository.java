@@ -40,10 +40,10 @@ public interface AnimalRepository {
 	 List<AnimalRequest> getAnimalRequests();
 	 List<AnimalRequest> getAnimalRequestsUser(String userId);
 	 void deleteAnimalRequest(String id) throws ResourceNotFoundException;
-	 AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException;
+	 AnimalRequest updateAnimalRequest(String userId, AnimalRequest animalRequest) throws ResourceNotFoundException;
 	 List<Animal> getAvailableAnimals();
 	 
 	 
 	 List<Animal> getAnimalSubspecies();
 	 List<Animal> getAnimalsBySubspecies(String type);
-}
+	}

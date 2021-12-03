@@ -337,16 +337,16 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequestToUpdate) throws ResourceNotFoundException {
-		/*
+	public AnimalRequest updateAnimalRequest(String userid, AnimalRequest animalRequestToUpdate) throws ResourceNotFoundException {
+		
 		try {
-			AnimalRequest currentAnimalRequest = DB.getAnimalRequest(animalRequestToUpdate.getRequestId());
+			AnimalRequest currentAnimalRequest = DB.getAnimalRequest(animalRequestToUpdate.getRequestId()).get(0);
 			
-			User u = DB.getUser(animalRequestToUpdate.getUserId()).get(0);
+			User u = DB.getUser(userid).get(0);
 			
 			String requestedState = animalRequestToUpdate.getCurrentState();
 			String currentState = currentAnimalRequest.getCurrentState();
-
+			String updatedState = "";
 			AnimalRequest newAnimalRequest = null;
 			
 			switch(requestedState) {
@@ -356,12 +356,12 @@ public class AnimalDB implements AnimalRepository{
 					
 						case "requested":
 							if(u.getAccountType().equalsIgnoreCase("admin")) {
-								currentAnimalRequest.setCurrentState("Accept_by_Admin");
+								updatedState="Accept_by_Admin";
 							}
 							break;
 						case "Accept_by_Admin":
 							if(u.getAccountType().equalsIgnoreCase("Health Technician")) {
-								currentAnimalRequest.setCurrentState("Ready");
+								updatedState = "Ready";
 							}
 							break;
 					}
@@ -370,12 +370,12 @@ public class AnimalDB implements AnimalRepository{
 					switch(currentState) {
 						case "requested":
 							if(u.getAccountType().equalsIgnoreCase("admin")) {
-								currentAnimalRequest.setCurrentState("Reject");
+								updatedState = "Reject";
 							}
 							break;
 						case "Accept_by_Admin":
 							if(u.getAccountType().equalsIgnoreCase("Health Technician")) {
-								currentAnimalRequest.setCurrentState("Reject");
+								updatedState = "Reject";
 							}
 							break;	
 					}
@@ -384,28 +384,35 @@ public class AnimalDB implements AnimalRepository{
 					switch(currentState) {
 						case "requested":
 							if(u.getAccountType().equalsIgnoreCase("Instructor")) {
-								currentAnimalRequest.setCurrentState("Cancel");
+								updatedState = "Cancel";
 							}
 							break;
 						case "Accept_by_Admin":
 							if(u.getAccountType().equalsIgnoreCase("Instructor")) {
-								currentAnimalRequest.setCurrentState("Cancel");
+								updatedState = "Cancel";
 							}
 							break;	
 				}
 				break;
 			}
+			if(updatedState != "") {
 			
+				newAnimalRequest = AnimalRequest.builder()
+						.requestId(animalRequestToUpdate.getRequestId())
+						.animalId(animalRequestToUpdate.getAnimalId())
+						.userId(animalRequestToUpdate.getUserId())
+						.currentState(updatedState)
+						.build();
+				DB.updateAnimalRequest(newAnimalRequest);
 			
-			
-			
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return animalRequestToUpdate;
-		*/
-		return null;
+		
+		//return null;
 	}
 
 	

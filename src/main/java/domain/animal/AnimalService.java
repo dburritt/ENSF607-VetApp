@@ -104,8 +104,8 @@ public class AnimalService {
     	return  animalRepository.getAnimalRequestsUser(userId);
     }
 	
-	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException{
-		return null;
+	public AnimalRequest updateAnimalRequest(String userId, AnimalRequest animalRequest) throws ResourceNotFoundException{
+		return animalRepository.updateAnimalRequest(userId, animalRequest);
 	}
 	
 	public  void deleteAnimalRequest(String id) throws ResourceNotFoundException{
