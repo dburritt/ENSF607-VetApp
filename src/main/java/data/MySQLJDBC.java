@@ -183,7 +183,7 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 	
 
-	public List<AnimalRequest> getAnimalRequestsUserId()throws SQLException {
+	public List<AnimalRequest> getAnimalRequestsUserId(String userId)throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -311,8 +311,10 @@ public class MySQLJDBC implements IDBCredentials {
 		return r;
 	}
 
+	public AnimalRequest getAnimalRequest(String requestId) {
+		return null;
+	}
 
 
-	
 
 }

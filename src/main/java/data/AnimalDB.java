@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import domain.admin.Comment;
 import domain.animal.*;
+import domain.user.User;
 import errors.ResourceNotFoundException;
 import errors.UserNotFoundException;
 
@@ -269,9 +270,9 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public List<AnimalRequest> getAnimalRequests(String id) {
+	public List<AnimalRequest> getAnimalRequests(String userId) {
 		try {
-			return DB.getAnimalRequestsUserId();
+			return DB.getAnimalRequestsUserId(userId);
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "animal not found.");
 		}
@@ -284,9 +285,30 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequest) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public AnimalRequest updateAnimalRequest(AnimalRequest animalRequestToUpdate) throws ResourceNotFoundException {
+		
+		try {
+			AnimalRequest currentAnimalRequest = DB.getAnimalRequest(animalRequestToUpdate.getRequestId());
+			User u = DB.getUser(animalRequestToUpdate.getUserId()).get(0);
+			
+			String nextState = animalRequestToUpdate.getCurrentState();
+			
+			if(u.getAccountType().equalsIgnoreCase("admin")) {
+				if(nextState.equalsIgnoreCase("reject")){
+					
+				}
+				else if(nextState.equalsIgnoreCase("Accept")) {
+					
+				}
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return animalRequestToUpdate;
 	}
 
 	
