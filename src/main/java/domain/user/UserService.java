@@ -6,6 +6,7 @@ import errors.UserNotFoundException;
 
 import java.util.List;
 import java.util.Objects;
+import api.user.RegistrationRequest;
 
 
 @AllArgsConstructor
@@ -27,9 +28,14 @@ public class UserService {
     }
     public User updateUser(User user) throws UserNotFoundException{
         Objects.requireNonNull(user.getId(),"User id is required for update");
-        Objects.requireNonNull(user.getLogin(),"User login is required for update");
+        Objects.requireNonNull(user.getUsername(),"Username is required for update");
         Objects.requireNonNull(user.getPassword(),"User password is required for update");
         return  userRepository.updateUser(user);
 
     }
+
+	public List<User> verifyUser(RegistrationRequest registerRequest) {
+		return  userRepository.verifyUser(registerRequest);
+
+	}
 }

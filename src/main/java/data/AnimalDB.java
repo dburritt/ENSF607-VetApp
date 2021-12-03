@@ -74,7 +74,7 @@ public class AnimalDB implements AnimalRepository{
 		try {
 			DB.insertAnimal(animal);
 		} catch (SQLException e) {
-			throw new ResourceNotFoundException(404, "animal not found.");
+			throw new ResourceNotFoundException(404, "could not create animal.");
 		}
 		return id;//animal.getId();
 	}

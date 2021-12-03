@@ -69,7 +69,7 @@ public class AdminRegistrationHandler extends Handler {
         RegistrationRequest registerRequest = super.readRequest(is, RegistrationRequest.class);
 
         NewAdmin admin = NewAdmin.builder()
-                .login(registerRequest.getLogin())
+                .login(registerRequest.getUsername())
                 .password(registerRequest.getPassword())
                 .build();
 
@@ -105,7 +105,7 @@ public class AdminRegistrationHandler extends Handler {
         Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String adminId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         RegistrationRequest registerRequest = super.readRequest(exchange.getRequestBody(), RegistrationRequest.class);
-        Admin adminForUpdate = Admin.builder().id(adminId).login(registerRequest.getLogin()).password(registerRequest.getPassword()).build();
+        Admin adminForUpdate = Admin.builder().id(adminId).login(registerRequest.getUsername()).password(registerRequest.getPassword()).build();
         Admin adminAfterUpdate = adminService.updateAdmin(adminForUpdate);
         return new ResponseEntity<>(adminAfterUpdate,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);

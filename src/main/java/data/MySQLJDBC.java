@@ -14,6 +14,7 @@ import com.mysql.cj.protocol.StandardSocketFactory;
 
 import java.sql.*;
 import domain.animal.*;
+import domain.user.User;
 import domain.admin.*;
 
 public class MySQLJDBC implements IDBCredentials {
@@ -209,17 +210,109 @@ public class MySQLJDBC implements IDBCredentials {
 		return r;
 	}
 	
+	public void insertUser(User user) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<User> getAllUsers() throws SQLException {
+		List<User> r =null;
+
+		String query = "SELECT * FROM USER";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<User> users = new ArrayList<User>();
+		while(rs.next()) {
+			User u = User.builder()
+	                .id(rs.getString("UserId"))
+	                .username(rs.getString("username"))
+	                .password(rs.getString("password"))
+	                .accountType(rs.getString("AccountType"))
+	                .activationDate(rs.getDate("ActivationDate"))
+	                .fName(rs.getString("Fname"))
+	                .lName(rs.getString("LName"))
+	                .email(rs.getString("email"))
+	                .build();
+			users.add(u);
+			r = users;
+		}
+		pStat.close();
+		
+		return r;
+	}
+
 	
+	public List<User> getUser(String id)throws SQLException {
+		List<User> r =null;
+
+		String query = "SELECT * FROM User WHERE userId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		List<User> users = new ArrayList<User>();
+		while(rs.next()) {
+			User u = User.builder()
+	                .id(rs.getString("UserId"))
+	                .username(rs.getString("username"))
+	                .password(rs.getString("password"))
+	                .accountType(rs.getString("AccountType"))
+	                .activationDate(rs.getDate("ActivationDate"))
+	                .fName(rs.getString("Fname"))
+	                .lName(rs.getString("LName"))
+	                .email(rs.getString("email"))
+	                .build();
+			users.add(u);
+			r = users;
+		}
+		pStat.close();
+		
+		return r;
+	}
+	
+	public void updateUser(User user) throws SQLException{
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
 		try {
-			System.out.println(myApp.getAllAnimalRequests());
+			System.out.println(myApp.getUserUsername("dburritt"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//myApp.close();
 	}
+
+	public User getUserUsername(String username) throws SQLException{
+		User r =null;
+
+		String query = "SELECT * FROM User WHERE Username = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, username);
+		rs = pStat.executeQuery();
+		if(rs.next()) {
+			User u = User.builder()
+				.id(rs.getString("UserId"))
+		        .username(rs.getString("username"))
+		        .password(rs.getString("password"))
+		        .accountType(rs.getString("AccountType"))
+		        .activationDate(rs.getDate("ActivationDate"))
+		        .fName(rs.getString("Fname"))
+		        .lName(rs.getString("LName"))
+		        .email(rs.getString("email"))
+		        .build();
+			r = u;
+		}
+		pStat.close();
+		
+		return r;
+	}
+
+
+
+	
 
 }

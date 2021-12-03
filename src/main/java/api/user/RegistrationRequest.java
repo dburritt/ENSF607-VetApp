@@ -3,8 +3,8 @@ package api.user;
 import lombok.Value;
 
 @Value
-class RegistrationRequest {
+public class RegistrationRequest {
 	
-	String login;
+	String username;
     String password;
 }
