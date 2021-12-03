@@ -7,21 +7,23 @@ import axios from 'axios';
 const RequestApprovals = () => {
 
     const [animalRequests, setRequests] = useState([]);
-    //{ requestId: "none", animalId: "none", userId: "none", currentState: "none" }
     const [requestedAnimals, setRequestedAnimals] = useState([]);
 
     useEffect(() => {
+
         fetchAnimalRequests();
+        
+        console.log(animalRequests);
+        for (let i = 0; i < animalRequests.length; i++) {
+            fetchAnimal(animalRequests[i].animalId)
+        }
+        console.log(requestedAnimals)
     }, []);
 
-    const fetchAnimalRequests = () => {
-        axios.get('http://localhost:8001/api/animals/requests')
+    async const fetchAnimalRequests = () => {
+        await axios.get('http://localhost:8001/api/animals/requests')
             .then((res) => {
                 setRequests(res.data.animalRequests);
-                console.log(animalRequests);
-                // for (let i = 0; i < animalRequests.length; i++) {
-                //     fetchAnimal(animalRequests[i].animalId)
-                // }
             })
             .catch((err) => {
                 console.log(err);
@@ -33,7 +35,6 @@ const RequestApprovals = () => {
         axios.get(`localhost:8001/api/animals?id="${animalId}"`)
             .then((res) => {
                 setRequestedAnimals(res.data.animals)
-                console.log(requestedAnimals)
             })
             .catch((err) => {
                 console.log(err);
@@ -41,11 +42,11 @@ const RequestApprovals = () => {
     };
 
     return (
-        <div>
+        <>
             <div>
                 <title>Current Outstanding Requests</title>
             </div>
-            <div class="table is-primary">
+            <tbody class="table is-primary">
             {animalRequests.map((animalRequest) => {
                     const { requestId, animalId, userId, currentState } = animalRequest
                     return (
@@ -64,8 +65,8 @@ const RequestApprovals = () => {
                     )
                 }
                 )}
-            </div>
-        </div>
+            </tbody>
+            </>
     );
 
 }
