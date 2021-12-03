@@ -29,8 +29,11 @@ function App() {
 
     if (action.command === "add") {
       dict["name"] = action.name;
-      dict["accounType"] = action.accountType;
+      dict["accountType"] = action.accountType;
     }
+
+    console.log(dict)
+    return dict;
 
   }
 

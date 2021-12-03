@@ -6,7 +6,6 @@ import axios from 'axios';
 const Login = ({ loginDispatch, userDispatch }) => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const [user, setUser] = useState("");
 
     const loginChangeHandler = (event) => {
         setUserName(event.target.value)
@@ -21,17 +20,16 @@ const Login = ({ loginDispatch, userDispatch }) => {
             alert("Username and password must be entered.")
             return
         }
-
-        axios.post('http://localhost:8001/api/login/', JSON.stringify({username: username, password: password}), {headers: {"Content-Type" : "application/json"}})
+        
+        axios.post('http://localhost:8001/api/login/', JSON.stringify({username, password}), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
         .then((response) => {
-            let s = JSON.parse(response.data.user)
+            let s = response.data.users[0]
             userDispatch({command: "add",
                             name: s.fname, 
                             accountType: s.accountType});
             loginDispatch({
                 nextPage: "animal"
             });
-            console.log()
          })
         .catch((err) => {
             console.log(err);
