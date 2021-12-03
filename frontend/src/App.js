@@ -32,7 +32,6 @@ function App() {
       dict["accountType"] = action.accountType;
     }
 
-    console.log(dict)
     return dict;
 
   }
@@ -44,7 +43,7 @@ function App() {
     <>
 
       <div className="App-header">
-        <header>Vet Management System</header>
+        <header>U of C Veterinary Medicine Management System</header>
         {currentView === "login" ? (
               <Login
               loginDispatch={pageDispatch}

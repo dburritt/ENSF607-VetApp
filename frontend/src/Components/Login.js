@@ -20,64 +20,52 @@ const Login = ({ loginDispatch, userDispatch }) => {
             alert("Username and password must be entered.")
             return
         }
-        
-        axios.post('http://localhost:8001/api/login/', JSON.stringify({username, password}), {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-        .then((response) => {
-            let s = response.data.users[0]
-            userDispatch({command: "add",
-                            name: s.fname, 
-                            accountType: s.accountType});
-            loginDispatch({
-                nextPage: "animal"
+
+        axios.post('http://localhost:8001/api/login/', JSON.stringify({ username, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+            .then((response) => {
+                let s = response.data.users[0]
+                userDispatch({
+                    command: "add",
+                    name: s.fname,
+                    accountType: s.accountType
+                });
+                loginDispatch({
+                    nextPage: "animal"
+                });
+            })
+            .catch((err) => {
+                console.log(err);
             });
-         })
-        .catch((err) => {
-            console.log(err);
-        });
 
         setUserName("");
         setPassword("");
     };
 
     return (
-        <div className="tile is-parent">
+        <div class="columns is-multiline is-mobile">
+            <div class="column">
+                <input
+                    value={username}
+                    onChange={loginChangeHandler}
+                    className="input is-small"
+                    type="text"
+                    placeholder="Enter username." />
+            </div>
 
-                    <input
-                        value={username}
-                        onChange={loginChangeHandler}
-                        css={css`
-                            display:flex;
-                            flex-direction:column;
-                            max-width: 60%;
-                            margin-bottom: 10px
-                            `}
-                        className="input is-small"
-                        type="text"
-                        placeholder="Enter username." />
+            <div class="column">
+            <input
+                value={password}
+                onChange={passwordChangeHandler}
+                className="input is-small"
+                type="text"
+                placeholder="Enter password." />
+            </div>
 
-                    <input
-                        value={password}
-                        onChange={passwordChangeHandler}
-                        css={css`
-                            display:flex;
-                            flex-direction:column;
-                            max-width: 60%;
-                            margin-bottom: 10px
-                            `}
-                        className="input is-small"
-                        type="text"
-                        placeholder="Enter password." />
-
-                <button
-                    onClick={loginHandler}
-                    css={css`
-                        display:flex;
-                        flex-direction:column;
-                        max-width: 60%;
-                        margin-bottom: 10px
-                        `}
-                    className="button is-small is-success">Login</button>
-
+            <div class="column">
+            <button
+                onClick={loginHandler}
+                className="button is-small is-success">Login</button>
+            </div>
 
         </div>
     )
