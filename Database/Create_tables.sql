@@ -19,7 +19,10 @@ INSERT INTO `USER` (UserId, Username, `Password`, AccountType, ActivationDate, F
 VALUES
 ('1','gslowski','greg123','Admin', '2021-11-29', 'Greg', 'Slowski', 'gregory.slowski@ucalgary.ca'),
 ('2','dburritt','drew123','Health Technician', '2021-11-29', 'Drew', 'Burritt', 'drew.burritt@ucalgary.ca'),
-('3','tscott','thomas123','Student', '2021-11-29', 'Thomas', 'Scott', 'thomas.scott@ucalgary.ca');
+('3','tscott','thomas123','Student', '2021-11-29', 'Thomas', 'Scott', 'thomas.scott@ucalgary.ca'),
+('4','Instructor_1','pt@123','Instructor', '2021-11-29', 'Thomas', 'Instructor', 'thomas.scott@ucalgary.ca'),
+('5','Admin_1','pa','Admin', '2021-11-29', 'Thomas', 'Admin', 'thomas.scott@ucalgary.ca'),
+('6','Technician','pe','Technician', '2021-11-29', 'Thomas', 'Technician', 'thomas.scott@ucalgary.ca');
 
 DROP TABLE IF EXISTS `STUDENT`;
 CREATE TABLE `STUDENT` (
