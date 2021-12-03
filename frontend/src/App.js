@@ -2,6 +2,7 @@ import './App.css';
 import 'bulma/css/bulma.css'
 import Animals from './Components/Animals';
 import Login from './Components/Login'
+import RequestApprovals from './Components/RequestApprovals'
 import React, { useReducer } from 'react';
 
 function App() {
@@ -56,6 +57,9 @@ function App() {
               loginDispatch={pageDispatch}
               userDispatch={userDispatch} />
             ) : null}
+      </div>
+      <div className="App-background">
+        <RequestApprovals />
       </div>
     </>
   );
