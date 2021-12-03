@@ -29,6 +29,7 @@ function App() {
 
     if (action.command === "add") {
       dict["name"] = action.name;
+      dict["userId"] = action.userId;
       dict["accountType"] = action.accountType;
     }
 
@@ -47,19 +48,27 @@ function App() {
 
       <div className="App-background">
         {currentView === "login" ? (
-              <Login
-              loginDispatch={pageDispatch}
-              userDispatch={userDispatch} />
-            ) : null}
-        {currentView === "animal" ? (
-              <Animals
-              user={user}
-              loginDispatch={pageDispatch}
-              userDispatch={userDispatch} />
-            ) : null}
+          <Login
+            loginDispatch={pageDispatch}
+            userDispatch={userDispatch} />
+        ) : null}
+        {(currentView === "animal" && user.accountType === "Instructor") ? (
+          <Animals
+            user={user}
+            loginDispatch={pageDispatch}
+            userDispatch={userDispatch} />
+        ) : null}
+        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Technician")) ? (
+          <RequestApprovals
+            user={user}
+            loginDispatch={pageDispatch}
+            userDispatch={userDispatch} />
+        ) : null}
       </div>
       <div className="App-background">
-        <RequestApprovals />
+        <RequestApprovals user={user}
+          loginDispatch={pageDispatch}
+          userDispatch={userDispatch} />
       </div>
     </>
   );
