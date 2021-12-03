@@ -1,6 +1,30 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 
+const GetSpecies = () => {
+  const [species, setSpecies] = useState([]);
+
+  useEffect(() => {
+    fetchSpecies(); 
+  }, []);
+
+  const fetchSpecies = () => {
+    axios.get('http://localhost:8001/api/animals?subspecies=0')
+        
+        .then((res) => {
+           setSpecies(res.data.animals); 
+           console.log()
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+  };
+
+  return(
+    [...new Set(species.map(s => s.subspecies))]
+  );
+}
+
 const AnimalMenu = () => {
 
   const [animals,setAnimals] = useState([]);
@@ -8,8 +32,10 @@ const AnimalMenu = () => {
   const [animalCheckout, setAnimalCheckout] = useState();
   const [selectedSpecies, setSelectedSpecies] = useState();
 
+  const speciesList = GetSpecies();
+
     useEffect(() => {
-        fetchAnimals();
+        fetchAnimals(); 
       }, []);
 
     const fetchAnimals = () => {
@@ -29,8 +55,8 @@ const AnimalMenu = () => {
       <div class="select is-primary">
       <select>
         <option>Select Species</option>
-        {animals.map((animal) => (
-          <option class="button" onClick = {() => setSelectedSpecies(animal.species)}>{animal.species}</option>
+        {speciesList.map((speciesList) => (
+          <option class="button" onClick = {() => setSelectedSpecies(speciesList)}>{speciesList}</option>
           ))}
       </select>
       </div>
@@ -38,7 +64,7 @@ const AnimalMenu = () => {
       <div class="select is-primary">
         <select>
           <option>Select Animal</option>
-          {animals.filter((animal) => animal.species === selectedSpecies).map((animal) => (
+          {animals.filter((animal) => animal.subspecies === selectedSpecies).map((animal) => (
             <option class="button" onClick = {() => setAnimalStatus(animal.name)}>{animal.name}</option>
             ))}
         </select>
