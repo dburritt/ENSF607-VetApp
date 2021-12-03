@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect, state } from 'react';
-import { css } from "@emotion/react";
 import axios from 'axios';
 
 
@@ -11,34 +10,39 @@ const RequestApprovals = () => {
 
     useEffect(() => {
 
-        fetchAnimalRequests();
-        
-        console.log(animalRequests);
-        for (let i = 0; i < animalRequests.length; i++) {
-            fetchAnimal(animalRequests[i].animalId)
+        const fetchData = async () => {
+            const respRequests = await fetchAnimalRequests();
+            setRequests(respRequests.data.animalRequests);
+            const respAnimals = await fetchAnimals();
+            setRequestedAnimals(respAnimals)
         }
-        console.log(requestedAnimals)
+
+        fetchData()
     }, []);
 
-    async const fetchAnimalRequests = () => {
-        await axios.get('http://localhost:8001/api/animals/requests')
-            .then((res) => {
-                setRequests(res.data.animalRequests);
-            })
+    const fetchAnimalRequests = () => {
+        return axios.get('http://localhost:8001/api/animals/requests')
             .catch((err) => {
                 console.log(err);
             });
     };
 
-    const fetchAnimal = ({ animalId }) => {
+    const fetchAnimals = () => {
 
-        axios.get(`localhost:8001/api/animals?id="${animalId}"`)
-            .then((res) => {
-                setRequestedAnimals(res.data.animals)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        let temp = [];
+
+        for (let i = 0; i < animalRequests.length; i++) {
+            axios.get(`localhost:8001/api/animals?id="${animalRequests[i].animalId}"`)
+                .then((res) => {
+                    temp = [...temp, res.data.animalRequests[0]]
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            }
+        
+        return temp;
+
     };
 
     return (
@@ -55,6 +59,24 @@ const RequestApprovals = () => {
                             <td>{animalId}</td>
                             <td>{userId}</td>
                             <td>{currentState}</td>
+                            <td>
+                                <button class="button is-small is-success">approve</button>
+                            </td>
+                            <td>
+                                <button class="button is-small is-fail">reject</button>
+                            </td>
+                        </tr>
+                    )
+                }
+                )}
+            </tbody>
+            <tbody class="table is-primary">
+            {requestedAnimals.map((animal) => {
+                    return (
+                        <tr key={animal.animalId}>
+                            <td>{animal.id}</td>
+                            <td>{animal.name}</td>
+                            <td>{animal.subspecies}</td>
                             <td>
                                 <button class="button is-small is-success">approve</button>
                             </td>
