@@ -417,6 +417,11 @@ public class MySQLJDBC implements IDBCredentials {
 		//myApp.close();
 	}
 
+	public void insertAnimalRequest(AnimalRequest animalRequest)throws SQLException  {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 	

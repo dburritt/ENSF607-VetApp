@@ -295,9 +295,21 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public String createAnimalRequest(NewAnimalRequest animalRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public String createAnimalRequest(NewAnimalRequest newAnimalRequest) {
+		String id = UUID.randomUUID().toString();
+		AnimalRequest animalRequest = AnimalRequest.builder()
+                .requestId(id)
+                .animalId(newAnimalRequest.getAnimalId())
+                .userId(newAnimalRequest.getUserId())
+                .currentState(newAnimalRequest.getState())
+                .build();
+
+		try {
+			DB.insertAnimalRequest(animalRequest);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "could not create animal request");
+		}
+		return id;//animal.getId();
 	}
 
 	@Override
