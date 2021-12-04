@@ -59,7 +59,10 @@ INSERT INTO ANIMAL (AnimalId, `Name`, Species, Subspecies, Breed, Sex, Colour, F
 VALUES
 ('53195','Rex', 'Canine', 'Dog', 'Pitbull', 'M', 'beige', 'flat face', '2015-11-29', 'adlkfneo2342334', 'ieupaenr14234524342', '1234'),
 ('53196','Spot', 'Canine', 'Dog', 'Labrador', 'F', 'chocolate', 'big smile', '2014-11-29', 'adlkaefeo2342334', 'ieupaenr167896342', '1235'),
-('53197','Charles', 'Feline', 'Cat', 'Sphinx', 'M', 'orange', 'purrs lots', '2010-11-29', 'adlkfneo2323142334', 'ieupaenr144654342', '1236');
+('53197','Charles', 'Feline', 'Cat', 'Sphinx', 'M', 'orange', 'purrs lots', '2010-11-29', 'adlkfneo2323142334', 'ieupaenr144654342', '1236'),
+('53198','Tom', 'Feline', 'Cat', 'Sphinx', 'M', 'orange', 'purrs lots', '2010-11-15', 'adlkfneo2323142334', 'ieupaenr144654342', '1237'),
+('53199','Jack', 'Horse', 'Horse', 'FastBreed', 'M', 'brown', 'whinny', '2010-11-10', 'adlkfneo2323142334', 'ieupaenr144654342', '1238'),
+('53200','Johnny', 'Feline', 'Cat', 'Sphinx', 'M', 'yellow', 'purrs lots', '2010-09-29', 'jflkeahpf', 'eiabunfea', '1239');
 
 DROP TABLE IF EXISTS `TREATMENT`;
 CREATE TABLE `TREATMENT` (
@@ -137,6 +140,7 @@ CREATE TABLE `ANIMAL_STATUS` (
 	foreign key (AnimalId) references Animal(AnimalId)
 );
 
+DROP TABLE IF EXISTS `animal_request`;
 CREATE TABLE `animal_request` (
   `animalRequestId` varchar(100) NOT NULL,
   `animalId` varchar(100) NOT NULL,
@@ -153,7 +157,7 @@ CREATE TABLE `animal_request` (
 INSERT INTO `animal_request` (animalRequestId, `animalId`, userId, state)
 VALUES
 (5, '53195', '1', 'requested'),
-(6, '53196', '1', 'available'),
-(7, '53197', '1', 'available');
-
+(6, '53196', '1', 'requested'),
+(7, '53197', '1', 'requested'),
+(8, '53197', '2', 'requested');
 -- SELECT * FROM `Weight`;

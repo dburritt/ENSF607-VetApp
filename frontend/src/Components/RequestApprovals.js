@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect, state } from 'react';
+import { useState, useEffect} from 'react';
 import axios from 'axios';
 
 const RequestApprovals = ({ user, pageDispatch }) => {
 
     const [value, setValue] = useState(true);
-    const [pressable, setPressable] = useState([]);
+    // const [pressable, setPressable] = useState([]);
 
     const approveHandler = (index) => {
 
@@ -15,7 +15,7 @@ const RequestApprovals = ({ user, pageDispatch }) => {
         )
             .catch(err => console.log(err))
 
-        setPressable([...pressable, !pressable[index]])
+        // setPressable([...pressable, !pressable[index]])
 
         // var button = document.getElementById(animalRequests[index].requestId);
         // button.setAttribute('className', "button is-small is-dark");
@@ -117,14 +117,14 @@ const RequestApprovals = ({ user, pageDispatch }) => {
                                         <td>{currentState}</td>
                                         <td>
                                             <button id={requestId}
-                                                className={`button is-small ${!pressable[index] ? "is-success" : "is-dark"}`}
+                                                className={`button is-small is-success`}
                                                 onClick={() => approveHandler(index)}>
                                                 approve
                                             </button>
                                         </td>
                                         <td>
                                             <button id={requestId}
-                                                className={`button is-small ${!pressable[index] ? "is-danger" : "is-dark"}`}
+                                                className={`button is-small is-danger`}
                                                 onClick={() => rejectHandler(index)}>
                                                 reject
                                             </button>

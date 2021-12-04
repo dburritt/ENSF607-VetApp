@@ -55,10 +55,9 @@ function App() {
         {(currentView === "animal" && user.accountType === "Instructor") ? (
           <Animals userInfo = {user}
             user={user}
-            loginDispatch={pageDispatch}
-            userDispatch={userDispatch} />
+            pageDispatch={pageDispatch} />
         ) : null}
-        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Technician")) ? (
+        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Health Technician")) ? (
           <RequestApprovals
             user={user}
             loginDispatch={pageDispatch}
