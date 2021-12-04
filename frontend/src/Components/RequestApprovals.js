@@ -7,13 +7,15 @@ const RequestApprovals = ({user}) => {
 
     const approveHandler = (index) => {
 
+        animalRequests[index].currentState = "approve"
         console.log(user)
-        animalRequests[index].currentState = "approved"
-        axios.put(`http://localhost:8001/api/animals/requests?userid=` + user.userId,
-            JSON.stringify (animalRequests[index]), { headers: { "Access-Control-Allow-Origin": "*", } }
-            ).then(response => console.log(response))
+        axios.put(`http://localhost:8001/api/animals/requests?userid=${user.userId}`, 
+            JSON.stringify (animalRequests[index])
+            )
             .catch(err => console.log(err))
         
+
+        // this.forceUpdate();
     }
 
     const rejectHandler = (index) => {
