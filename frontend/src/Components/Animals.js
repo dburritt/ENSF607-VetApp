@@ -86,6 +86,20 @@ const AnimalMenu = ({userInfo}) => {
           });
     };
 
+    const cancelRequest = (test) => {
+      console.log(test)
+      console.log(animalList.animalRequestId)
+      test.currentState="cancel"
+      axios.put(`http://localhost:8001/api/animals/requests?userid=${userInfo.userId}`, 
+          JSON.stringify(test))
+          .then((res) => {
+             console.log(res)
+          })
+          .catch((err) => {
+              console.log(err);
+          });
+    };
+
   return (
     <div>
       <div>Currently Available Animals</div>
@@ -124,7 +138,7 @@ const AnimalMenu = ({userInfo}) => {
                             <td>{animalId}</td>
                             <td>{currentState}</td>
                             <td>
-                                <button class="button is-small is-danger">Cancel</button>
+                                <button class="button is-small is-danger" onClick ={() => cancelRequest(animalRequest)}>Cancel</button>
                             </td>
                         </tr>
                     )
