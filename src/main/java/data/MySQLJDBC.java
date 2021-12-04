@@ -168,7 +168,7 @@ public class MySQLJDBC implements IDBCredentials {
 	public List<Animal> getAvailableAnimals() throws SQLException {
 		List<Animal> r =null;
 
-		String query = "SELECT * FROM ANIMAL WHERE animalId NOT IN (SELECT animalId FROM ANIMAL_REQUEST)";
+		String query = "SELECT * FROM ANIMAL WHERE animalId NOT IN (SELECT animalId FROM ANIMAL_REQUEST WHERE state IN (\"requested\",\"Accept_by_Admin\", \"Ready\"))";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		rs = pStat.executeQuery(query);
 		List<Animal> animals = new ArrayList<Animal>();
@@ -455,11 +455,11 @@ public class MySQLJDBC implements IDBCredentials {
                 .build();
 		//myApp.insert()
 		try {
-			//System.out.println(myApp.getAllAnimalRequests());
+			System.out.println(myApp.getAvailableAnimals());
 			//System.out.println(myApp.getAnimalRequestsUser("2"));
 			//System.out.println(myApp.getAllUsers());
 		
-			System.out.println(myApp.getAnimalsBySubspecies("Dog"));
+			//.out.println(myApp.getAnimalsBySubspecies("Dog"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
