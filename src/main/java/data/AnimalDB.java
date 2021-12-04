@@ -387,7 +387,7 @@ public class AnimalDB implements AnimalRepository{
 								updatedState = "Cancel";
 							}
 							break;
-						case "Accept_by_Admin":
+						case "Accept_By_Admin":
 							if(u.getAccountType().equalsIgnoreCase("Instructor")) {
 								updatedState = "Cancel";
 							}
@@ -403,16 +403,14 @@ public class AnimalDB implements AnimalRepository{
 						.userId(animalRequestToUpdate.getUserId())
 						.currentState(updatedState)
 						.build();
-				DB.updateAnimalRequest(newAnimalRequest);
-			
+				DB.updateAnimalRequest(newAnimalRequest);	
 			}
+			return DB.getAnimalRequest(animalRequestToUpdate.getRequestId()).get(0);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
+
 		}
-		return animalRequestToUpdate;
-		
-		//return null;
+	
 	}
 
 	
