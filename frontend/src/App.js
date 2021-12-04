@@ -65,11 +65,6 @@ function App() {
             userDispatch={userDispatch} />
         ) : null}
       </div>
-      <div className="App-background">
-        <RequestApprovals user={user}
-          loginDispatch={pageDispatch}
-          userDispatch={userDispatch} />
-      </div>
     </>
   );
 }
