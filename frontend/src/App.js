@@ -55,20 +55,14 @@ function App() {
         {(currentView === "animal" && user.accountType === "Instructor") ? (
           <Animals
             user={user}
-            loginDispatch={pageDispatch}
-            userDispatch={userDispatch} />
+            pageDispatch={pageDispatch}/>
         ) : null}
-        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Technician")) ? (
+        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Health Technician")) ? (
           <RequestApprovals
             user={user}
-            loginDispatch={pageDispatch}
+            pageDispatch={pageDispatch}
             userDispatch={userDispatch} />
         ) : null}
-      </div>
-      <div className="App-background">
-        <RequestApprovals user={user}
-          loginDispatch={pageDispatch}
-          userDispatch={userDispatch} />
       </div>
     </>
   );

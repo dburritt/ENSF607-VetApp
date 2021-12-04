@@ -22,7 +22,7 @@ VALUES
 ('3','tscott','thomas123','Student', '2021-11-29', 'Thomas', 'Scott', 'thomas.scott@ucalgary.ca'),
 ('4','Instructor_1','pt@123','Instructor', '2021-11-29', 'Thomas', 'Instructor', 'thomas.scott@ucalgary.ca'),
 ('5','Admin_1','pa','Admin', '2021-11-29', 'Thomas', 'Admin', 'thomas.scott@ucalgary.ca'),
-('6','Technician','pe','Technician', '2021-11-29', 'Thomas', 'Technician', 'thomas.scott@ucalgary.ca');
+('6','Technician','pe','Health Technician', '2021-11-29', 'Thomas', 'Technician', 'thomas.scott@ucalgary.ca');
 
 DROP TABLE IF EXISTS `STUDENT`;
 CREATE TABLE `STUDENT` (
@@ -153,7 +153,7 @@ CREATE TABLE `animal_request` (
 INSERT INTO `animal_request` (animalRequestId, `animalId`, userId, state)
 VALUES
 (5, '53195', '1', 'requested'),
-(6, '53196', '1', 'approved'),
-(7, '53197', '1', 'declined');
+(6, '53196', '1', 'requested'),
+(7, '53197', '1', 'requested');
 
 -- SELECT * FROM `Weight`;

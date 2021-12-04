@@ -2,30 +2,38 @@
 import { useState, useEffect, state } from 'react';
 import axios from 'axios';
 
+const RequestApprovals = ({ user, pageDispatch }) => {
 
-const RequestApprovals = ({user}) => {
+    const [value, setValue] = useState(true);
+    const [pressable, setPressable] = useState([]);
 
     const approveHandler = (index) => {
 
         animalRequests[index].currentState = "approve"
-        console.log(user)
-        axios.put(`http://localhost:8001/api/animals/requests?userid=${user.userId}`, 
-            JSON.stringify (animalRequests[index])
-            )
+        axios.put(`http://localhost:8001/api/animals/requests?userid=${user.userId}`,
+            JSON.stringify(animalRequests[index])
+        )
             .catch(err => console.log(err))
-        
 
-        // this.forceUpdate();
+        setPressable([...pressable, !pressable[index]])
+
+        // var button = document.getElementById(animalRequests[index].requestId);
+        // button.setAttribute('className', "button is-small is-dark");
+        // var button2 = document.getElementById(animalRequests[index].requestId+"reject").setAttribute('className', "button is-small is-dark");
+        // button2.setAttribute('className', "button is-small is-dark");
+
+        setValue(value => !value);
     }
 
     const rejectHandler = (index) => {
 
-        animalRequests[index].currentState = "rejected"
-        axios.put(`http://localhost:8001/api/animals/requests?userid=` + user.userId,
-            JSON.stringify (animalRequests[index])
-            ).then(response => console.log(response))
+        animalRequests[index].currentState = "reject"
+        axios.put(`http://localhost:8001/api/animals/requests?userid=${user.userId}`,
+            JSON.stringify(animalRequests[index])
+        )
             .catch(err => console.log(err))
 
+        setValue(value => !value);
     }
 
     // const [requests, setRequests] = useState({requestedAnimals: [], animalRequests: []})
@@ -35,7 +43,7 @@ const RequestApprovals = ({user}) => {
 
     useEffect(() => {
         fetchAnimalRequests();
-    }, []);
+    }, [value]);
 
     // useEffect(() => {
     //     fetchAnimal(animalRequests);
@@ -51,16 +59,16 @@ const RequestApprovals = ({user}) => {
                 // for (let i = 0; i < animalRequests.length; i++) {
                 //     fetchAnimal(animalRequests[i].animalId)
                 // }
-                
+
             })
             .catch((err) => {
                 console.log(err);
             });
 
         // return tempRequests[0];
-            
+
     };
-   // { animalRequests }
+    // { animalRequests }
     // const fetchAnimal = () => {
     //     let tempAnimals = [];
     //     for (let i = 0; i < animalRequests.length; i++) {
@@ -79,11 +87,16 @@ const RequestApprovals = ({user}) => {
 
     return (
         <>
+        
             <div>
                 <title>Current Outstanding Requests</title>
             </div>
-            <table>
-            <thead class="table is-primary">
+            <div>
+                <title>{user.accountType}</title>
+            </div>
+            <div>
+                <table>
+                    <thead class="table is-primary">
                         <tr>
                             <th>Request Id</th>
                             <th>Animal Id</th>
@@ -92,29 +105,36 @@ const RequestApprovals = ({user}) => {
                             <th></th>
                             <th></th>
                         </tr>
-            </thead>
-            <tbody class="table is-primary">
-            {animalRequests.map((animalRequest, index) => {
-
-                    const { requestId, animalId, userId, currentState } = animalRequest
-                    return (
-                        <tr key={requestId}>
-                            <td>{requestId}</td>
-                            <td>{animalId}</td>
-                            <td>{userId}</td>
-                            <td>{currentState}</td>
-                            <td>
-                                <button class="button is-small is-success" onClick={() => approveHandler(index)}>approve</button>
-                            </td>
-                            <td>
-                                <button class="button is-small is-danger" onClick={() => rejectHandler(index)}>reject</button>
-                            </td>
-                        </tr>
-                    )
-                }
-                )}
-            </tbody>
-            {/* <tbody class="table is-primary">
+                    </thead>
+                    <tbody class="table is-primary">
+                        {animalRequests.map((animalRequest, index) => {
+                            const { requestId, animalId, userId, currentState } = animalRequest
+                            return (
+                                <tr key={requestId}>
+                                    <td>{requestId}</td>
+                                    <td>{animalId}</td>
+                                    <td>{userId}</td>
+                                    <td>{currentState}</td>
+                                    <td>
+                                        <button id={requestId}
+                                            className={`button is-small ${!pressable[index] ? "is-success" : "is-dark"}`}
+                                            onClick={() => approveHandler(index)}>
+                                            approve
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button id={requestId}
+                                            className={`button is-small ${!pressable[index] ? "is-danger" : "is-dark"}`}
+                                            onClick={() => rejectHandler(index)}>
+                                            reject
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        }
+                        )}
+                    </tbody>
+                    {/* <tbody class="table is-primary">
             {requestedAnimals.map((animal) => {
                 console.log(requestedAnimals);
                     return (
@@ -133,8 +153,9 @@ const RequestApprovals = ({user}) => {
                 }
                 )}
             </tbody> */}
-            </table>
-            </>
+                </table>
+            </div>
+        </>
     );
 
 }
