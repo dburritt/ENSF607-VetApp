@@ -87,54 +87,54 @@ const RequestApprovals = ({ user, pageDispatch }) => {
 
     return (
         <>
-        
-            <div>
-                <title>Current Outstanding Requests</title>
-            </div>
-            <div>
-                <title>{user.accountType}</title>
-            </div>
-            <div>
-                <table>
-                    <thead class="table is-primary">
-                        <tr>
-                            <th>Request Id</th>
-                            <th>Animal Id</th>
-                            <th>User Id</th>
-                            <th>State of Request</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="table is-primary">
-                        {animalRequests.map((animalRequest, index) => {
-                            const { requestId, animalId, userId, currentState } = animalRequest
-                            return (
-                                <tr key={requestId}>
-                                    <td>{requestId}</td>
-                                    <td>{animalId}</td>
-                                    <td>{userId}</td>
-                                    <td>{currentState}</td>
-                                    <td>
-                                        <button id={requestId}
-                                            className={`button is-small ${!pressable[index] ? "is-success" : "is-dark"}`}
-                                            onClick={() => approveHandler(index)}>
-                                            approve
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button id={requestId}
-                                            className={`button is-small ${!pressable[index] ? "is-danger" : "is-dark"}`}
-                                            onClick={() => rejectHandler(index)}>
-                                            reject
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        }
-                        )}
-                    </tbody>
-                    {/* <tbody class="table is-primary">
+            <div className="container is-flex-direction-column has-text-centered">
+                <div className="tile is-parent">
+                    <title className="tile is-child">Current Outstanding Requests</title>
+                </div>
+                <div className="tile is-parent">
+                    <title className="tile is-child">{user.accountType} - {user.name}</title>
+                </div>
+                <div className="tile is-parent">
+                    <table className="tile is-child">
+                        <thead class="table is-primary">
+                            <tr>
+                                <th>Request Id</th>
+                                <th>Animal Id</th>
+                                <th>User Id</th>
+                                <th>State of Request</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table is-primary">
+                            {animalRequests.map((animalRequest, index) => {
+                                const { requestId, animalId, userId, currentState } = animalRequest
+                                return (
+                                    <tr key={requestId}>
+                                        <td>{requestId}</td>
+                                        <td>{animalId}</td>
+                                        <td>{userId}</td>
+                                        <td>{currentState}</td>
+                                        <td>
+                                            <button id={requestId}
+                                                className={`button is-small ${!pressable[index] ? "is-success" : "is-dark"}`}
+                                                onClick={() => approveHandler(index)}>
+                                                approve
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button id={requestId}
+                                                className={`button is-small ${!pressable[index] ? "is-danger" : "is-dark"}`}
+                                                onClick={() => rejectHandler(index)}>
+                                                reject
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                            )}
+                        </tbody>
+                        {/* <tbody class="table is-primary">
             {requestedAnimals.map((animal) => {
                 console.log(requestedAnimals);
                     return (
@@ -153,7 +153,8 @@ const RequestApprovals = ({ user, pageDispatch }) => {
                 }
                 )}
             </tbody> */}
-                </table>
+                    </table>
+                </div>
             </div>
         </>
     );
