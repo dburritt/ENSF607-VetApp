@@ -30,7 +30,7 @@ const Login = ({ loginDispatch, userDispatch }) => {
                 userDispatch({
                     command: "add",
                     name: s.fname,
-                    userId: s.userId,
+                    userId: s.id,
                     accountType: s.accountType
                 });
                 loginDispatch({
