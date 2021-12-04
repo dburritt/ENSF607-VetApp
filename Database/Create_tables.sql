@@ -137,6 +137,7 @@ CREATE TABLE `ANIMAL_STATUS` (
 	foreign key (AnimalId) references Animal(AnimalId)
 );
 
+DROP TABLE IF EXISTS `animal_request`;
 CREATE TABLE `animal_request` (
   `animalRequestId` varchar(100) NOT NULL,
   `animalId` varchar(100) NOT NULL,

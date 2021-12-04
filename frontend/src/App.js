@@ -58,7 +58,7 @@ function App() {
             loginDispatch={pageDispatch}
             userDispatch={userDispatch} />
         ) : null}
-        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Technician")) ? (
+        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Health Technician")) ? (
           <RequestApprovals
             user={user}
             loginDispatch={pageDispatch}
