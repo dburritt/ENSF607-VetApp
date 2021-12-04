@@ -261,7 +261,7 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 	
 	public void insertAnimalRequest(AnimalRequest animalRequest)throws SQLException  {
-		String query = "INSERT INTO ANIMAL_REQUEST (RequestId, AnimalId, UserId, State) VALUES(?,?,?,?)";
+		String query = "INSERT INTO ANIMAL_REQUEST (AnimalRequestId, AnimalId, UserId, State) VALUES(?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, animalRequest.getRequestId());
 		pStat.setString(2, animalRequest.getAnimalId());
@@ -453,6 +453,7 @@ public class MySQLJDBC implements IDBCredentials {
                 .userId("1")
                 .currentState("state")
                 .build();
+		//myApp.insert()
 		try {
 			//System.out.println(myApp.getAllAnimalRequests());
 			//System.out.println(myApp.getAnimalRequestsUser("2"));

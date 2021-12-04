@@ -307,9 +307,10 @@ public class AnimalDB implements AnimalRepository{
 		try {
 			DB.insertAnimalRequest(animalRequest);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new ResourceNotFoundException(404, "could not create animal request");
 		}
-		return id;//animal.getId();
+		return id;//animal.getId();    
 	}
 
 	@Override
