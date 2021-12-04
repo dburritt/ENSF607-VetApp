@@ -5,11 +5,24 @@ import axios from 'axios';
 
 const RequestApprovals = ({user}) => {
 
-    const approveHandler = (event) => {
+    const approveHandler = (index) => {
 
+        console.log(user)
+        animalRequests[index].currentState = "approved"
+        axios.put(`http://localhost:8001/api/animals/requests?userid=` + user.userId,
+            JSON.stringify (animalRequests[index]), { headers: { "Access-Control-Allow-Origin": "*", } }
+            ).then(response => console.log(response))
+            .catch(err => console.log(err))
+        
     }
 
-    const rejectHandler = (event) => {
+    const rejectHandler = (index) => {
+
+        animalRequests[index].currentState = "rejected"
+        axios.put(`http://localhost:8001/api/animals/requests?userid=` + user.userId,
+            JSON.stringify (animalRequests[index])
+            ).then(response => console.log(response))
+            .catch(err => console.log(err))
 
     }
 
@@ -79,7 +92,8 @@ const RequestApprovals = ({user}) => {
                         </tr>
             </thead>
             <tbody class="table is-primary">
-            {animalRequests.map((animalRequest) => {
+            {animalRequests.map((animalRequest, index) => {
+
                     const { requestId, animalId, userId, currentState } = animalRequest
                     return (
                         <tr key={requestId}>
@@ -88,10 +102,10 @@ const RequestApprovals = ({user}) => {
                             <td>{userId}</td>
                             <td>{currentState}</td>
                             <td>
-                                <button class="button is-small is-success" onClick={approveHandler}>approve</button>
+                                <button class="button is-small is-success" onClick={() => approveHandler(index)}>approve</button>
                             </td>
                             <td>
-                                <button class="button is-small is-danger"onClick={rejectHandler}>reject</button>
+                                <button class="button is-small is-danger" onClick={() => rejectHandler(index)}>reject</button>
                             </td>
                         </tr>
                     )
