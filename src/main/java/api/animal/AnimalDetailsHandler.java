@@ -50,6 +50,7 @@ public class AnimalDetailsHandler extends Handler {
 	        exchange.getResponseHeaders().putAll(e.getHeaders());
 	        exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 	        response = super.writeResponse(e.getBody());
+		
 		} else {
         throw ApplicationExceptions.methodNotAllowed(
                 "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
