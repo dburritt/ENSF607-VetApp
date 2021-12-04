@@ -152,8 +152,8 @@ CREATE TABLE `animal_request` (
 
 INSERT INTO `animal_request` (animalRequestId, `animalId`, userId, state)
 VALUES
-(5, '53195', '1', 'requested'),
-(6, '53196', '1', 'requested'),
-(7, '53197', '1', 'requested');
+(5, '53195', '1', 'available'),
+(6, '53196', '1', 'available'),
+(7, '53197', '1', 'available');
 
 -- SELECT * FROM `Weight`;
