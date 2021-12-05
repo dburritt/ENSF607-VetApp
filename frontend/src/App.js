@@ -80,7 +80,7 @@ function App() {
         ) : null}
       </div>
 
-      <footer class="footer is-flex-direction-column has-text-centered">
+      <footer class="App-footer">
         <button
           onClick={logoutHandler}
           className="button is-small is-gray">Logout</button>
