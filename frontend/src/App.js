@@ -33,8 +33,23 @@ function App() {
       dict["accountType"] = action.accountType;
     }
 
+    if (action.command === "delete") {
+      dict["name"] = "guest";
+      dict["userId"] = "";
+      dict["accountType"] = "";
+    }
+
     return dict;
 
+  }
+
+  const logoutHandler = () => {
+    pageDispatch({
+      nextPage: "login"
+    });
+    userDispatch({
+      command: "delete",
+  });
   }
 
   const [currentView, pageDispatch] = useReducer(pageReducer, "login")
@@ -53,7 +68,7 @@ function App() {
             userDispatch={userDispatch} />
         ) : null}
         {(currentView === "animal" && user.accountType === "Instructor") ? (
-          <Animals userInfo = {user}
+          <Animals userInfo={user}
             user={user}
             pageDispatch={pageDispatch} />
         ) : null}
@@ -64,6 +79,12 @@ function App() {
             userDispatch={userDispatch} />
         ) : null}
       </div>
+
+      <footer class="footer is-flex-direction-column has-text-centered">
+        <button
+          onClick={logoutHandler}
+          className="button is-small is-gray">Logout</button>
+      </footer>
     </>
   );
 }
