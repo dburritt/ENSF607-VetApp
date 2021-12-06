@@ -1,9 +1,11 @@
 import './App.css';
-import 'bulma/css/bulma.css'
+import 'bulma/css/bulma.css';
 import Animals from './Components/Animals';
-import Login from './Components/Login'
-import RequestApprovals from './Components/RequestApprovals'
+import Login from './Components/Login';
+import RequestApprovals from './Components/RequestApprovals';
+import Admin from './Components/Admin';
 import React, { useReducer } from 'react';
+import { css } from "@emotion/react";
 
 function App() {
 
@@ -11,11 +13,20 @@ function App() {
 
     let newState;
     switch (action.nextPage) {
-      case 'animal':
-        newState = "animal";
+      case 'request':
+        newState = "request";
         break;
       case 'login':
         newState = "login";
+        break;
+      case 'admin':
+        newState = "admin";
+        break;
+      case 'approvals':
+        newState = "approvals";
+        break;
+      case 'animal':
+        newState = "animal";
         break;
       default:
         throw new Error();
@@ -49,7 +60,7 @@ function App() {
     });
     userDispatch({
       command: "delete",
-  });
+    });
   }
 
   const [currentView, pageDispatch] = useReducer(pageReducer, "login")
@@ -57,28 +68,34 @@ function App() {
 
   return (
     <>
-      <div className="App-header">
-        <header>U of C Veterinary Medicine Management System</header>
-      </div>
+      <header>
+        <div className="App-header">
+          <header>U of C Veterinary Medicine Management System</header>
+        </div>
+      </header>
 
-      <div className="App-background">
-        {currentView === "login" ? (
-          <Login
-            loginDispatch={pageDispatch}
-            userDispatch={userDispatch} />
-        ) : null}
-        {(currentView === "animal" && user.accountType === "Instructor") ? (
-          <Animals userInfo={user}
-            user={user}
-            pageDispatch={pageDispatch} />
-        ) : null}
-        {(currentView === "animal" && (user.accountType === "Admin" || user.accountType === "Health Technician")) ? (
-          <RequestApprovals
-            user={user}
-            loginDispatch={pageDispatch}
-            userDispatch={userDispatch} />
-        ) : null}
-      </div>
+      <body>
+        <div className="App-background is-ancestor">
+          {currentView === "login" ? (
+            <Login
+              pageDispatch={pageDispatch}
+              userDispatch={userDispatch} />
+          ) : null}
+          {(currentView === "request") ? (
+            <Animals userInfo={user}
+              user={user} />
+          ) : null}
+          {(currentView === "approvals") ? (
+            <RequestApprovals
+              user={user} />
+          ) : null}
+          {(currentView === "admin") ? (
+            <Admin
+              user={user}
+              pageDispatch={pageDispatch} />
+          ) : null}
+        </div>
+      </body>
 
       <footer class="App-footer">
         <button
