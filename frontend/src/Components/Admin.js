@@ -71,6 +71,12 @@ const Admin = ({ user, pageDispatch }) => {
         });
     };
 
+    const searchHandler = () => {
+        pageDispatch({
+            nextPage: "basicSearch"
+        });
+    };
+
     const editingHandler = () => {
         setEditState(!inEditMode)
     }
@@ -87,7 +93,7 @@ const Admin = ({ user, pageDispatch }) => {
     }
 
     const addHandler = () => {
-        if (newUsername.length === 0 || newPassword.length === 0 || newActivationDate.length != 10 || 
+        if (newUsername.length === 0 || newPassword.length === 0 || newActivationDate.length !== 10 || 
             newFirstName.length === 0 || newLastName.length === 0 || newEmail.length === 0) {
             alert("All fields must be entered.")
             return
@@ -168,7 +174,7 @@ const Admin = ({ user, pageDispatch }) => {
                             {inEditMode ? "Managing" : "Manage Users"}</button>
                     </div>
                     <div className="column">
-                        <button className="button is-small" css={css`width: 90%;`}>Search Animals</button>
+                        <button className="button is-small" css={css`width: 90%;`} onClick={searchHandler}>Search Animals</button>
                     </div>
 
 

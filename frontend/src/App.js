@@ -5,6 +5,7 @@ import Login from './Components/Login';
 import RequestApprovals from './Components/RequestApprovals';
 import Admin from './Components/Admin';
 import AdminComments from './Components/AdminComments'
+import Search from './Components/Search'
 import React, { useReducer } from 'react';
 
 function App() {
@@ -30,6 +31,9 @@ function App() {
         break;
       case 'allComments':
         newState = "allComments";
+        break;
+      case 'basicSearch':
+        newState = "basicSearch";
         break;
       default:
         throw new Error();
@@ -100,6 +104,11 @@ function App() {
           ) : null}
           {(currentView === "allComments") ? (
             <AdminComments
+              user={user}
+              pageDispatch={pageDispatch} />
+          ) : null}
+          {(currentView === "basicSearch") ? (
+            <Search
               user={user}
               pageDispatch={pageDispatch} />
           ) : null}

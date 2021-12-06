@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect} from 'react';
 import axios from 'axios';
 import { css } from "@emotion/react";
 
@@ -32,7 +32,6 @@ document.head.appendChild(style);
 const AdminComments = ({ user, pageDispatch }) => {
 
     const [value, setValue] = useState(true);
-    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         fetchComments()
