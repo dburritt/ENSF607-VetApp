@@ -42,6 +42,8 @@ const SearchView = () => {
         fetchAllAnimals()
     }, []);
     const [results, setResults] = useState([]);
+    const [selected, setSelected] = useState([]);
+
     const fetchAllAnimals = () => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
@@ -50,6 +52,12 @@ const SearchView = () => {
             .catch((err) => {
                 console.log(err);
             });
+    };
+    const selectHandler = (animal) => {
+        
+        setSelected(animal);
+        console.log(selected);
+        
     };
     return (
         <div>
@@ -77,20 +85,19 @@ const SearchView = () => {
             <div className="column">
                 <div class="box">
                     <div class="select is-multiple">
-                        <select multiple size="5">
+                        <select multiple size="5"  >
                             {results.map((animal, index) => {
                                 const { id, name, species, subspecies, breed } = animal
                                 return (
-                                    <>
-                                        <option>{name} : {breed}</option>
-                                    </>
+                                    
+                                        <option value = {id} onClick={() => selectHandler(animal)}> {name} : {breed}</option>
+                                   
                                 )
                             })
-                            }
-                                 
+                            }       
                         </select>
                     </div>
-                    
+                    <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
                 </div>
             </div>
 
