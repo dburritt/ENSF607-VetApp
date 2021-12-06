@@ -32,6 +32,7 @@ const nothing = () => {
     
 };
 
+
 const HealthTechnician = ({ user, pageDispatch }) => {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -56,13 +57,21 @@ const HealthTechnician = ({ user, pageDispatch }) => {
                 word-wrap: break-word;
                 font-size: 9px;
             }
-        `;
 
-return (
-    <>
-            <div className="column is-full has-text-centered"
-            >   
-               
+            `;
+    const [results, setResults] = useState([]);
+    const fetchAllAnimals = () => {
+        axios.get('http://localhost:8001/api/animals?id=0')
+            .then((res) => {
+                setResults(res.data.animals);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    return (
+        <>
+            <div className="column is-full has-text-centered">
                 <div className="columns is-centered"
                     css={css`position: absolute;
                     top: 1vh;
@@ -70,14 +79,20 @@ return (
                     <title className="column has-text-left">Homepage</title>
                     <title className="column has-text-right">{user.accountType} - {user.name}</title>
                 </div>
-
+               
                 <div className="columns"
                     css={css`position: relative;
                             width: 50%;
                             margin-right: auto;
-                            margin-left: auto;`}>
+                            margin-left: 0;`}>
+                    <div className="column">
+                        <button className="button is-small" css={css`width: 90%;`} onClick={fetchAllAnimals}>All Animal</button>
+                    </div>
+                    <div className="column has-text-left">
+                        <button className="button is-small" css={css`width: 90%;`} onClick={nothing}>My Animals</button>
+                    </div>
                     <div class="column is-three-quarters">
-                        <input class="input is-small" css={css`width: 90%;`}
+                        <input class="input is-small"  css={css`height: 85%;`}
                             //value= password
                             // onChange={passwordChangeHandler}
                             className="input "
@@ -102,7 +117,7 @@ return (
                 <div className="columns is-centered"
                     css={css`position: left;`}>
                     <div className="column">
-                        <title className="tile has-text-left">Staff</title>
+                        <title className="tile has-text-left">Results</title>
                             <table className="table">
                                 <thead class="table is-primary">
                                     <tr>
@@ -111,11 +126,32 @@ return (
                                         <th>Species</th>
                                         <th>Subspecies</th>
                                         <th>Breed</th>
+                                        
                                     </tr>
                                 </thead>
-                                <tbody class="table is-primary">
-                                
-                                </tbody>
+                                        <tbody class="table is-primary">
+                                        {results.map((animal, index) => {
+                                            const { id, name, species, subspecies, breed } = animal
+                                            return (
+                                                <>
+                                                    <tr key={id}>
+                                                        <td>{id}</td>
+                                                        <td>{name}</td>
+                                                        <td>{species}</td>
+                                                        <td>{subspecies}</td>
+                                                        <td>{breed}</td>
+                                                        <button 
+                                                                onClick={nothing}
+                                                                className="button is-small"  css={css`width: 50%;`}>
+                                                                Select
+                                                        </button>
+                                                    </tr>
+                                                    
+                                                </>
+                                            )
+                                        })
+                                        }
+                                    </tbody>
                             </table>
                     </div>
                 </div>
