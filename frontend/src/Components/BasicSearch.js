@@ -10,7 +10,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     }, []);
     const [results, setResults] = useState([]);
     const [selected, setSelected] = useState([]);
-
+    const [search, setSearch] = useState("");
     const fetchAllAnimals = () => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
@@ -37,7 +37,24 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         setSelected(animal);
         // console.log(selected);
     };
-
+    const searchChangeHandler = (event) => {
+        setSearch(event.target.value)
+    }
+    const searchHandler = () => {
+        if (search.length === 0) {
+            alert("Search must be entered.")
+            return
+        }
+        axios.get(`http://localhost:8001/api/animals/search/?key=${search}`)
+            .then((res) => {
+                console.log(res);
+                setResults(res.data.animals);
+                //selectHandler(res.data.animals[0]);
+            })
+            .catch((err) => {
+                setResults([]);
+            });
+    }
     const staffPageHandler = () => {
         if (user.accountType === "Admin"){
             pageDispatch({
@@ -84,10 +101,10 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
 
             <div class="columns">
                 <div class="column is-half">
-                    <input class="input" type="text" placeholder="Enter name or ID"></input>
+                    <input value={search} onChange={searchChangeHandler} class="input" type="text" placeholder="Enter name or ID"></input>
                 </div>
                 <div class="column is-half">
-                    <button class="button">Search</button>
+                    <button class="button" onClick={searchHandler}>Search</button>
                     <button class="button">Advanced Search</button>
                 </div>
                 </div>

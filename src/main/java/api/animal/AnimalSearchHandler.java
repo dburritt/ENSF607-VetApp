@@ -35,10 +35,10 @@ public class AnimalSearchHandler extends Handler {
 		protected void execute(HttpExchange exchange) throws Exception {
 			byte[] response=null;
 			if ("GET".equals(exchange.getRequestMethod())) {
-
-	            ResponseEntity e = doGet(exchange);
-	            exchange.getResponseHeaders().putAll(e.getHeaders());
-	            exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+				  ResponseEntity e = doGet(exchange);
+		           exchange.getResponseHeaders().putAll(e.getHeaders());
+		           exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+		           response = super.writeResponse(e.getBody());
 			} else {
 	        throw ApplicationExceptions.methodNotAllowed(
 	                "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
@@ -51,15 +51,15 @@ public class AnimalSearchHandler extends Handler {
 		private ResponseEntity<AnimalListResponse> doGet(HttpExchange exchange) {
 			Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
             String noId= "";
-            String search = params.getOrDefault("subspecies", List.of(noId)).stream().findFirst().orElse("");
-            
+            String search = params.getOrDefault("key", List.of(noId)).stream().findFirst().orElse("");
+            System.out.println(search);
             AnimalListResponse animalListResponse = null;
             
             if (search.equals("")) {
             	animalListResponse = new AnimalListResponse(animalService.getAnimals());
             }
              
-            else if (!search.equals("")) {
+            if (!search.equals("")) {
             	animalListResponse = new AnimalListResponse(animalService.getAnimalsSearch(search));
             }
             
