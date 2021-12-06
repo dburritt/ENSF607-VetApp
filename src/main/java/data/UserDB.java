@@ -68,8 +68,12 @@ public class UserDB implements UserRepository {
     
     @Override
     public  void deleteUser(String id) throws UserNotFoundException {
-         User user= Optional.of(USERS_STORE.get(id)).orElseThrow(()->  new UserNotFoundException(404, "User not found."));
-         USERS_STORE.remove(user.getId(),user);
+		try {
+			DB.deleteUser(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ResourceNotFoundException(404, "User not found.");
+		}
     }
     
     @Override

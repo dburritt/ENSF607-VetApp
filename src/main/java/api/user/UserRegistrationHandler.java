@@ -54,7 +54,13 @@ public class UserRegistrationHandler extends Handler {
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
-        } else {
+        }  else if ("OPTIONS".equals(exchange.getRequestMethod())) {
+	        ResponseEntity e = new ResponseEntity<>("ok",
+	                getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+	        exchange.getResponseHeaders().putAll(e.getHeaders());
+	        exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+	        response = super.writeResponse(e.getBody());
+		} else {
             throw ApplicationExceptions.methodNotAllowed(
                     "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
         }
