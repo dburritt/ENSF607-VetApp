@@ -15,6 +15,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
                 setResults(res.data.animals);
+                selectHandler(res.data.animals[0]);
             })
             .catch((err) => {
                 console.log(err);
@@ -24,6 +25,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
         axios.get(`http://localhost:8001/api/animals?userId=${user.userId}`)
             .then((res) => {
                 setResults(res.data.animals);
+                
             })
             .catch((err) => {
                 console.log(err);
@@ -97,12 +99,13 @@ const BasicSearchView = ({ user, pageDispatch }) => {
                         </div>
                     </div>
                 
-                <div className="column is-three-quarters">
-                    <div class="box">
-                        <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
-                        <button className="button is-small is-success" css={css`width: 90%;`} onClick={() => animalProfileHandler}>Animal Profile</button>
+                    <div className="column is-three-quarters">
+
+                        <div class="box">
+                            <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
+                            <button className="button is-small is-success" css={css`width: 90%;`} onClick={() => animalProfileHandler}>Animal Profile</button>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
             <footer>
