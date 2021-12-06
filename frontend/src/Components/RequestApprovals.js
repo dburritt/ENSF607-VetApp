@@ -2,7 +2,7 @@
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 
-const RequestApprovals = ({ user, pageDispatch }) => {
+const RequestApprovals = ({ user}) => {
 
     const [value, setValue] = useState(true);
     // const [pressable, setPressable] = useState([]);
