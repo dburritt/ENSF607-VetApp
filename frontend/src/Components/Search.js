@@ -95,9 +95,12 @@ const SearchView = () => {
                                 )
                             })
                             }       
-                        </select>
+                        </select>  
                     </div>
-                    <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
+                    <div className="column">
+                    <div class="box"> <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
+                    </div>
+                    </div>
                 </div>
             </div>
 
