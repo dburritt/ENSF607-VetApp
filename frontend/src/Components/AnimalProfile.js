@@ -6,20 +6,9 @@ import axios from 'axios';
 const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
     useEffect(() => {
-        fetchAnimal()
     }, []);
 
     const [currentAnimal, setAnimal] = useState({});
-
-    const fetchAnimal = () => {
-        axios.get('http://localhost:8001/api/animals?id=' + animal.animalId)
-            .then((res) => {
-                setAnimal(res.data.animals[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
 
     const returnHandler = () => {
         pageDispatch({
