@@ -169,3 +169,16 @@ VALUES
 (7, '53197', '1', 'requested'),
 (8, '53197', '2', 'requested');
 -- SELECT * FROM `Weight`;
+
+CREATE TABLE `vetapp`.`assigned_animals` (
+  `UserId` VARCHAR(100) NOT NULL,
+  `AnimalId` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`UserId`, `AnimalId`),
+  FOREIGN KEY (`UserId`) REFERENCES `vetapp`.`user` (`UserId`),
+  FOREIGN KEY (`AnimalId`) REFERENCES `vetapp`.`animal` (`AnimalId`)
+ );
+ INSERT INTO `assigned_animals` (`UserId`, animalId)
+VALUES
+(5, '53195'),
+(5, '53196');
+-- SELECT * FROM `Weight`;
