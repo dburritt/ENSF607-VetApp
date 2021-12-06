@@ -250,13 +250,45 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.setString(1, comment.getCommentId());
 		pStat.setString(2, comment.getUserId());
 		pStat.setString(3,  comment.getAnimalId());
-		pStat.setDate(4, java.sql.Date.valueOf(comment.getCommentDate()));
+		pStat.setDate(4, comment.getCommentDate());
 		pStat.setString(5,  comment.getCommentText());
 		int rowCount = pStat.executeUpdate();
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
 		
 		// for testing on windows curl -X POST localhost:8001/api/admin/comment -d "{\"userId\": \"1\", \"animalId\": \"53195\", \"commentDate\": \"2021-11-29\", \"commentText\": \"this is a test comment\"}"
+		
+	}
+	
+	public List<Comment> getAllComments() throws SQLException {
+		List<Comment> r =null;
+
+		String query = "SELECT * FROM COMMENTS";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Comment> comments = new ArrayList<Comment>();
+		while(rs.next()) {
+			Comment c = Comment.builder()
+					.commentId(rs.getString("CommentId"))
+					.userId(rs.getString("UserId"))
+					.animalId(rs.getString("AnimalId"))
+	                .commentDate(rs.getDate("CommentDate"))
+	                .commentText(rs.getString("CommentText"))
+	                .build();
+			comments.add(c);
+		}
+		r = comments;
+		pStat.close();
+		
+		return r;
+	}
+	
+	public void deleteComment(String commentId) throws SQLException {
+
+		String query = "DELETE FROM COMMENTS WHERE CommentId=" + commentId + ";";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.executeUpdate();
+		pStat.close();
 		
 	}
 	
@@ -466,14 +498,6 @@ public class MySQLJDBC implements IDBCredentials {
 		}
 		//myApp.close();
 	}
-
-
-
-
-
-	
-
-	
 	
 
 

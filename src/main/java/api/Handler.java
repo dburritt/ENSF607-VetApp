@@ -40,7 +40,7 @@ public abstract class Handler {
         headers.set(key, value);
    	   	headers.add("Access-Control-Allow-Origin", "*");
    	   	headers.add("Access-Control-Allow-Credentials", "true");
-   	   	headers.add("Access-Control-Allow-Methods", "POST,PUT, GET, OPTIONS");
+   	   	headers.add("Access-Control-Allow-Methods", "POST,PUT, GET, OPTIONS, DELETE");
    	 	headers.add("Access-Control-Allow-Headers","true");
         return headers;
     }

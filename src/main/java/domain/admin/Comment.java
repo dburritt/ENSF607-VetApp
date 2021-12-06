@@ -10,7 +10,7 @@ public class Comment {
 	String commentId;
 	String userId;
 	String animalId;
-	String commentDate;
+	Date commentDate;
 	String commentText;
 
 }

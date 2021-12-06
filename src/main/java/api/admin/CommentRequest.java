@@ -11,7 +11,7 @@ public class CommentRequest {
 	
 	String userId;
 	String animalId;
-	String commentDate;
+	Date commentDate;
 	String commentText;
 
 }

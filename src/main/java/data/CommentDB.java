@@ -45,13 +45,20 @@ public class CommentDB implements CommentRepository{
 
 	@Override
 	public List<Comment> getComments() {
-		return new ArrayList<>( COMMENTS_STORE.values());
+		try {
+			return DB.getAllComments();
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Comments not found.");
+		}
 	}
 
 	@Override
 	public void deleteComment(String id) throws ResourceNotFoundException {
-        Comment deleteComment = Optional.of(COMMENTS_STORE.get(id)).orElseThrow(()->  new UserNotFoundException(404, "Comment id not found."));
-        COMMENTS_STORE.remove(deleteComment.getCommentId(),deleteComment);
+		try {
+			DB.deleteComment(id);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Comments not found.");
+		}
 	}
 
 	@Override
