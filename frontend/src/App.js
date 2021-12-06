@@ -7,6 +7,7 @@ import RequestApprovals from './Components/RequestApprovals';
 import Admin from './Components/Admin';
 import AdminComments from './Components/AdminComments'
 import BasicSearch from './Components/BasicSearch'
+import AnimalProfile from './Components/AnimalProfile'
 import React, { useReducer } from 'react';
 import { css } from "@emotion/react";
 
@@ -37,6 +38,9 @@ function App() {
       case 'basicSearch':
         newState = "basicSearch";
         break;
+      case 'animalProfile':
+        newState = "animalProfile";
+        break;
       default:
         throw new Error();
     }
@@ -63,6 +67,21 @@ function App() {
 
   }
 
+  const animalSelectionReducer = (state, action) => {
+    let dict = {};
+
+    if (action.command === "add") {
+      dict["animalId"] = action.animalId;
+    }
+
+    if (action.command === "delete") {
+      dict["animalId"] = "none";
+    }
+
+    return dict;
+
+  }
+
   const logoutHandler = () => {
     pageDispatch({
       nextPage: "login"
@@ -70,10 +89,14 @@ function App() {
     userDispatch({
       command: "delete",
     });
+    animalSelectionDispatch({
+      command: "delete",
+    });
   }
 
   const [currentView, pageDispatch] = useReducer(pageReducer, "login")
   const [user, userDispatch] = useReducer(userReducer, {})
+  const [animalSelection, animalSelectionDispatch] = useReducer(animalSelectionReducer, {})
 
   return (
     <>
@@ -83,11 +106,11 @@ function App() {
             <div className="column has-text-centered">
             </div>
             <div className="column has-text-centered is-half"
-                  css={css`margin: auto;`}>
+              css={css`margin: auto;`}>
               <header>U of C Veterinary Medicine Management System</header>
             </div>
             <div className="column has-text-right"
-                  css={css`margin: auto;`}>
+              css={css`margin: auto;`}>
               {(currentView !== "login" && user.name !== "guest" && user.name.length > 0) ? (
                 <title className="column has-text-right">
                   {user.accountType} - {user.name}</title>
@@ -126,6 +149,13 @@ function App() {
           {(currentView === "basicSearch") ? (
             <BasicSearch
               user={user}
+              pageDispatch={pageDispatch}
+              animalSelectionDispatch={animalSelectionDispatch} />
+          ) : null}
+          {(currentView === "animalProfile") ? (
+            <AnimalProfile
+              user={user}
+              animal={animalSelection}
               pageDispatch={pageDispatch} />
           ) : null}
         </div>
