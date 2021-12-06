@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import './App.css';
 import 'bulma/css/bulma.css';
 import RequestsMenu from './Components/Requests';
@@ -7,6 +8,7 @@ import Admin from './Components/Admin';
 import AdminComments from './Components/AdminComments'
 import BasicSearch from './Components/BasicSearch'
 import React, { useReducer } from 'react';
+import { css } from "@emotion/react";
 
 function App() {
 
@@ -77,7 +79,21 @@ function App() {
     <>
       <header>
         <div className="App-header">
-          <header>U of C Veterinary Medicine Management System</header>
+          <div className="columns is-full">
+            <div className="column has-text-centered">
+            </div>
+            <div className="column has-text-centered is-half"
+                  css={css`margin: auto;`}>
+              <header>U of C Veterinary Medicine Management System</header>
+            </div>
+            <div className="column has-text-right"
+                  css={css`margin: auto;`}>
+              {(user.name !== "guest" && user.name.length > 0) ? (
+                <title className="column has-text-right">
+                  {user.accountType} - {user.name}</title>
+              ) : null}
+            </div>
+          </div>
         </div>
       </header>
 
@@ -90,7 +106,7 @@ function App() {
           ) : null}
           {(currentView === "request") ? (
             <RequestsMenu userInfo={user}
-            pageDispatch={pageDispatch} />
+              pageDispatch={pageDispatch} />
           ) : null}
           {(currentView === "approvals") ? (
             <RequestApprovals
