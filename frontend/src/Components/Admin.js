@@ -286,7 +286,6 @@ const Admin = ({ user, pageDispatch }) => {
                         <table className="table">
                             <thead class="table is-primary">
                                 <tr>
-                                    <th>Id</th>
                                     <th>Username</th>
                                     <th>Account Type</th>
                                     <th>Activation Date</th>
@@ -302,7 +301,6 @@ const Admin = ({ user, pageDispatch }) => {
                                         const { id, username, password, accountType, activationDate, fname, lname, email } = user
                                         return (
                                             <tr key={id}>
-                                                <td>{id}</td>
                                                 <td>{username}</td>
                                                 <td>{accountType}</td>
                                                 <td>{timeConverter(activationDate)}</td>
@@ -328,7 +326,6 @@ const Admin = ({ user, pageDispatch }) => {
                         <table className="table">
                             <thead class="table is-primary">
                                 <tr>
-                                    <th>Id</th>
                                     <th>Username</th>
                                     <th>Activation Date</th>
                                     <th>First Name</th>
@@ -343,7 +340,6 @@ const Admin = ({ user, pageDispatch }) => {
                                         const { id, username, password, accountType, activationDate, fname, lname, email } = user
                                         return (
                                             <tr key={id}>
-                                                <td>{id}</td>
                                                 <td>{username}</td>
                                                 <td>{timeConverter(activationDate)}</td>
                                                 <td>{fname}</td>
