@@ -1,10 +1,10 @@
 import axios from 'axios';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import 'bulma/css/bulma.css';
 
 const AdvancedSearch = () => {
-    
+
     return (
         <div>
             <header>
@@ -37,7 +37,7 @@ const AdvancedSearch = () => {
     )
 }
 
-const SearchView = () => {
+const SearchView = ({ user, pageDispatch }) => {
     useEffect(() => {
         fetchAllAnimals()
     }, []);
@@ -54,15 +54,22 @@ const SearchView = () => {
             });
     };
     const selectHandler = (animal) => {
-        
+
         setSelected(animal);
         console.log(selected);
-        
+
+    };
+
+    const adminPageHandler = () => {
+        pageDispatch({
+            nextPage: "admin"
+        });
     };
     
     const animalProfileHandler = (animal) => {
         
     };
+
     return (
         <div>
             <header>
@@ -114,12 +121,17 @@ const SearchView = () => {
                 </div>
             </div>
             <footer>
-                <div class="has-text-centered">
-                    <button class="button">Goto Animal Profile</button>
-                </div>
-                <div class="has-text-centered">
-                    <button class="button">Logout</button>
-                    <button class="button">Admin Access</button>
+                <div className="columns">
+                    <div className="column has-text-centered" css={css`padding: 5px;`}>
+                        <button class="button" >Go to Animal Profile</button>
+                    </div>
+                    {user.accountType === "Admin" ? (
+                        <div class="column has-text-centered" css={css`padding: 5px;`}>
+                            <button className="button" onClick={adminPageHandler}>Admin Access</button>
+                        </div>
+                    ) : null
+
+                    }
                 </div>
             </footer>
         </div>
