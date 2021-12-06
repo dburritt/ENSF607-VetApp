@@ -19,10 +19,11 @@ INSERT INTO `USER` (UserId, Username, `Password`, AccountType, ActivationDate, F
 VALUES
 ('1','gslowski','greg123','Admin', '2021-11-29', 'Greg', 'Slowski', 'gregory.slowski@ucalgary.ca'),
 ('2','dburritt','drew123','Health Technician', '2021-11-29', 'Drew', 'Burritt', 'drew.burritt@ucalgary.ca'),
-('3','tscott','thomas123','Student', '2021-11-29', 'Thomas', 'Scott', 'thomas.scott@ucalgary.ca'),
-('4','Instructor_1','pt@123','Instructor', '2021-11-29', 'Mohammad', 'Moshirpour', 'thomas.scott@ucalgary.ca'),
-('5','Admin_1','pa','Admin', '2021-11-29', 'Emily', 'Marasco', 'thomas.scott@ucalgary.ca'),
-('6','Technician','pe','Health Technician', '2021-11-29', 'Greg', 'Theclient', 'thomas.scott@ucalgary.ca');
+('3','tscott','thomas123','Instructor', '2021-11-29', 'Thomas', 'Scott', 'thomas.scott@ucalgary.ca'),
+('4','Instructor_1','pt@123','Instructor', '2021-11-29', 'Mohammad', 'Moshirpour', 'mohammad@gmail.ca'),
+('5','Technician','pa','Health Technician', '2021-11-29', 'Emily', 'Marasco', 'emily@gmail.ca'),
+('6','Admin_1','pe','Admin', '2021-11-29', 'Greg', 'Theclient', 'admin1@gmail.ca'),
+('7','btables','12345','Student', '2021-11-29', 'Bobby', 'Droptables', 'bobby.droptables@gmail.ca');
 
 DROP TABLE IF EXISTS `STUDENT`;
 CREATE TABLE `STUDENT` (
