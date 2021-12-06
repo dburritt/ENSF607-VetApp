@@ -109,9 +109,6 @@ const BasicSearchView = ({ user, pageDispatch }) => {
             </div>
             <footer>
                 <div className="columns">
-                    <div className="column has-text-centered">
-                        <button class="button" >Go to Animal Profile</button>
-                    </div>
                     {user.accountType === "Admin" ? (
                         <div class="column has-text-centered">
                             <button className="button" onClick={staffPageHandler}>Admin Access</button>

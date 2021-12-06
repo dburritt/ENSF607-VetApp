@@ -88,7 +88,7 @@ function App() {
             </div>
             <div className="column has-text-right"
                   css={css`margin: auto;`}>
-              {(user.name !== "guest" && user.name.length > 0) ? (
+              {(currentView !== "login" && user.name !== "guest" && user.name.length > 0) ? (
                 <title className="column has-text-right">
                   {user.accountType} - {user.name}</title>
               ) : null}
