@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useState} from 'react';
+import { useState } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
 
-const Login = ({ loginDispatch, userDispatch }) => {
+const Login = ({ pageDispatch, userDispatch }) => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -33,9 +33,21 @@ const Login = ({ loginDispatch, userDispatch }) => {
                     userId: s.id,
                     accountType: s.accountType
                 });
-                loginDispatch({
-                    nextPage: "animal"
-                });
+                if (s.accountType === "Admin") {
+                    pageDispatch({
+                        nextPage: "admin"
+                    });
+                }
+                else if (s.accountType === "Instructor"){
+                    pageDispatch({
+                        nextPage: "request"
+                    });
+                }
+                else {
+                    pageDispatch({
+                        nextPage: "animal"
+                    });
+                }
             })
             .catch((err) => {
                 setMessage("Invalid credentials.")
@@ -48,7 +60,7 @@ const Login = ({ loginDispatch, userDispatch }) => {
 
     return (
         <div class="columns is-multiline is-mobile"
-        css={css`vertical-align: top;`}>
+            css={css`vertical-align: top;`}>
             <div class="column" css={css`text-align: center; padding: 10px;`}>
                 <input
                     value={username}
@@ -59,18 +71,18 @@ const Login = ({ loginDispatch, userDispatch }) => {
             </div>
 
             <div class="column" css={css`text-align: center; padding: 10px;`}>
-            <input
-                value={password}
-                onChange={passwordChangeHandler}
-                className="input is-small"
-                type="text"
-                placeholder="Enter password." />
+                <input
+                    value={password}
+                    onChange={passwordChangeHandler}
+                    className="input is-small"
+                    type="text"
+                    placeholder="Enter password." />
             </div>
 
             <div class="column" css={css`text-align: center; padding: 10px;`}>
-            <button
-                onClick={loginHandler}
-                className="button is-small is-success">Login</button>
+                <button
+                    onClick={loginHandler}
+                    className="button is-small is-success">Login</button>
             </div>
 
             <div class="column" css={css`text-align: center; padding: 10px; font-size: small;`}>
