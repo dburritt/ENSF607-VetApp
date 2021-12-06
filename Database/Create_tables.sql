@@ -13,7 +13,7 @@ CREATE TABLE `USER` (
   `LName` VARCHAR(100) DEFAULT NULL,
   `Email` VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 INSERT INTO `USER` (UserId, Username, `Password`, AccountType, ActivationDate, FName, LName, Email)
 VALUES
@@ -29,7 +29,7 @@ CREATE TABLE `STUDENT` (
   `StudentId` VARCHAR(100) NOT NULL,
   `UserId` VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (`StudentId`),
-  FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`)
+  FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE
   );
   
 INSERT INTO `STUDENT` (StudentId, UserId)
@@ -122,12 +122,12 @@ CREATE TABLE `PRESCRIPTION` (
 DROP TABLE IF EXISTS `COMMENTS`;
 CREATE TABLE `COMMENTS` (
 	`CommentId`			VARCHAR(100) not null,
-	`UserId`				VARCHAR(100) not null,
+	`UserId`				VARCHAR(100) DEFAULT 'Deleted',
 	`AnimalId`			VARCHAR(100) not null,
     `CommentDate`			DATE not null,
     `CommentText`			mediumtext not null,
 	primary key (CommentId),
-	foreign key (UserId) references USER(UserId),
+	foreign key (UserId) references USER(UserId) ON DELETE SET NULL,
 	foreign key (AnimalId) references Animal(AnimalId)
 );
 
@@ -151,14 +151,14 @@ DROP TABLE IF EXISTS `animal_request`;
 CREATE TABLE `animal_request` (
   `animalRequestId` varchar(100) NOT NULL,
   `animalId` varchar(100) NOT NULL,
-  `userId` varchar(100) NOT NULL,
+  `userId` varchar(100),
   `state` varchar(100) NOT NULL,
   PRIMARY KEY (`animalRequestId`),
   KEY `userId_idx` (`userId`),
   KEY `animalId_idx` (`animalId`),
   CONSTRAINT `animalId` FOREIGN KEY (`animalId`) REFERENCES `animal` (`AnimalId`),
-  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE
+);
 
 
 INSERT INTO `animal_request` (animalRequestId, `animalId`, userId, state)
