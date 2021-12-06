@@ -351,13 +351,25 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 
 	public void insertUser(User user) throws SQLException {
-		// TODO Auto-generated method stub
+		String query = "INSERT INTO USER (UserId, Username, `Password`, AccountType, ActivationDate, FName, LName, Email) VALUES(?,?,?,?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, user.getId());
+		pStat.setString(2, user.getUsername());
+		pStat.setString(3, user.getPassword());
+		pStat.setString(4, user.getAccountType());
+		pStat.setDate(5, user.getActivationDate());
+		pStat.setString(6, user.getFName());
+		pStat.setString(7, user.getLName());
+		pStat.setString(8, user.getEmail());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
 
 	}
 
 	public void deleteUser(String userId) throws SQLException {
 
-		String query = "DELETE FROM USER WHERE UserId=" + userId + ";";
+		String query = "DELETE FROM USER WHERE UserId='" + userId + "';";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.executeUpdate();
 		pStat.close();

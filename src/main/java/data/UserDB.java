@@ -36,6 +36,7 @@ public class UserDB implements UserRepository {
         try {
 			DB.insertUser(user);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new ResourceNotFoundException(404, "could not create user.");
 		}
         return id;

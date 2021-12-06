@@ -4,6 +4,7 @@ import api.*;
 import api.animal.AnimalListResponse;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
+import domain.animal.NewAnimalRequest;
 import domain.user.NewUser;
 import domain.user.User;
 import domain.user.UserService;
@@ -31,7 +32,7 @@ public class UserRegistrationHandler extends Handler {
     protected void execute(HttpExchange exchange) throws IOException {
         byte[] response=null;
         if ("POST".equals(exchange.getRequestMethod())) {
-            ResponseEntity e = doPost(exchange.getRequestBody());
+            ResponseEntity e = doPost(exchange);
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -72,20 +73,12 @@ public class UserRegistrationHandler extends Handler {
 
     }
 
-    private ResponseEntity<RegistrationResponse> doPost(InputStream is) {
-        RegistrationRequest registerRequest = super.readRequest(is, RegistrationRequest.class);
-
-        NewUser user = NewUser.builder()
-                .username(registerRequest.getUsername())
-                .password(registerRequest.getPassword())
-                .build();
-
-        String userId = userService.create(user);
-
-        RegistrationResponse response = new RegistrationResponse(userId);
-
-        return new ResponseEntity<>(response,
+    private ResponseEntity doPost(HttpExchange exchange) {
+		NewUser newUser = super.readRequest(exchange.getRequestBody(), NewUser.class);
+        String newUserId = userService.createUser(newUser);
+        return new ResponseEntity<>(newUserId,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+    	
     }
 
     private ResponseEntity<UserListResponse> doGet(HttpExchange exchange) {
