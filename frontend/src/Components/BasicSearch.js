@@ -19,16 +19,18 @@ const BasicSearchView = ({ user, pageDispatch }) => {
             })
             .catch((err) => {
                 console.log(err);
+                setResults([]);
             });
     };
     const fetchMyAnimals = () => {
         axios.get(`http://localhost:8001/api/animals?userId=${user.userId}`)
             .then((res) => {
+                console.log(res);
                 setResults(res.data.animals);
-                
+                selectHandler(res.data.animals[0]);
             })
             .catch((err) => {
-                console.log(err);
+                setResults([]);
             });
     };
     const selectHandler = (animal) => {
