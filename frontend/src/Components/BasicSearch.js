@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
@@ -5,7 +6,7 @@ import 'bulma/css/bulma.css';
 
 const BasicSearchView = ({ user, pageDispatch }) => {
     useEffect(() => {
-        fetchAllAnimals()
+        fetchAllAnimals();
     }, []);
     const [results, setResults] = useState([]);
     const [selected, setSelected] = useState([]);
@@ -29,10 +30,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
             });
     };
     const selectHandler = (animal) => {
-
         setSelected(animal);
-        console.log(selected);
-
     };
 
     const staffPageHandler = () => {
@@ -58,7 +56,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
     };
 
     return (
-        <div>
+        <div className="column is-full">
             <header>
                 <div className="columns is-centered"
                     css={css`position: absolute;
@@ -82,9 +80,9 @@ const BasicSearchView = ({ user, pageDispatch }) => {
             
 
             <div class="box">
-                <div class="columns">
+                <div class="columns is-full">
                     <div className="column is-one-quarter">
-                        <div class="select is-multiple">
+                        <div class="select is-multiple is-fullwidth">
                             <select multiple size="5"  >
                                 {results.map((animal, index) => {
                                     const { id, name, species, subspecies, breed } = animal
@@ -99,7 +97,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
                         </div>
                     </div>
                 
-                <div className="column is-full">
+                <div className="column is-three-quarters">
                     <div class="box">
                         <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
                         <button className="button is-small is-success" css={css`width: 90%;`} onClick={() => animalProfileHandler}>Animal Profile</button>
@@ -109,9 +107,6 @@ const BasicSearchView = ({ user, pageDispatch }) => {
             </div>
             <footer>
                 <div className="columns">
-                    <div className="column has-text-centered">
-                        <button class="button" >Go to Animal Profile</button>
-                    </div>
                     {user.accountType === "Admin" ? (
                         <div class="column has-text-centered">
                             <button className="button" onClick={staffPageHandler}>Admin Access</button>
