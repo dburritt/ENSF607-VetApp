@@ -59,6 +59,10 @@ const SearchView = () => {
         console.log(selected);
         
     };
+    
+    const animalProfileHandler = (animal) => {
+        
+    };
     return (
         <div>
             <header>
@@ -81,29 +85,34 @@ const SearchView = () => {
                     <button class="button">Advanced Search</button>
                 </div>
                 </div>
-                    
-            <div className="column">
-                <div class="box">
-                    <div class="select is-multiple">
-                        <select multiple size="5"  >
-                            {results.map((animal, index) => {
-                                const { id, name, species, subspecies, breed } = animal
-                                return (
-                                    
-                                        <option value = {id} onClick={() => selectHandler(animal)}> {name} : {breed}</option>
-                                   
-                                )
-                            })
-                            }       
-                        </select>  
+            
+
+            <div class="box">
+                <div class="columns">
+                    <div className="column is-one-quarter">
+                        <div class="select is-multiple">
+                            <select multiple size="5"  >
+                                {results.map((animal, index) => {
+                                    const { id, name, species, subspecies, breed } = animal
+                                    return (
+
+                                        <option value={id} onClick={() => selectHandler(animal)}> {name} : {breed}</option>
+
+                                    )
+                                })
+                                }
+                            </select>
+                        </div>
                     </div>
-                    <div className="column">
-                    <div class="box"> <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
-                    </div>
+                
+                <div className="column is-full">
+                    <div class="box">
+                        <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
+                        <button className="button is-small is-success" css={css`width: 90%;`} onClick={() => animalProfileHandler}>Animal Profile</button>
                     </div>
                 </div>
+                </div>
             </div>
-
             <footer>
                 <div class="has-text-centered">
                     <button class="button">Goto Animal Profile</button>
