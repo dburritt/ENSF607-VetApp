@@ -156,7 +156,18 @@ public class AnimalDB implements AnimalRepository{
 		
 		return  animals;
 	}
-	
+	@Override
+	public List<Animal> getAnimalsSearch(String search) {
+		List<Animal> animals = null;
+		try {
+			animals = DB.getAnimalsSearch(search);
+			if (animals == null)
+				throw new ResourceNotFoundException(404, "animal not found.");
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
+		return  animals;
+	}
 	@Override
 	public void deleteAnimal(String id) throws ResourceNotFoundException {
 		// TODO Auto-generated method stub
@@ -426,6 +437,8 @@ public class AnimalDB implements AnimalRepository{
 		}
 	
 	}
+
+	
 
 	
 	

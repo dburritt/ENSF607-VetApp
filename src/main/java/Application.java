@@ -15,6 +15,7 @@ import api.animal.AnimalDetailsHandler;
 import api.animal.AnimalHealthRecordHandler;
 import api.animal.AnimalReminderHandler;
 import api.animal.AnimalRequestHandler;
+import api.animal.AnimalSearchHandler;
 import api.animal.AnimalStatusHandler;
 import api.animal.AnimalWeightHandler;
 import api.animal.AnimalsAvailableHandler;
@@ -30,6 +31,10 @@ public class Application {
         AnimalsHandler animalsHandler = new AnimalsHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
         HttpContext context = server.createContext("/api/animals", animalsHandler::handle);
+        
+        AnimalSearchHandler animalsSearchHandler = new AnimalSearchHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/animals/search", animalsSearchHandler::handle);
         
         AnimalsAvailableHandler animalsAvailableHandler = new AnimalsAvailableHandler(Configuration.getAnimalService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
