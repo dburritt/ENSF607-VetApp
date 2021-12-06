@@ -54,13 +54,48 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                         <table className="table has-text-centered">
                         <thead class="table is-primary">
                             <tr>
-                                <th>Comment ID</th>
-                                <th>User ID</th>
-                                <th>Animal ID</th>
-                                <th>Comment Date</th>
-                                <th>Comment Text</th>
+                                <th>Attribute</th>
+                                <th>Value</th>
                             </tr>
                         </thead>
+                        <tbody class="table is-primary">
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                            <tr>
+                                <td>Animal ID</td>
+                                <td>{animal.id}</td>
+                            </tr>
+                        </tbody>
                         </table>
                         </div>
                     </div>
