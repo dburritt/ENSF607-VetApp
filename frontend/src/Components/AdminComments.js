@@ -48,8 +48,8 @@ const AdminComments = ({ user, pageDispatch }) => {
             });
     };
 
-    const editSaveReducer = (state, action) => {
-        return !state;
+    const editingHandler = () => {
+        setEditState(!inEditMode)
     }
 
     const returnHandler = () => {
@@ -78,7 +78,7 @@ const AdminComments = ({ user, pageDispatch }) => {
         return time;
     }
 
-    const [inEditMode, editDispatch] = useReducer(editSaveReducer, false)
+    const [inEditMode, setEditState] = useState(false)
     const [comments, setComments] = useState([]);
 
     return (
@@ -90,7 +90,7 @@ const AdminComments = ({ user, pageDispatch }) => {
                             margin-left: auto;`}>
                 <div className="column">
                     <button
-                        onClick={() => editDispatch({ currentState: inEditMode })}
+                        onClick={() => editingHandler()}
                         css={css`width: 90%;`}
                         className={`button is-small ${inEditMode ? "is-success" : "is-grey"}`}>
                         {inEditMode ? "Finish" : "Edit"}

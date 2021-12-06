@@ -33,6 +33,7 @@ const Admin = ({ user, pageDispatch }) => {
 
     const [value, setValue] = useState(true);
     const [users, setUsers] = useState([]);
+    const [inEditMode, setEditState] = useState(false)
 
     useEffect(() => {
         fetchUsers()
@@ -60,6 +61,20 @@ const Admin = ({ user, pageDispatch }) => {
             nextPage: "allComments"
         });
     };
+
+    const editingHandler = () => {
+        setEditState(!inEditMode)
+    }
+
+    const deleteHandler=  (userId) => {
+        axios.delete('http://localhost:8001/api/users/register?id=' + userId)
+            .then((res) => {
+                setValue(!value)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
@@ -95,7 +110,11 @@ const Admin = ({ user, pageDispatch }) => {
                         <button className="button is-small" css={css`width: 90%;`} onClick={approvalsHandler}>Manage Approvals</button>
                     </div>
                     <div className="column">
-                        <button className="button is-small" css={css`width: 90%;`}>Manage Users</button>
+                        <button
+                            onClick={() => editingHandler()}
+                            css={css`width: 90%;`}
+                            className={`button is-small ${inEditMode ? "is-success" : "is-grey"}`}>
+                            {inEditMode ? "Managing" : "Manage Users"}</button>
                     </div>
                     <div className="column">
                         <button className="button is-small" css={css`width: 90%;`}>Search Animals</button>
@@ -116,6 +135,7 @@ const Admin = ({ user, pageDispatch }) => {
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="table is-primary">
@@ -131,6 +151,12 @@ const Admin = ({ user, pageDispatch }) => {
                                                 <td>{fname}</td>
                                                 <td>{lname}</td>
                                                 <td>{email}</td>
+                                                {inEditMode ? (
+                                                    <button
+                                                        onClick={() => deleteHandler(id)}
+                                                        className="delete is-small is-danger">
+                                                    </button>
+                                                ) : <td></td>}
                                             </tr>
                                         )
                                     })
