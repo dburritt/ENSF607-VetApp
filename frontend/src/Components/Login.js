@@ -75,7 +75,7 @@ const Login = ({ pageDispatch, userDispatch }) => {
                     value={password}
                     onChange={passwordChangeHandler}
                     className="input is-small"
-                    type="text"
+                    type="password"
                     placeholder="Enter password." />
             </div>
 
