@@ -145,14 +145,13 @@ const Admin = ({ user, pageDispatch }) => {
 
     return (
         <>
-            <div className="column is-full has-text-centered"
-            >
-                <div className="columns is-centered"
-                    css={css`position: absolute;
-                    top: 1vh;
-                    width: 100%;`}>
-                    <title className="column has-text-left">User and Comment Management</title>
-                    <title className="column has-text-right">{user.accountType} - {user.name}</title>
+            <div className="column is-full has-text-centered">
+                <div className="columns"
+                    css={css`position: relative;
+                            width: 40%;
+                            margin-right: auto;
+                            margin-left: auto;`}>
+                    <title className="column has-text-center">User and Comment Management</title>
                 </div>
 
                 <div className="columns"
