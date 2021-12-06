@@ -8,6 +8,7 @@ public interface AnimalRepository {
 	 String createAnimal(NewAnimal animal);
 	 List<Animal> getAnimals();
 	 List<Animal> getAnimals(String id) throws ResourceNotFoundException;
+	 List<Animal> getAnimalsByUserId(String userId) throws ResourceNotFoundException;
 	 void deleteAnimal(String id) throws ResourceNotFoundException;
 	 Animal updateAnimal(Animal animal) throws ResourceNotFoundException;
 	 

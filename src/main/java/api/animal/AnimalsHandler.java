@@ -96,19 +96,24 @@ public class AnimalsHandler extends Handler {
             String noId= "";
             String id = params.getOrDefault("id", List.of(noId)).stream().findFirst().orElse(noId);
             String subspecies = params.getOrDefault("subspecies", List.of(noId)).stream().findFirst().orElse("");
+            String userId = params.getOrDefault("userId", List.of(noId)).stream().findFirst().orElse(""); 
+            
             AnimalListResponse animalListResponse = null;
             
             if (id.equals("0")) {
             	animalListResponse = new AnimalListResponse(animalService.getAnimals());
             }
              
-            else if (subspecies.equals("0")) {
+            else if (subspecies.equals("0") && id.equals("") ) {
             	animalListResponse = new AnimalListResponse(animalService.getAnimalSubspecies());
             }
-            else if (!id.equals("0") && subspecies.equals("")) {
+            else if (!userId.equals("")) {
+            	animalListResponse = new AnimalListResponse(animalService.getAnimalsByUserId(userId));
+            }
+            else if (!id.equals("0") && subspecies.equals("") && userId.equals("") ) {
             	animalListResponse = new AnimalListResponse(animalService.getAnimals(id));
             }
-            else if (!subspecies.equals("0")) {
+            else if (!subspecies.equals("0")  && id.equals("")) {
             	animalListResponse = new AnimalListResponse(animalService.getAnimalsBySubspecies(subspecies));
             }
        

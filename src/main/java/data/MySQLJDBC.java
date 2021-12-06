@@ -124,6 +124,29 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	public List<Animal> getAnimalsByUserId(String id) throws SQLException  {
+		List<Animal> r = null;
+
+		String query = "SELECT * FROM ANIMAL, ASSIGNED_ANIMALS as A  WHERE A.UserId = ? AND ANIMAL.AnimalId = A.AnimalID";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		List<Animal> animals = new ArrayList<Animal>();
+		while (rs.next()) {
+			Animal a = Animal.builder().id(rs.getString("animalId")).name(rs.getString("name"))
+					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
+					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
+					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
+					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.tattooNum(rs.getString("tattooNum")).build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+
+		return r;
+	}
+
 
 	public List<Animal> getAllAnimals() throws SQLException {
 		List<Animal> r = null;
@@ -449,7 +472,7 @@ public class MySQLJDBC implements IDBCredentials {
 				.build();
 		// myApp.insert()
 		try {
-			System.out.println(myApp.getAvailableAnimals());
+			System.out.println(myApp.getAnimalsByUserId("6"));
 			// System.out.println(myApp.getAnimalRequestsUser("2"));
 			// System.out.println(myApp.getAllUsers());
 
@@ -461,4 +484,5 @@ public class MySQLJDBC implements IDBCredentials {
 		// myApp.close();
 	}
 
+	
 }

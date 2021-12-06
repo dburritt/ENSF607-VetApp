@@ -103,6 +103,19 @@ public class AnimalDB implements AnimalRepository{
 		
 		return  animals;
 	}
+	@Override
+	public List<Animal> getAnimalsByUserId(String id) throws ResourceNotFoundException{
+		List<Animal> animals = null;
+		try {
+			animals = DB.getAnimalsByUserId(id);
+			if (animals == null)
+				throw new ResourceNotFoundException(404, "animal not found.");
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
+		
+		return  animals;
+	}
 	public List<Animal> getAvailableAnimals(){
 		List<Animal> animals = null;
 		try {
