@@ -55,6 +55,12 @@ const Admin = ({ user, pageDispatch }) => {
         });
     };
 
+    const commentHandler = () => {
+        pageDispatch({
+            nextPage: "allComments"
+        });
+    };
+
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -83,7 +89,7 @@ const Admin = ({ user, pageDispatch }) => {
                             margin-right: auto;
                             margin-left: auto;`}>
                     <div className="column">
-                        <button className="button is-small" css={css`width: 90%;`}>Manage Comments</button>
+                        <button className="button is-small" css={css`width: 90%;`} onClick={commentHandler}>Manage Comments</button>
                     </div>
                     <div className="column">
                         <button className="button is-small" css={css`width: 90%;`} onClick={approvalsHandler}>Manage Approvals</button>

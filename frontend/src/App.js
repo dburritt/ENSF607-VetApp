@@ -4,8 +4,8 @@ import Animals from './Components/Animals';
 import Login from './Components/Login';
 import RequestApprovals from './Components/RequestApprovals';
 import Admin from './Components/Admin';
+import AdminComments from './Components/AdminComments'
 import React, { useReducer } from 'react';
-import { css } from "@emotion/react";
 
 function App() {
 
@@ -27,6 +27,9 @@ function App() {
         break;
       case 'animal':
         newState = "animal";
+        break;
+      case 'allComments':
+        newState = "allComments";
         break;
       default:
         throw new Error();
@@ -91,6 +94,11 @@ function App() {
           ) : null}
           {(currentView === "admin") ? (
             <Admin
+              user={user}
+              pageDispatch={pageDispatch} />
+          ) : null}
+          {(currentView === "allComments") ? (
+            <AdminComments
               user={user}
               pageDispatch={pageDispatch} />
           ) : null}
