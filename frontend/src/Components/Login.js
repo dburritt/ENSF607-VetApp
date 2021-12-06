@@ -38,14 +38,14 @@ const Login = ({ pageDispatch, userDispatch }) => {
                         nextPage: "admin"
                     });
                 }
-                else if (s.accountType === "Instructor"){
-                    pageDispatch({
-                        nextPage: "request"
-                    });
-                }
+                // else if (s.accountType === "Instructor"){
+                //     pageDispatch({
+                //         nextPage: "request"
+                //     });
+                // }
                 else {
                     pageDispatch({
-                        nextPage: "animal"
+                        nextPage: "basicSearch"
                     });
                 }
             })
