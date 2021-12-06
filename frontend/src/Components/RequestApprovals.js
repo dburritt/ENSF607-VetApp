@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { css } from "@emotion/react";
 
-const RequestApprovals = ({ user}) => {
+const RequestApprovals = ({ user, pageDispatch }) => {
 
     const [value, setValue] = useState(true);
     // const [pressable, setPressable] = useState([]);
@@ -34,6 +35,19 @@ const RequestApprovals = ({ user}) => {
             .catch(err => console.log(err))
 
         setValue(value => !value);
+    }
+
+    const returnHandler = () => {
+        if (user.accountType === "Admin") {
+            pageDispatch({
+                nextPage: "admin"
+            });
+        }
+        if (user.accountType === "Health Technician") {
+            // pageDispatch({
+            //     nextPage: "TO BE DETERMINED"
+            // });
+        }
     }
 
     // const [requests, setRequests] = useState({requestedAnimals: [], animalRequests: []})
@@ -155,6 +169,11 @@ const RequestApprovals = ({ user}) => {
             </tbody> */}
                     </table>
                 </div>
+
+                <div className="column">
+                    <button className="button is-small" css={css`width: 40%;`} onClick={returnHandler}>Return</button>
+                </div>
+
             </div>
         </>
     );

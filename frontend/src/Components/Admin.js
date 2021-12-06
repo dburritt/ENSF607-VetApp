@@ -18,6 +18,7 @@ style.innerHTML = `
             text-align: center;
             vertical-align: bottom;
             font-size: 12px;
+            min-width: 30px;
         }
 
         .table td {
@@ -34,6 +35,14 @@ const Admin = ({ user, pageDispatch }) => {
     const [value, setValue] = useState(true);
     const [users, setUsers] = useState([]);
     const [inEditMode, setEditState] = useState(false)
+
+    const [newUsername, setNewUsername] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newAccountType, setNewAccountType] = useState("Student");
+    const [newActivationDate, setNewActivationDate] = useState("");
+    const [newFirstName, setNewFirstName] = useState("");
+    const [newLastName, setNewLastName] = useState("");
+    const [newEmail, setNewEmail] = useState("");
 
     useEffect(() => {
         fetchUsers()
@@ -66,7 +75,8 @@ const Admin = ({ user, pageDispatch }) => {
         setEditState(!inEditMode)
     }
 
-    const deleteHandler=  (userId) => {
+    const deleteHandler = (userId) => {
+        console.log(userId)
         axios.delete('http://localhost:8001/api/users/register?id=' + userId)
             .then((res) => {
                 setValue(!value)
@@ -74,6 +84,47 @@ const Admin = ({ user, pageDispatch }) => {
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    const addHandler = () => {
+        if (newUsername.length === 0 || newPassword.length === 0 || newActivationDate.length != 10 || 
+            newFirstName.length === 0 || newLastName.length === 0 || newEmail.length === 0) {
+            alert("All fields must be entered.")
+            return
+        }
+
+        axios.post('http://localhost:8001/api/users/register', JSON.stringify({
+            username: newUsername, password: newPassword,
+            accountType: newAccountType, activationDate: newActivationDate, fName: newFirstName, lName: newLastName, email: newEmail
+        }))
+            .then((res) => {
+                setValue(!value)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const usernameHandler = (event) => {
+        setNewUsername(event.target.value)
+    }
+    const passwordHandler = (event) => {
+        setNewPassword(event.target.value)
+    }
+    const accountTypeHandler = (event) => {
+        setNewAccountType(event.target.value)
+    }
+    const activationDateHandler = (event) => {
+        setNewActivationDate(event.target.value)
+    }
+    const firstNameHandler = (event) => {
+        setNewFirstName(event.target.value)
+    }
+    const lastNameHandler = (event) => {
+        setNewLastName(event.target.value)
+    }
+    const emailHandler = (event) => {
+        setNewEmail(event.target.value)
     }
 
     const timeConverter = (UNIX_timestamp) => {
@@ -119,7 +170,114 @@ const Admin = ({ user, pageDispatch }) => {
                     <div className="column">
                         <button className="button is-small" css={css`width: 90%;`}>Search Animals</button>
                     </div>
+
+
+
                 </div>
+
+                {
+
+                    inEditMode ? (
+                        <div className="columns"
+                            css={css`position: relative;
+                                width: 70%;
+                                margin-right: auto;
+                                margin-left: auto;`}>
+                            <div className="column">
+                                <title className="tile has-text-left">Add User</title>
+                                <table className="table">
+                                    <thead class="table is-primary">
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Password</th>
+                                            <th>Account Type</th>
+                                            <th>Activation Date</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table is-primary">
+                                        <tr>
+                                            <td>
+                                                <input
+                                                    onChange={usernameHandler}
+                                                    css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                    className="input is-small"
+                                                    type="text" />
+                                            </td>
+                                            <td><input
+                                                onChange={passwordHandler}
+                                                css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                className="input is-small"
+                                                type="text" /></td>
+                                            <td>
+                                                <select onChange={accountTypeHandler}>
+                                                    <option>Student</option>
+                                                    <option>Instructor</option>
+                                                    <option>Health Technician</option>
+                                                    <option>Admin</option>
+                                                </select>
+                                                {/* <input
+                                                    onChange={accountTypeHandler}
+                                                    css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                    className="input is-small"
+                                                    type="text" /> */}
+                                                    </td>
+                                            <td><input
+                                                onChange={activationDateHandler}
+                                                css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                className="input is-small"
+                                                type="text"
+                                                placeholder="YYYY-MM-DD" /></td>
+                                            <td><input
+                                                onChange={firstNameHandler}
+                                                css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                className="input is-small"
+                                                type="text" /></td>
+                                            <td><input
+                                                onChange={lastNameHandler}
+                                                css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                className="input is-small"
+                                                type="text" /></td>
+                                            <td><input
+                                                onChange={emailHandler}
+                                                css={css`
+                                                    max-width: 90%;
+                                                    margin-right: 6px
+                                                    `}
+                                                className="input is-small"
+                                                type="text" /></td>
+                                            <td>
+                                                <button
+                                                    onClick={() => addHandler()}
+                                                    className="button is-small is-success is-rounded">
+                                                    ADD</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    ) : null}
 
                 <div className="columns is-centered"
                     css={css`position: relative;`}>
@@ -128,7 +286,6 @@ const Admin = ({ user, pageDispatch }) => {
                         <table className="table">
                             <thead class="table is-primary">
                                 <tr>
-                                    <th>Id</th>
                                     <th>Username</th>
                                     <th>Account Type</th>
                                     <th>Activation Date</th>
@@ -144,7 +301,6 @@ const Admin = ({ user, pageDispatch }) => {
                                         const { id, username, password, accountType, activationDate, fname, lname, email } = user
                                         return (
                                             <tr key={id}>
-                                                <td>{id}</td>
                                                 <td>{username}</td>
                                                 <td>{accountType}</td>
                                                 <td>{timeConverter(activationDate)}</td>
@@ -152,10 +308,11 @@ const Admin = ({ user, pageDispatch }) => {
                                                 <td>{lname}</td>
                                                 <td>{email}</td>
                                                 {inEditMode ? (
-                                                    <button
-                                                        onClick={() => deleteHandler(id)}
-                                                        className="delete is-small is-danger">
-                                                    </button>
+                                                    <td>
+                                                        <button
+                                                            onClick={() => deleteHandler(id)}
+                                                            className="delete is-medium is-danger">
+                                                        </button></td>
                                                 ) : <td></td>}
                                             </tr>
                                         )
@@ -169,12 +326,12 @@ const Admin = ({ user, pageDispatch }) => {
                         <table className="table">
                             <thead class="table is-primary">
                                 <tr>
-                                    <th>Id</th>
                                     <th>Username</th>
                                     <th>Activation Date</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Email</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="table is-primary">
@@ -183,12 +340,18 @@ const Admin = ({ user, pageDispatch }) => {
                                         const { id, username, password, accountType, activationDate, fname, lname, email } = user
                                         return (
                                             <tr key={id}>
-                                                <td>{id}</td>
                                                 <td>{username}</td>
                                                 <td>{timeConverter(activationDate)}</td>
                                                 <td>{fname}</td>
                                                 <td>{lname}</td>
                                                 <td>{email}</td>
+                                                {inEditMode ? (
+                                                    <td>
+                                                        <button
+                                                            onClick={() => deleteHandler(id)}
+                                                            className="delete is-medium is-danger">
+                                                        </button></td>
+                                                ) : <td></td>}
                                             </tr>
                                         )
                                     })

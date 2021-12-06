@@ -90,7 +90,8 @@ function App() {
           ) : null}
           {(currentView === "approvals") ? (
             <RequestApprovals
-              user={user} />
+              user={user}
+              pageDispatch={pageDispatch} />
           ) : null}
           {(currentView === "admin") ? (
             <Admin
