@@ -9,8 +9,12 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         fetchAllAnimals();
     }, []);
     const [results, setResults] = useState([]);
+
     const [selected, setSelected] = useState([]);
     const [search, setSearch] = useState("");
+
+
+
     const fetchAllAnimals = () => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
@@ -76,7 +80,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     const animalProfileHandler = () => {
         animalSelectionDispatch({
             command: "add",
-            animalId: selected.id
+            animal: selected
         });
         pageDispatch({
             nextPage: "animalProfile"

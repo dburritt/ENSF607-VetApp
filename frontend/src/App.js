@@ -71,11 +71,11 @@ function App() {
     let dict = {};
 
     if (action.command === "add") {
-      dict["animalId"] = action.animalId;
+      dict = action.animal;
     }
 
     if (action.command === "delete") {
-      dict["animalId"] = "none";
+      dict = {};
     }
 
     return dict;
