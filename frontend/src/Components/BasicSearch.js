@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import 'bulma/css/bulma.css';
 
-const BasicSearchView = ({ user, pageDispatch }) => {
+const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     useEffect(() => {
         fetchAllAnimals();
     }, []);
@@ -35,6 +35,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
     };
     const selectHandler = (animal) => {
         setSelected(animal);
+        // console.log(selected);
     };
 
     const staffPageHandler = () => {
@@ -55,8 +56,14 @@ const BasicSearchView = ({ user, pageDispatch }) => {
         }
     };
     
-    const animalProfileHandler = (animal) => {
-        
+    const animalProfileHandler = () => {
+        animalSelectionDispatch({
+            command: "add",
+            animalId: selected.id
+        });
+        pageDispatch({
+            nextPage: "animalProfile"
+        });
     };
 
     return (
@@ -105,7 +112,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
 
                         <div class="box">
                             <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
-                            <button className="button is-small is-success" css={css`width: 90%;`} onClick={() => animalProfileHandler}>Animal Profile</button>
+                            <button className="button is-small is-success" css={css`width: 90%;`} onClick={animalProfileHandler}>Animal Profile</button>
                         </div>
                     </div>
                 </div>
