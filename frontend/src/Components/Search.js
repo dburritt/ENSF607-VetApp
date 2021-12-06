@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import 'bulma/css/bulma.css';
 
 const AdvancedSearch = () => {
-
+    
     return (
         <div>
             <header>
@@ -38,7 +38,19 @@ const AdvancedSearch = () => {
 }
 
 const SearchView = () => {
-
+    useEffect(() => {
+        fetchAllAnimals()
+    }, []);
+    const [results, setResults] = useState([]);
+    const fetchAllAnimals = () => {
+        axios.get('http://localhost:8001/api/animals?id=0')
+            .then((res) => {
+                setResults(res.data.animals);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <div>
             <header>
@@ -48,7 +60,7 @@ const SearchView = () => {
                     width: 100%;`}>
                     <title className="column has-text-left">Search by Animal</title>
                 </div>
-                <button class="button">All Animals</button>
+                <button class="button" onClick={fetchAllAnimals}>All Animals </button>
                 <button class="button">My Animals</button>
             </header>
 
@@ -60,18 +72,25 @@ const SearchView = () => {
                     <button class="button">Search</button>
                     <button class="button">Advanced Search</button>
                 </div>
-            </div>
-
-            <div class="box">
-                <div class="select is-multiple">
-                    <select multiple size="5">
-                        <option>Animal 1</option>
-                        <option>Animal 2</option>
-                        <option>Animal 3</option>
-                        <option>Animal 4</option>
-                        <option>Animal 5</option>
-                        <option>Animal 6</option>
-                    </select>
+                </div>
+                    
+            <div className="column">
+                <div class="box">
+                    <div class="select is-multiple">
+                        <select multiple size="5">
+                            {results.map((animal, index) => {
+                                const { id, name, species, subspecies, breed } = animal
+                                return (
+                                    <>
+                                        <option>{name} : {breed}</option>
+                                    </>
+                                )
+                            })
+                            }
+                                 
+                        </select>
+                    </div>
+                    
                 </div>
             </div>
 
