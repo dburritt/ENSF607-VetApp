@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-const AnimalMenu = ({ userInfo, pageDispatch }) => {
+const RequestsMenu = ({ userInfo, pageDispatch }) => {
 
   const [animals, setAnimals] = useState([]);
   const [animalStatus, setAnimalStatus] = useState();
@@ -190,4 +190,4 @@ const AnimalMenu = ({ userInfo, pageDispatch }) => {
   );
 }
 
-export default AnimalMenu;
+export default RequestsMenu;

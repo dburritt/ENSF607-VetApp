@@ -1,11 +1,11 @@
 import './App.css';
 import 'bulma/css/bulma.css';
-import Animals from './Components/Animals';
+import RequestsMenu from './Components/Requests';
 import Login from './Components/Login';
 import RequestApprovals from './Components/RequestApprovals';
 import Admin from './Components/Admin';
 import AdminComments from './Components/AdminComments'
-import Search from './Components/Search'
+import BasicSearch from './Components/BasicSearch'
 import React, { useReducer } from 'react';
 
 function App() {
@@ -89,7 +89,7 @@ function App() {
               userDispatch={userDispatch} />
           ) : null}
           {(currentView === "request") ? (
-            <Animals userInfo={user}
+            <RequestsMenu userInfo={user}
             pageDispatch={pageDispatch} />
           ) : null}
           {(currentView === "approvals") ? (
@@ -108,7 +108,7 @@ function App() {
               pageDispatch={pageDispatch} />
           ) : null}
           {(currentView === "basicSearch") ? (
-            <Search
+            <BasicSearch
               user={user}
               pageDispatch={pageDispatch} />
           ) : null}
