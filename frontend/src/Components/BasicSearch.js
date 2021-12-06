@@ -19,6 +19,15 @@ const BasicSearchView = ({ user, pageDispatch }) => {
                 console.log(err);
             });
     };
+    const fetchMyAnimals = () => {
+        axios.get(`http://localhost:8001/api/animals?userId=${user.userId}`)
+            .then((res) => {
+                setResults(res.data.animals);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     const selectHandler = (animal) => {
 
         setSelected(animal);
@@ -58,7 +67,7 @@ const BasicSearchView = ({ user, pageDispatch }) => {
                     <title className="column has-text-left">Search by Animal</title>
                 </div>
                 <button class="button" onClick={fetchAllAnimals}>All Animals </button>
-                <button class="button">My Animals</button>
+                <button class="button"onClick={fetchMyAnimals}>My Animals</button>
             </header>
 
             <div class="columns">
