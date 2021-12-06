@@ -60,10 +60,22 @@ const SearchView = ({ user, pageDispatch }) => {
 
     };
 
-    const adminPageHandler = () => {
-        pageDispatch({
-            nextPage: "admin"
-        });
+    const staffPageHandler = () => {
+        if (user.accountType === "Admin"){
+            pageDispatch({
+                nextPage: "admin"
+            });
+        }
+        if (user.accountType === "Health Technician"){
+            pageDispatch({
+                nextPage: "approvals"
+            });
+        }
+        if (user.accountType === "Instructor"){
+            pageDispatch({
+                nextPage: "request"
+            });
+        }
     };
     
     const animalProfileHandler = (animal) => {
@@ -122,16 +134,24 @@ const SearchView = ({ user, pageDispatch }) => {
             </div>
             <footer>
                 <div className="columns">
-                    <div className="column has-text-centered" css={css`padding: 5px;`}>
+                    <div className="column has-text-centered">
                         <button class="button" >Go to Animal Profile</button>
                     </div>
                     {user.accountType === "Admin" ? (
-                        <div class="column has-text-centered" css={css`padding: 5px;`}>
-                            <button className="button" onClick={adminPageHandler}>Admin Access</button>
+                        <div class="column has-text-centered">
+                            <button className="button" onClick={staffPageHandler}>Admin Access</button>
                         </div>
-                    ) : null
-
-                    }
+                    ) : null }
+                    {user.accountType === "Health Technician" ? (
+                        <div class="column has-text-centered">
+                            <button className="button" onClick={staffPageHandler}>Approve Animal Requests</button>
+                        </div>
+                    ) : null }
+                    {user.accountType === "Instructor" ? (
+                        <div class="column has-text-centered">
+                            <button className="button" onClick={staffPageHandler}>Request Animal</button>
+                        </div>
+                    ) : null }
                 </div>
             </footer>
         </div>

@@ -44,9 +44,9 @@ const RequestApprovals = ({ user, pageDispatch }) => {
             });
         }
         if (user.accountType === "Health Technician") {
-            // pageDispatch({
-            //     nextPage: "TO BE DETERMINED"
-            // });
+            pageDispatch({
+                nextPage: "basicSearch"
+            });
         }
     }
 

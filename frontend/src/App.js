@@ -90,7 +90,7 @@ function App() {
           ) : null}
           {(currentView === "request") ? (
             <Animals userInfo={user}
-              user={user} />
+            pageDispatch={pageDispatch} />
           ) : null}
           {(currentView === "approvals") ? (
             <RequestApprovals
