@@ -105,7 +105,7 @@ const Admin = ({ user, pageDispatch }) => {
                 <div className="columns is-centered"
                     css={css`position: relative;`}>
                     <div className="column">
-                        <title className="tile has-text-left">Veterinary Professionals</title>
+                        <title className="tile has-text-left">Staff</title>
                         <table className="table">
                             <thead class="table is-primary">
                                 <tr>

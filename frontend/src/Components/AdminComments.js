@@ -59,10 +59,8 @@ const AdminComments = ({ user, pageDispatch }) => {
     }
 
     const deleteHandler=  (commentId) => {
-        console.log('http://localhost:8001/api/admin/comment?id=' + commentId)
         axios.delete('http://localhost:8001/api/admin/comment?id=' + commentId)
             .then((res) => {
-                console.log(res);
                 setValue(!value)
             })
             .catch((err) => {
@@ -117,6 +115,7 @@ const AdminComments = ({ user, pageDispatch }) => {
                                 <th>Animal ID</th>
                                 <th>Comment Date</th>
                                 <th>Comment Text</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody class="table is-primary">
@@ -132,8 +131,8 @@ const AdminComments = ({ user, pageDispatch }) => {
                                             <td>{commentText}</td>
                                             {inEditMode ? (
                                             <button
-                                                onClick={deleteHandler(commentId)}
-                                                className="delete is-small">
+                                                onClick={() => deleteHandler(commentId)}
+                                                className="delete is-small is-danger">
                                             </button>
                                         ) : <td></td>}
                                         </tr>
