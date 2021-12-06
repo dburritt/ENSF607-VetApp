@@ -22,6 +22,8 @@ public class AnimalService {
 	public List<Animal> getAnimalSubspecies() {return animalRepository.getAnimalSubspecies();}
 	public List<Animal> getAnimalsBySubspecies(String subspecies) {return animalRepository.getAnimalsBySubspecies(subspecies);}
 	public List<Animal> getAnimalsByUserId(String userId) {return animalRepository.getAnimalsByUserId(userId); }
+	public List<Animal> getAnimalsSearch(String search) {return animalRepository.getAnimalsSearch(search); }
+
     public Animal updateAnimal(Animal animal) throws ResourceNotFoundException{
         Objects.requireNonNull(animal.getId(),"animal id is required for update");
         return  animalRepository.updateAnimal(animal);
@@ -111,6 +113,7 @@ public class AnimalService {
 	public  void deleteAnimalRequest(String id) throws ResourceNotFoundException{
 		
 	}
+
 
 	
 

@@ -207,6 +207,44 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	public List<Animal> getAnimalsSearch(String search) throws SQLException {
+		List<Animal> r = null;
+
+		String query = "SELECT DISTINCT * FROM ANIMAL WHERE AnimalId LIKE CONCAT('%',?,'%')"
+				+ " OR name LIKE CONCAT('%',?,'%') OR species LIKE CONCAT('%',?,'%')"
+				+ " OR subspecies LIKE CONCAT('%',?,'%')"
+				+ " OR breed LIKE CONCAT('%',?,'%')"
+				+ " OR Colour LIKE CONCAT('%',?,'%')"
+				+ " OR Features LIKE CONCAT('%',?,'%')"
+				+ " OR BirthDate LIKE CONCAT('%',?,'%')"
+				+ " OR RFID LIKE CONCAT('%',?,'%')"
+				+ " OR Microchip LIKE CONCAT('%',?,'%')"
+				+ " OR TattooNum LIKE CONCAT('%',?,'%')"
+				+ "ORDER BY\r\n"
+				+ "  CASE\r\n"
+				+ "    WHEN animalid LIKE ? OR name LIKE ? THEN 1"
+				+ "    WHEN animalid LIKE CONCAT(?,'%') OR name LIKE CONCAT(?,'%') THEN 2"
+				+ "    WHEN animalid LIKE CONCAT('%',?,'%') OR name LIKE CONCAT('%',?,'%') THEN 4"
+				+ "    ELSE 3"
+				+ "  END";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		for(int i = 1; i<18; i++) {pStat.setString(i, search);}
+		rs = pStat.executeQuery();
+		List<Animal> animals = new ArrayList<Animal>();
+		while (rs.next()) {
+			Animal a = Animal.builder().id(rs.getString("animalId")).name(rs.getString("name"))
+					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
+					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
+					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
+					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.tattooNum(rs.getString("tattooNum")).build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+
+		return r;
+	}
 
 	public List<Animal> getAnimalsBySubspecies(String subspecies) throws SQLException {
 		List<Animal> r = null;
@@ -472,7 +510,7 @@ public class MySQLJDBC implements IDBCredentials {
 				.build();
 		// myApp.insert()
 		try {
-			System.out.println(myApp.getAnimalsByUserId("6"));
+			System.out.println(myApp.getAnimalsSearch("S"));
 			// System.out.println(myApp.getAnimalRequestsUser("2"));
 			// System.out.println(myApp.getAllUsers());
 
@@ -483,6 +521,8 @@ public class MySQLJDBC implements IDBCredentials {
 		}
 		// myApp.close();
 	}
+
+	
 
 	
 }
