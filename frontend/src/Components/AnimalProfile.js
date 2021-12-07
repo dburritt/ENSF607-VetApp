@@ -70,10 +70,10 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                 margin: 0em;
                                 padding: 0;
                                 max-height: 90px;`}>
-                                    <li className="content is-small">Name: {animal.name}</li>
-                                    <li className="content is-small">Type: {animal.subspecies}</li>
-                                    <li className="content is-small">Colour: {animal.color}</li>
-                                    <li className="content is-small">Status: { }</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Name: {animal.name}</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Type: {animal.subspecies}</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Colour: {animal.color}</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Status: { }</li>
                                 </ul>
                             </nav>
                         </div>
