@@ -459,7 +459,6 @@ public class MySQLJDBC implements IDBCredentials {
 
 	public List<User> getUser(String id) throws SQLException {
 		List<User> r = null;
-
 		String query = "SELECT * FROM User WHERE userId = ?";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, id);
@@ -473,6 +472,7 @@ public class MySQLJDBC implements IDBCredentials {
 			users.add(u);
 			r = users;
 		}
+		
 		pStat.close();
 
 		return r;

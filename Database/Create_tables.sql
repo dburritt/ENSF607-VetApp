@@ -20,7 +20,7 @@ VALUES
 ('1','gslowski','greg123','Admin', '2021-11-29', 'Greg', 'Slowski', 'gregory.slowski@ucalgary.ca'),
 ('2','dburritt','drew123','Health Technician', '2021-11-29', 'Drew', 'Burritt', 'drew.burritt@ucalgary.ca'),
 ('3','tscott','thomas123','Instructor', '2021-11-29', 'Thomas', 'Scott', 'thomas.scott@ucalgary.ca'),
-('4','Instructor_1','pt@123','Instructor', '2021-11-29', 'Mohammad', 'Moshirpour', 'mohammad@gmail.ca'),
+('14','Instructor_1','pt@123','Instructor', '2021-11-29', 'Mohammad', 'Moshirpour', 'mohammad@gmail.ca'),
 ('5','Technician','pa','Health Technician', '2021-11-29', 'Emily', 'Marasco', 'emily@gmail.ca'),
 ('6','Admin_1','pe','Admin', '2021-11-29', 'Greg', 'Theclient', 'admin1@gmail.ca'),
 ('7','btables','12345','Student', '2021-11-29', 'Bobby', 'Droptables', 'bobby.droptables@gmail.ca');
@@ -136,8 +136,9 @@ INSERT INTO `COMMENTS` (CommentId, `UserId`, AnimalId, CommentDate, CommentText)
 VALUES
 (1, 2, '53195', '2015-11-29', 'this is test comment 1'),
 (2, 3, '53196', '2015-11-29', 'this is test comment 2'),
-(3, 4, '53197', '2015-11-29', 'bad comment 3'),
-(4, 5, '53197', '2015-11-29', 'good comment 4');
+(3, 14, '53197', '2015-11-29', 'bad comment 3'),
+(4, 5, '53197', '2015-11-29', 'good comment 4'),
+(5, 7, '53197', '2015-11-29', 'student comment 4');
 
 DROP TABLE IF EXISTS `ANIMAL_STATUS`;
 CREATE TABLE `ANIMAL_STATUS` (

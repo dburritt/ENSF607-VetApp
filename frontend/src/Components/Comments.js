@@ -6,7 +6,7 @@ import axios from 'axios';
 const AnimalComments = ({ user, animal, pageDispatch }) => {
 
     useEffect(() => {
-        console.log(animal)
+        fetchComments();
     }, []);
 
     const returnHandler = () => {
@@ -43,6 +43,16 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         }
     }
 
+    const fetchComments = () => {
+        axios.get('http://localhost:8001/api/admin/comment')
+            .then((res) => {
+                setComments(res.data.comments);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -52,6 +62,8 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         var time = date + ' ' + month + ' ' + year;
         return time;
     }
+
+    const [comments, setComments] = useState([]);
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -90,11 +102,11 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                     <div className="box">
                         <div className="columns is-full">
                             <div className="column is-half">
-                                Comments
+                                Staff Comments
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Edit</button>
+                                    <button className="button is-success">Add Comment</button>
                                 ) : null}
                             </div>
                         </div>
@@ -102,59 +114,27 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                             <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
-                                        <th>Attribute</th>
-                                        <th>Value</th>
+                                        <th>User ID</th>
+                                        <th>Comment Date</th>
+                                        <th>Comment Text</th>
                                     </tr>
                                 </thead>
+
                                 <tbody class="table is-primary">
-                                    <tr>
-                                        <td>Animal ID</td>
-                                        <td>{animal.id}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>{animal.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sex</td>
-                                        <td>{animal.sex}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Species</td>
-                                        <td>{animal.species}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Subspecies</td>
-                                        <td>{animal.subspecies}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Breed</td>
-                                        <td>{animal.breed}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Birthday</td>
-                                        <td>{timeConverter(animal.bithdate)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Colour</td>
-                                        <td>{animal.color}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Notable Features</td>
-                                        <td>{animal.features}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Microchip #</td>
-                                        <td>{animal.microchip}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RFID</td>
-                                        <td>{animal.rfid}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tattoo Number</td>
-                                        <td>{animal.tattooNum}</td>
-                                    </tr>
+                                    {comments.map((comment) => {
+                                        const { commentId, userId, animalId, commentDate, commentText } = comment
+                                        return (
+                                            <>
+                                                <tr key={commentId}>
+                                                    <td>{userId}</td>
+                                                    <td>{timeConverter(commentDate)}</td>
+                                                    <td>{commentText}</td>
+                                                </tr>
+
+                                            </>
+                                        )
+                                    })
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -162,71 +142,39 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                     <div className="box">
                         <div className="columns is-full">
                             <div className="column is-half">
-                                Comments
+                                Student Comments
                             </div>
                             <div className="column is-half has-text-right">
-                                {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Edit</button>
+                                {user.accountType === "Student" ? (
+                                    <button className="button is-success">Add Comment</button>
                                 ) : null}
                             </div>
                         </div>
                         <div className="column is-full">
-                            <table className="table has-text-centered">
+                        <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
-                                        <th>Attribute</th>
-                                        <th>Value</th>
+                                        <th>User ID</th>
+                                        <th>Comment Date</th>
+                                        <th>Comment Text</th>
                                     </tr>
                                 </thead>
+
                                 <tbody class="table is-primary">
-                                    <tr>
-                                        <td>Animal ID</td>
-                                        <td>{animal.id}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>{animal.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sex</td>
-                                        <td>{animal.sex}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Species</td>
-                                        <td>{animal.species}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Subspecies</td>
-                                        <td>{animal.subspecies}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Breed</td>
-                                        <td>{animal.breed}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Birthday</td>
-                                        <td>{timeConverter(animal.bithdate)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Colour</td>
-                                        <td>{animal.color}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Notable Features</td>
-                                        <td>{animal.features}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Microchip #</td>
-                                        <td>{animal.microchip}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RFID</td>
-                                        <td>{animal.rfid}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tattoo Number</td>
-                                        <td>{animal.tattooNum}</td>
-                                    </tr>
+                                    {comments.map((comment) => {
+                                        const { commentId, userId, animalId, commentDate, commentText } = comment
+                                        return (
+                                            <>
+                                                <tr key={commentId}>
+                                                    <td>{userId}</td>
+                                                    <td>{timeConverter(commentDate)}</td>
+                                                    <td>{commentText}</td>
+                                                </tr>
+
+                                            </>
+                                        )
+                                    })
+                                    }
                                 </tbody>
                             </table>
                         </div>
