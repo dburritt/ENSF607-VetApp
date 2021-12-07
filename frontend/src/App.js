@@ -109,10 +109,10 @@ function App() {
               css={css`margin: auto;`}>
               <header>U of C Veterinary Medicine Management System</header>
             </div>
-            <div className="column has-text-right"
+            <div className="column has-text-centered"
               css={css`margin: auto;`}>
               {(currentView !== "login" && user.name !== "guest" && user.name.length > 0) ? (
-                <title className="column has-text-right">
+                <title className="column has-text-center">
                   {user.accountType} - {user.name}</title>
               ) : null}
             </div>
