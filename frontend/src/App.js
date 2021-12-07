@@ -9,6 +9,7 @@ import AdminComments from './Components/AdminComments'
 import BasicSearch from './Components/BasicSearch'
 import AnimalProfile from './Components/AnimalProfile'
 import HealthRecord from './Components/HealthRecord'
+import WeightRecord from './Components/WeightRecord'
 import React, { useReducer } from 'react';
 import { css } from "@emotion/react";
 
@@ -43,8 +44,11 @@ function App() {
         newState = "animalProfile";
         break;
       case 'healthRecord':
-          newState = "healthRecord";
-          break;  
+        newState = "healthRecord";
+        break;
+      case 'weightRecord':
+        newState = "weightRecord";
+        break;
       default:
         throw new Error();
     }
@@ -164,6 +168,12 @@ function App() {
           ) : null}
           {(currentView === "healthRecord") ? (
             <HealthRecord
+              user={user}
+              animal={animalSelection}
+              pageDispatch={pageDispatch} />
+          ) : null}
+          {(currentView === "weightRecord") ? (
+            <WeightRecord
               user={user}
               animal={animalSelection}
               pageDispatch={pageDispatch} />
