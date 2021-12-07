@@ -3,6 +3,18 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import 'bulma/css/bulma.css';
+import AdvancedSearch from '../Components/AdvancedSearch';
+
+const AdvancedSearchPopup = props => {
+    return (
+        <div className="popup-box">
+          <div className="box">
+            <button className="button" onClick={props.handleClose}>Close</button>
+            <AdvancedSearch/>
+          </div>
+        </div>
+      );
+}
 
 const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     useEffect(() => {
@@ -12,8 +24,11 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
 
     const [selected, setSelected] = useState([]);
     const [search, setSearch] = useState("");
+    const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
 
-
+    const toggleAdvancedSearch = () => {
+        setAdvancedSearchOpen(!advancedSearchOpen);
+    }
 
     const fetchAllAnimals = () => {
         axios.get('http://localhost:8001/api/animals?id=0')
@@ -109,7 +124,8 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 </div>
                 <div class="column is-half">
                     <button class="button" onClick={searchHandler}>Search</button>
-                    <button class="button">Advanced Search</button>
+                    <button class="button" onClick={toggleAdvancedSearch}>Advanced Search</button>
+                    {advancedSearchOpen && <AdvancedSearchPopup handleClose={toggleAdvancedSearch} />}
                 </div>
                 </div>
             
@@ -141,6 +157,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                     </div>
                 </div>
             </div>
+            
             <footer>
                 <div className="columns">
                     {user.accountType === "Admin" ? (
@@ -161,6 +178,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 </div>
             </footer>
         </div>
+        
     );
 }
 
