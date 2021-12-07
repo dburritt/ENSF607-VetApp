@@ -90,11 +90,11 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                     <div className="box">
                         <div className="columns is-full">
                             <div className="column is-half">
-                                Basic Info
+                               Health Record
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Edit</button>
+                                    <button className="button is-success">Add Record</button>
                                 ) : null}
                             </div>
                         </div>
@@ -102,58 +102,54 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                             <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
-                                        <th>Attribute</th>
+                                        <th>Record Type</th>
                                         <th>Value</th>
+                                        <th>Date</th>
+                                        <th>Notes</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
                                     <tr>
-                                        <td>Animal ID</td>
-                                        <td>{animal.id}</td>
+                                        <td>Temperature</td>
+                                        <td>40</td>
+                                        <td>2020/12/01</td>
+                                        <td>Good</td>
                                     </tr>
                                     <tr>
-                                        <td>Name</td>
-                                        <td>{animal.name}</td>
+                                        <td>Blood concentration</td>
+                                        <td>100</td>
+                                        <td>2019/12/01</td>
+                                        <td>Monitor</td>
                                     </tr>
                                     <tr>
-                                        <td>Sex</td>
-                                        <td>{animal.sex}</td>
+                                        <td>Temperature</td>
+                                        <td>38</td>
+                                        <td>2020/12/01</td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Species</td>
-                                        <td>{animal.species}</td>
+                                        <td>Heart Rate</td>
+                                        <td>40</td>
+                                        <td>2020/12/01</td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td>Subspecies</td>
-                                        <td>{animal.subspecies}</td>
+                                    <td>....</td>
+                                        <td>...</td>
+                                        <td>...</td>
+                                        <td>...</td>
                                     </tr>
                                     <tr>
-                                        <td>Breed</td>
-                                        <td>{animal.breed}</td>
+                                        <td>...</td>
+                                        <td>...</td>
+                                        <td>...</td>
+                                        <td>...</td>
                                     </tr>
                                     <tr>
-                                        <td>Birthday</td>
-                                        <td>{timeConverter(animal.bithdate)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Colour</td>
-                                        <td>{animal.color}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Notable Features</td>
-                                        <td>{animal.features}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Microchip #</td>
-                                        <td>{animal.microchip}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RFID</td>
-                                        <td>{animal.rfid}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tattoo Number</td>
-                                        <td>{animal.tattooNum}</td>
+                                        <td>Temperature</td>
+                                        <td>41</td>
+                                        <td>2018/12/01</td>
+                                        <td>First Visit</td>
                                     </tr>
                                 </tbody>
                             </table>
