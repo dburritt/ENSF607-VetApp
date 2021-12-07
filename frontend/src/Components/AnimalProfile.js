@@ -28,7 +28,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
         if (event.target.value === "Health Record") {
             pageDispatch({
-                nextPage: "animalProfile"
+                nextPage: "healthRecord"
             });
         }
         if (event.target.value === "Pictures") {
