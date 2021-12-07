@@ -103,10 +103,10 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     };
 
     return (
-        <div className="column is-full">
+        <div className="column is-four-fifths">
             <header>
                 <div className="columns is-centered"
-                    css={css`position: absolute;
+                    css={css`position: relative;
                     top: 1vh;
                     width: 100%;`}>
                     <title className="column has-text-left">Search by Animal</title>
