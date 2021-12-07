@@ -60,7 +60,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                     css={css`max-height: 90px;`}>
                     <div className="column is-one-quarter" >
                         <div className="box" css={css`height: 90px;`}>
-                            profile picture
+                            Profile picture
                         </div>
                     </div>
                     <div className="column is-one-quarter">
@@ -80,7 +80,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                     </div>
                     <div className="column is-one-half">
                         <div className="box" css={css`height: 90px;`}>
-                            reminders
+                            Reminders
                         </div>
                     </div>
                 </div>
