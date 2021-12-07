@@ -23,7 +23,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
         if (event.target.value === "Weight Record") {
             pageDispatch({
-                nextPage: "animalProfile"
+                nextPage: "weightRecord"
             });
         }
         if (event.target.value === "Health Record") {
@@ -33,7 +33,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
         if (event.target.value === "Pictures") {
             pageDispatch({
-                nextPage: "animalProfile"
+                nextPage: "pictures"
             });
         }
         if (event.target.value === "Comments") {
