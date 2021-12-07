@@ -45,6 +45,9 @@ function App() {
       case 'healthRecord':
           newState = "healthRecord";
           break;  
+      case 'comments':
+          newState = "comments";
+          break;
       default:
         throw new Error();
     }

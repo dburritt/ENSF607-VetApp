@@ -38,7 +38,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
         if (event.target.value === "Comments") {
             pageDispatch({
-                nextPage: "animalProfile"
+                nextPage: "comments"
             });
         }
     }
