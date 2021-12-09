@@ -527,6 +527,29 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+
+	public List<AnimalWeight> getAnimalWeight(String id) throws SQLException {
+		List<AnimalWeight> r = null;
+		String query = "SELECT * FROM WEIGHT WHERE AnimalId = ? ORDER BY Date DESC";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		List<AnimalWeight> records = new ArrayList<AnimalWeight>();
+
+		while (rs.next()) {
+			AnimalWeight w = AnimalWeight.builder()
+					.animalId(id)
+					.date(rs.getDate("Date"))
+					.weight(rs.getDouble("Weight"))
+					.notes(rs.getString("Notes"))
+					.build();
+			records.add(w);
+			r = records;
+		}
+		pStat.close();
+
+		return r;
+	}
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
@@ -546,6 +569,7 @@ public class MySQLJDBC implements IDBCredentials {
 		}
 		// myApp.close();
 	}
+
 	
 
 	
