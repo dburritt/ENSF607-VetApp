@@ -4,8 +4,10 @@ import { css } from "@emotion/react";
 import axios from 'axios';
 
 const WeightRecord = ({ user, animal, pageDispatch }) => {
+    const [weightRecords, setWeightRecords] = useState([]);
 
     useEffect(() => {
+        fetchAnimalWeightRecord()
         console.log(animal)
     }, []);
 
@@ -42,7 +44,17 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
             });
         }
     }
-
+    const fetchAnimalWeightRecord = () => {
+        axios.get(`http://localhost:8001/api/animals/weight/?id=${animal.id}`)
+            .then((res) => {
+                console.log(res.data.animalWeight);
+                setWeightRecords(res.data.animalWeight);
+            })
+            .catch((err) => {
+                console.log(err);
+               // setResults([]);
+            });
+    };
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -116,41 +128,20 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
-                                    <tr>
-                                        <td>123</td>
-                                        <td>2020/12/01</td>
-                                        <td>Good</td>
-                                    </tr>
-                                    <tr>
-                                        <td>123</td>
-                                        <td>2020/12/01</td>
-                                        <td>Good</td>
-                                    </tr>
-                                    <tr>
-                                        <td>132</td>
-                                        <td>2020/12/01</td>
-                                        <td>Good</td>
-                                    </tr>
-                                    <tr>
-                                        <td>150</td>
-                                        <td>2020/12/01</td>
-                                        <td>Overweight</td>
-                                    </tr>
-                                    <tr>
-                                        <td>...</td>
-                                        <td>...</td>
-                                        <td>...</td>
-                                    </tr>
-                                    <tr>
-                                        <td>...</td>
-                                        <td>...</td>
-                                        <td>...</td>
-                                    </tr>
-                                    <tr>
-                                        <td>120</td>
-                                        <td>2020/12/01</td>
-                                        <td>Watch</td>
-                                    </tr>
+                                {weightRecords.map((weightRecord, index) => {
+                                const {date, weight, notes } = weightRecord
+                                return (
+                                    <>
+                                        <tr key={date}>
+                                            <td>{timeConverter(date)}</td>
+                                            <td>{weight}</td>
+                                            <td>{notes}</td>
+                                        </tr>
+                                        
+                                    </>
+                                )
+                            })
+                            }
                                 </tbody>
                             </table>
                         </div>
