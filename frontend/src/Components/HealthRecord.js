@@ -5,8 +5,11 @@ import axios from 'axios';
 
 const HealthRecord = ({ user, animal, pageDispatch }) => {
 
+    const [healthRecord, setHealthRecord] = useState([]);
+
     useEffect(() => {
         console.log(animal)
+        fetchAnimalHealthRecord()
     }, []);
 
     const returnHandler = () => {
@@ -42,7 +45,18 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
             });
         }
     }
-
+    const fetchAnimalHealthRecord = () => {
+        axios.get(`http://localhost:8001/api/animals/healthrecord/?id=${animal.id}`)
+            .then((res) => {
+                console.log(res);
+                //setHealthRecord(res.data.animals);
+               // selectHandler(res.data.animals[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+               // setResults([]);
+            });
+    };
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

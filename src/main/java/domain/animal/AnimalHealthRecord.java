@@ -15,4 +15,5 @@ public class AnimalHealthRecord {
 	Date date;
 	String type;
     String record;	
+    String notes;
 }

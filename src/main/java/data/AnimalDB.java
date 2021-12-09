@@ -267,8 +267,13 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public AnimalHealthRecord getAnimalHealthRecord(String id) {
-		AnimalHealthRecord animalHealthRecord = Optional.ofNullable(ANIMAL_HEALTH_RECORD_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		return  animalHealthRecord;
+		//AnimalHealthRecord animalHealthRecord = Optional.ofNullable(ANIMAL_HEALTH_RECORD_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		try {
+			return DB.getAnimalHealthRecord(id);
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
 	}
 
 	@Override

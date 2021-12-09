@@ -14,4 +14,5 @@ public class NewAnimalHealthRecord {
 	Date date;
 	String type;
     String record;	
+    String notes;
 }

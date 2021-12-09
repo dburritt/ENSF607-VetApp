@@ -522,6 +522,29 @@ public class MySQLJDBC implements IDBCredentials {
 		// myApp.close();
 	}
 
+	public AnimalHealthRecord getAnimalHealthRecord(String id) throws SQLException {
+		AnimalHealthRecord r = null;
+		String query = "SELECT * FROM HEALTH_RECORD WHERE AnimalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		List<Animal> animals = new ArrayList<Animal>();
+
+		while (rs.next()) {
+			AnimalHealthRecord hr = AnimalHealthRecord.builder()
+					.animalId(id)
+					.date(rs.getDate("Date"))
+					.type(rs.getString("Type"))
+					.record("Record")
+					.notes(rs.getString("Notes"))
+					.build();
+			r = hr;
+		}
+		pStat.close();
+
+		return r;
+	}
+
 	
 
 	
