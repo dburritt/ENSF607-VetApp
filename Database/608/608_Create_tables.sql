@@ -88,10 +88,11 @@ CREATE TABLE `WEIGHT` (
   `AnimalId` VARCHAR(100) NOT NULL,
   `Date` DATE NOT NULL,
   `Weight` FLOAT DEFAULT NULL,
+  `notes` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`AnimalId`, `Date`),
   FOREIGN KEY (`AnimalId`) REFERENCES `ANIMAL` (`AnimalId`)
   );
-  
+
 INSERT INTO `WEIGHT` (AnimalId, `Date`, Weight)
 VALUES
 ('53195', '2021-11-29', '155'),
@@ -192,7 +193,7 @@ CREATE TABLE `health_record` (
   `Type` varchar(100) NOT NULL,
   `Record` varchar(100) NOT NULL,
   `Notes` mediumtext,
-  PRIMARY KEY (`Date`,`Type`),
+  PRIMARY KEY (`Date`),
   KEY `AnimalId` (`AnimalId`),
   CONSTRAINT `health_record_ibfk_1` FOREIGN KEY (`AnimalId`) REFERENCES `animal` (`AnimalId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

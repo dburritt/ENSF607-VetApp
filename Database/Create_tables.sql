@@ -88,10 +88,11 @@ CREATE TABLE `WEIGHT` (
   `AnimalId` VARCHAR(100) NOT NULL,
   `Date` DATE NOT NULL,
   `Weight` FLOAT DEFAULT NULL,
+  `notes` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`AnimalId`, `Date`),
   FOREIGN KEY (`AnimalId`) REFERENCES `ANIMAL` (`AnimalId`)
   );
-  
+
 INSERT INTO `WEIGHT` (AnimalId, `Date`, Weight)
 VALUES
 ('53195', '2021-11-29', '155'),
@@ -184,3 +185,18 @@ VALUES
 (5, '53195'),
 (5, '53196');
 -- SELECT * FROM `Weight`;
+
+DROP TABLE IF EXISTS `health_record`;
+CREATE TABLE `health_record` (
+  `AnimalId` varchar(100) NOT NULL,
+  `Date` datetime NOT NULL,
+  `Type` varchar(100) NOT NULL,
+  `Record` varchar(100) NOT NULL,
+  `Notes` mediumtext,
+  PRIMARY KEY (`Date`),
+  KEY `AnimalId` (`AnimalId`),
+  CONSTRAINT `health_record_ibfk_1` FOREIGN KEY (`AnimalId`) REFERENCES `animal` (`AnimalId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `health_record` (`AnimalId`,`Date`,`Type`,`Record`,`Notes`) VALUES ('53195','2020-10-01 00:00:00','temp','a','1');
+INSERT INTO `health_record` (`AnimalId`,`Date`,`Type`,`Record`,`Notes`) VALUES ('53195','2020-11-01 00:00:00','blood','b','2');
