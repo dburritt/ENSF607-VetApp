@@ -6,5 +6,5 @@ import lombok.Value;
 
 @Value
 public class AnimalWeightResponse {
-	AnimalWeight animalWeight;
+	List<AnimalWeight> animalWeight;
 }

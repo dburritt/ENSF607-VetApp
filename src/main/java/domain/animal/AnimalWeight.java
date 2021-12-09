@@ -9,6 +9,8 @@ import lombok.Value;
 @Getter
 @Builder
 public class AnimalWeight {
-	String id;
-	TreeMap<Date, Double> weight;
+	String animalId;
+	Date date;
+	double weight;
+	String notes;
 }

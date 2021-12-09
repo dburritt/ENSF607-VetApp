@@ -64,7 +64,7 @@ public class AnimalWeightHandler extends Handler {
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalWeight newAnimalWeight = super.readRequest(exchange.getRequestBody(), NewAnimalWeight.class);
         AnimalWeight animalWeightForUpdate = AnimalWeight.builder()
-                .id(animalId)
+                .animalId(animalId)
                 .weight(newAnimalWeight.getWeight())
                 .build();
         AnimalWeight animalWeightAfterUpdate = animalService.updateAnimalWeight(animalWeightForUpdate);
@@ -77,7 +77,7 @@ public class AnimalWeightHandler extends Handler {
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalWeight newAnimalWeight = super.readRequest(exchange.getRequestBody(), NewAnimalWeight.class);
         AnimalWeight animalWeight = AnimalWeight.builder()
-                .id(animalId)
+                .animalId(animalId)
                 .weight(newAnimalWeight.getWeight())
                 .build();
         animalService.createAnimalWeight(animalWeight);

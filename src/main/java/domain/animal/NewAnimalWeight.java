@@ -9,5 +9,7 @@ import lombok.Value;
 @Getter
 @Builder
 public class NewAnimalWeight {
-	TreeMap<Date, Double> weight;
+	Date date;
+	double weight;
+	String notes;
 }

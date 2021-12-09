@@ -40,7 +40,7 @@ public class AnimalService {
         return  animalRepository.updateAnimalDetails(animalDetails);
     }
 
-	public AnimalWeight getAnimalWeight(String id) throws ResourceNotFoundException {
+	public List<AnimalWeight> getAnimalWeight(String id) throws ResourceNotFoundException {
 		return animalRepository.getAnimalWeight(id);
 	}
 	
@@ -65,7 +65,7 @@ public class AnimalService {
 	}
 
 	public AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) {
-		Objects.requireNonNull(animalWeight.getId(),"animal id is required for update");
+		Objects.requireNonNull(animalWeight.getAnimalId(),"animal id is required for update");
         return  animalRepository.updateAnimalWeight(animalWeight);
 	}
 

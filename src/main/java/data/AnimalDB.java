@@ -43,8 +43,8 @@ public class AnimalDB implements AnimalRepository{
 				weight.put(new Date(55445412), 120.0);
 				weight.put(new Date(55455412), 125.1);
 				weight.put(new Date(55459000), 121.1);
-			AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
-			ANIMAL_WEIGHT_STORE.put(id,w);
+			//AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
+			//ANIMAL_WEIGHT_STORE.put(id,w);
 			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
 			ANIMAL_STATUS_STORE.put(id,s);
 			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(2020,03,01)).type("temp").record("37 degrees").build();
@@ -217,14 +217,19 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimalWeight(AnimalWeight animalWeight) {
-		 ANIMAL_WEIGHT_STORE.put(animalWeight.getId(), animalWeight);
-	     return animalWeight.getId();
+		 ANIMAL_WEIGHT_STORE.put(animalWeight.getAnimalId(), animalWeight);
+	     return animalWeight.getAnimalId();
 	}
 
 	@Override
-	public AnimalWeight getAnimalWeight(String id) {
-		AnimalWeight animalWeight = Optional.of(ANIMAL_WEIGHT_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		return  animalWeight;
+	public List<AnimalWeight> getAnimalWeight(String id) {
+		//AnimalWeight animalWeight = Optional.of(ANIMAL_WEIGHT_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		try {
+			return DB.getAnimalWeight(id);
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
 	}
 
 	@Override
@@ -235,8 +240,8 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) throws ResourceNotFoundException {
-		Optional.of(ANIMAL_WEIGHT_STORE.get(animalWeight.getId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		ANIMAL_WEIGHT_STORE.replace(animalWeight.getId(), animalWeight);
+		Optional.of(ANIMAL_WEIGHT_STORE.get(animalWeight.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
+		ANIMAL_WEIGHT_STORE.replace(animalWeight.getAnimalId(), animalWeight);
         return  animalWeight;
 	}
 
