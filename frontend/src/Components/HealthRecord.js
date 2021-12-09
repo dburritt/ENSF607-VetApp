@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const HealthRecord = ({ user, animal, pageDispatch }) => {
 
-    const [healthRecord, setHealthRecord] = useState([]);
+    const [healthRecords, setHealthRecords] = useState([]);
 
     useEffect(() => {
         console.log(animal)
@@ -48,9 +48,8 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
     const fetchAnimalHealthRecord = () => {
         axios.get(`http://localhost:8001/api/animals/healthrecord/?id=${animal.id}`)
             .then((res) => {
-                console.log(res);
-                //setHealthRecord(res.data.animals);
-               // selectHandler(res.data.animals[0]);
+                console.log(res.data);
+                setHealthRecords(res.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -117,55 +116,28 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                 <thead class="table is-primary">
                                     <tr>
                                         <th>Record Type</th>
-                                        <th>Value</th>
+                                        <th>Record</th>
                                         <th>Date</th>
                                         <th>Notes</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
-                                    <tr>
-                                        <td>Temperature</td>
-                                        <td>40</td>
-                                        <td>2020/12/01</td>
-                                        <td>Good</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Blood concentration</td>
-                                        <td>100</td>
-                                        <td>2019/12/01</td>
-                                        <td>Monitor</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Temperature</td>
-                                        <td>38</td>
-                                        <td>2020/12/01</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Heart Rate</td>
-                                        <td>40</td>
-                                        <td>2020/12/01</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                    <td>....</td>
-                                        <td>...</td>
-                                        <td>...</td>
-                                        <td>...</td>
-                                    </tr>
-                                    <tr>
-                                        <td>...</td>
-                                        <td>...</td>
-                                        <td>...</td>
-                                        <td>...</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Temperature</td>
-                                        <td>41</td>
-                                        <td>2018/12/01</td>
-                                        <td>First Visit</td>
-                                    </tr>
-                                </tbody>
+                            {healthRecords.map((healthRecord, index) => {
+                                const {date, type, record, notes } = healthRecord
+                                return (
+                                    <>
+                                        <tr key={date}>
+                                            <td>{type}</td>
+                                            <td>{record}</td>
+                                            <td>{timeConverter(date)}</td>
+                                            <td>{notes}</td>
+                                        </tr>
+                                        
+                                    </>
+                                )
+                            })
+                            }
+                        </tbody>
                             </table>
                         </div>
                     </div>
