@@ -171,12 +171,13 @@ VALUES
 (8, '53197', '2', 'requested');
 -- SELECT * FROM `Weight`;
 
-CREATE TABLE `vetapp`.`assigned_animals` (
+DROP TABLE IF EXISTS `assigned_animals`;
+CREATE TABLE `assigned_animals` (
   `UserId` VARCHAR(100) NOT NULL,
   `AnimalId` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`UserId`, `AnimalId`),
-  FOREIGN KEY (`UserId`) REFERENCES `vetapp`.`user` (`UserId`),
-  FOREIGN KEY (`AnimalId`) REFERENCES `vetapp`.`animal` (`AnimalId`)
+  FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`),
+  FOREIGN KEY (`AnimalId`) REFERENCES `animal` (`AnimalId`)
  );
  INSERT INTO `assigned_animals` (`UserId`, animalId)
 VALUES
