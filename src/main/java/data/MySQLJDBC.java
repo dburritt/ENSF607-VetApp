@@ -502,6 +502,31 @@ public class MySQLJDBC implements IDBCredentials {
 		return r;
 	}
 
+	
+
+	public List<AnimalHealthRecord> getAnimalHealthRecord(String id) throws SQLException {
+		List<AnimalHealthRecord> r = null;
+		String query = "SELECT * FROM HEALTH_RECORD WHERE AnimalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		List<AnimalHealthRecord> records = new ArrayList<AnimalHealthRecord>();
+
+		while (rs.next()) {
+			AnimalHealthRecord hr = AnimalHealthRecord.builder()
+					.animalId(id)
+					.date(rs.getDate("Date"))
+					.type(rs.getString("Type"))
+					.record(rs.getString("Record"))
+					.notes(rs.getString("Notes"))
+					.build();
+			records.add(hr);
+			r = records;
+		}
+		pStat.close();
+
+		return r;
+	}
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
@@ -510,7 +535,7 @@ public class MySQLJDBC implements IDBCredentials {
 				.build();
 		// myApp.insert()
 		try {
-			System.out.println(myApp.getAnimalsSearch("S"));
+			System.out.println(myApp.getAnimalHealthRecord("53195"));
 			// System.out.println(myApp.getAnimalRequestsUser("2"));
 			// System.out.println(myApp.getAllUsers());
 
@@ -521,30 +546,6 @@ public class MySQLJDBC implements IDBCredentials {
 		}
 		// myApp.close();
 	}
-
-	public AnimalHealthRecord getAnimalHealthRecord(String id) throws SQLException {
-		AnimalHealthRecord r = null;
-		String query = "SELECT * FROM HEALTH_RECORD WHERE AnimalId = ?";
-		PreparedStatement pStat = conn.prepareStatement(query);
-		pStat.setString(1, id);
-		rs = pStat.executeQuery();
-		List<Animal> animals = new ArrayList<Animal>();
-
-		while (rs.next()) {
-			AnimalHealthRecord hr = AnimalHealthRecord.builder()
-					.animalId(id)
-					.date(rs.getDate("Date"))
-					.type(rs.getString("Type"))
-					.record("Record")
-					.notes(rs.getString("Notes"))
-					.build();
-			r = hr;
-		}
-		pStat.close();
-
-		return r;
-	}
-
 	
 
 	

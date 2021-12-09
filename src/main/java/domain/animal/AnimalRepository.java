@@ -33,7 +33,7 @@ public interface AnimalRepository {
 	 
 
 	 String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
-	 AnimalHealthRecord getAnimalHealthRecord(String id);
+	 List<AnimalHealthRecord> getAnimalHealthRecord(String id);
 	 void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException;
 	 AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
 	

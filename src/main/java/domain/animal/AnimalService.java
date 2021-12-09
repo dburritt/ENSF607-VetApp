@@ -73,7 +73,7 @@ public class AnimalService {
 		return animalRepository.createAnimalWeight(animalWeight);				
 	}
 
-	public AnimalHealthRecord getAnimalHealthRecord(String id) {
+	public List<AnimalHealthRecord> getAnimalHealthRecord(String id) {
 		return animalRepository.getAnimalHealthRecord(id);
 	}
 	
