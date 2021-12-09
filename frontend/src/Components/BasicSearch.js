@@ -138,8 +138,8 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                                 {results.map((animal, index) => {
                                     const { id, name, species, subspecies, breed } = animal
                                     return (
-
-                                        <option value={id} onClick={() => selectHandler(animal)}> {name} : {breed}</option>
+                                        
+                                        <option key = {id} value={id} onClick={() => selectHandler(animal)}> {name} : {breed}</option>
 
                                     )
                                 })
