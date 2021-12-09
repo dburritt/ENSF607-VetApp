@@ -506,7 +506,7 @@ public class MySQLJDBC implements IDBCredentials {
 
 	public List<AnimalHealthRecord> getAnimalHealthRecord(String id) throws SQLException {
 		List<AnimalHealthRecord> r = null;
-		String query = "SELECT * FROM HEALTH_RECORD WHERE AnimalId = ? ORDER BY Date";
+		String query = "SELECT * FROM HEALTH_RECORD WHERE AnimalId = ? ORDER BY Date DESC";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, id);
 		rs = pStat.executeQuery();
