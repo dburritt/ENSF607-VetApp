@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
 import WeightRecordGraph from './WeightRecordGraph'
-  
+
 
 const WeightRecord = ({ user, animal, pageDispatch }) => {
     const [weightRecords, setWeightRecords] = useState([]);
-  
+
     useEffect(() => {
         fetchAnimalWeightRecord()
         console.log(animal)
@@ -54,7 +54,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
             })
             .catch((err) => {
                 console.log(err);
-               // setResults([]);
+                setWeightRecords(null);
             });
     };
     const timeConverter = (UNIX_timestamp) => {
@@ -66,8 +66,8 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
         var time = date + ' ' + month + ' ' + year;
         return time;
     }
-    
-    
+
+
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -102,7 +102,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                 </div>
                 <div className="column is-full">
                     <div className="box">
-                        
+
                         <div className="columns is-full">
                             <div className="column is-half">
                                 Weight Record
@@ -114,11 +114,13 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                             </div>
                         </div>
                         <div className="columns is-full">
-                            
+
                             <div className="column">
-                            <div className="box is-fullwidth">
-                            <WeightRecordGraph data={weightRecords} />
-                            </div>
+                                <div className="box is-fullwidth">
+                                    {weightRecords != null ? (
+                                        <WeightRecordGraph data={weightRecords} />
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
                         <div className="column is-full">
@@ -131,20 +133,21 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
-                                {weightRecords.map((weightRecord, index) => {
-                                const {date, weight, notes } = weightRecord
-                                return (
-                                    <>
-                                        <tr key={date}>
-                                            <td>{timeConverter(date)}</td>
-                                            <td>{weight}</td>
-                                            <td>{notes}</td>
-                                        </tr>
-                                        
-                                    </>
-                                )
-                            })
-                            }
+                                    {weightRecords != null ? (
+                                        weightRecords.map((weightRecord, index) => {
+                                            const { date, weight, notes } = weightRecord
+                                            return (
+                                                <>
+                                                    <tr key={date}>
+                                                        <td>{timeConverter(date)}</td>
+                                                        <td>{weight}</td>
+                                                        <td>{notes}</td>
+                                                    </tr>
+
+                                                </>
+                                            )
+                                        })
+                                    ) : null}
                                 </tbody>
                             </table>
                         </div>
