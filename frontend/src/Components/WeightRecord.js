@@ -7,16 +7,25 @@ import WeightRecordGraph from './WeightRecordGraph'
 
 const WeightRecord = ({ user, animal, pageDispatch }) => {
     const [weightRecords, setWeightRecords] = useState([]);
+    const [inEditMode, setEditState] = useState(false);
+    const [newWeight, setNewWeight] = useState("");
+    const [newNotes, setNewNotes] = useState("");
+    const [value, setValue] = useState(true);
 
     useEffect(() => {
         fetchAnimalWeightRecord()
         console.log(animal)
-    }, []);
+    }, [value]);
 
     const returnHandler = () => {
         pageDispatch({
             nextPage: "basicSearch"
         });
+    }
+
+
+    const editingHandler = () => {
+        setEditState(!inEditMode)
     }
 
     const navigationHandler = (event) => {
@@ -66,9 +75,34 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
         var time = date + ' ' + month + ' ' + year;
         return time;
     }
+    const weightHandler = (event) => {
+        setNewWeight(event.target.value)
+    }
+    const notesHandler = (event) => {
+        setNewNotes(event.target.value)
+    }
+    const resetState = () =>{
+        setEditState(false);
+        setNewWeight("");
+        setNewNotes("");
+    }
+    const addHandler = () => {
+        if(newWeight.length === 0){
+            alert("Weight must be entered.")
+            return
+        }
+        axios.post(`http://localhost:8001/api/animals/weight?id=${animal.id}`, JSON.stringify({
+            weight: newWeight, notes: newNotes}))
+            .then((res) => {
+                setValue(!value)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+            resetState();
 
-
-
+    }
+    
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
@@ -109,7 +143,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Add Record</button>
+                                    <button className="button is-success" onClick={editingHandler}>Add Record</button>
                                 ) : null}
                             </div>
                         </div>
@@ -133,14 +167,35 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
+                                    {inEditMode ? (
+                                        <tr>
+                                            <td>
+                                                <input
+                                                    className="input is-small"
+                                                    onChange={weightHandler}
+                                                    type="number" step=".1" />
+                                            </td>
+                                            <td>Current Date</td>
+                                            <td>
+                                                <input
+                                                    className="input is-small"
+                                                    onChange={notesHandler}
+                                                    type="text" />
+                                            </td>
+                                           <td> <button
+                                                    onClick={() => addHandler()}
+                                                    className="button is-small is-success is-rounded">
+                                                    ADD</button></td>
+                                        </tr>
+                                    ) : null}
                                     {weightRecords != null ? (
                                         weightRecords.map((weightRecord, index) => {
                                             const { date, weight, notes } = weightRecord
                                             return (
                                                 <>
                                                     <tr key={date}>
-                                                        <td>{timeConverter(date)}</td>
                                                         <td>{weight}</td>
+                                                        <td>{timeConverter(date)}</td>
                                                         <td>{notes}</td>
                                                     </tr>
 
@@ -148,6 +203,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                             )
                                         })
                                     ) : null}
+                                  <tr class="border_bottom" />
                                 </tbody>
                             </table>
                         </div>

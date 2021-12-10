@@ -217,7 +217,13 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimalWeight(AnimalWeight animalWeight) {
-		 ANIMAL_WEIGHT_STORE.put(animalWeight.getAnimalId(), animalWeight);
+		// ANIMAL_WEIGHT_STORE.put(animalWeight.getAnimalId(), animalWeight);
+		try {
+			DB.insertAnimalWeight(animalWeight);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	     return animalWeight.getAnimalId();
 	}
 
