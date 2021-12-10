@@ -53,7 +53,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
             })
             .catch((err) => {
                 console.log(err);
-               // setResults([]);
+                setHealthRecords(null);
             });
     };
     const timeConverter = (UNIX_timestamp) => {
@@ -103,7 +103,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                     <div className="box">
                         <div className="columns is-full">
                             <div className="column is-half">
-                               Health Record
+                                Health Record
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
@@ -122,22 +122,22 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
-                            {healthRecords.map((healthRecord, index) => {
-                                const {date, type, record, notes } = healthRecord
-                                return (
-                                    <>
-                                        <tr key={date}>
-                                            <td>{type}</td>
-                                            <td>{record}</td>
-                                            <td>{timeConverter(date)}</td>
-                                            <td>{notes}</td>
-                                        </tr>
-                                        
-                                    </>
-                                )
-                            })
-                            }
-                        </tbody>
+                                {healthRecords != null ? (
+                                    healthRecords.map((healthRecord, index) => {
+                                        const { date, type, record, notes } = healthRecord
+                                        return (
+                                            <>
+                                                <tr key={date}>
+                                                    <td>{type}</td>
+                                                    <td>{record}</td>
+                                                    <td>{timeConverter(date)}</td>
+                                                    <td>{notes}</td>
+                                                </tr>
+                                            </>
+                                        )
+                                    })
+                                    ) : null}
+                                </tbody>
                             </table>
                         </div>
                     </div>
