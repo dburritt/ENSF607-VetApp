@@ -12,8 +12,12 @@ import java.sql.Date;
 
 import com.mysql.cj.protocol.StandardSocketFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import domain.animal.*;
+import domain.user.Image;
 import domain.user.User;
 import domain.admin.*;
 
@@ -615,6 +619,25 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	
+	public void insertImage(Image image, String imageLocation) throws SQLException, FileNotFoundException {
+		String query = "INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId) VALUES(?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		
+		File imageFile = new File(imageLocation);
+		FileInputStream input = new FileInputStream(imageFile);
+		
+		pStat.setString(1, image.getImageId());
+		pStat.setBinaryStream(2, input);
+		pStat.setDate(3, image.getCreationDate());
+		pStat.setString(4, image.getUserId());
+		pStat.setString(5, image.getAnimalId());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+
+	}
+	
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();

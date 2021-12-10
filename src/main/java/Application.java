@@ -78,7 +78,11 @@ public class Application {
         
         CommentHandler commentHandler = new CommentHandler(Configuration.getCommentService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());
-        server.createContext("/api/admin/comment", commentHandler::handle);  
+        server.createContext("/api/admin/comment", commentHandler::handle);
+        
+        ImageHandler imageHandler = new ImageHandler(Configuration.getImageService(), Configuration.getObjectMapper(),
+                Configuration.getErrorHandler());
+        server.createContext("/api/users/image", imageHandler::handle);
         
         UserLoginHandler userLoginHandler = new UserLoginHandler(Configuration.getUserService(), Configuration.getObjectMapper(),
                 Configuration.getErrorHandler());

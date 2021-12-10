@@ -9,5 +9,7 @@ public interface IDBCredentials {
 	   //  Database credentials
 	   static final String USERNAME = "user";
 	   static final String PASSWORD = "12345";
+	   
+	   //"jdbc:mysql://localhost/vetapp"
 
 }
