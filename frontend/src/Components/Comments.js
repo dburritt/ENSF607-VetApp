@@ -73,7 +73,6 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
     const addSaveHandler = () => {
         setAddState(!addState)
         if (addState) {
-            console.log(newComment.length)
             if (newComment.length > 0) {
                 axios.post('http://localhost:8001/api/admin/comment', JSON.stringify({
                     commentText: newComment, userId: user.userId, animalId: animal.id
@@ -86,23 +85,23 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
 
     const getUserFirstName = (commentId, userId) => {
         axios.get(`http://localhost:8001/api/users/register?id=${userId}`)
-        .then((res) => {
-            document.getElementById(commentId+1).innerText = res.data.users[0].fname;
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                document.getElementById(commentId + 1).innerText = res.data.users[0].fname;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
     }
 
     const getUserLastName = (commentId, userId) => {
         axios.get(`http://localhost:8001/api/users/register?id=${userId}`)
-        .then((res) => {
-            document.getElementById(commentId+2).innerText = res.data.users[0].lname;
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                document.getElementById(commentId + 2).innerText = res.data.users[0].lname;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
 
     }
 
@@ -113,9 +112,9 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         var month = months[a.getMonth()];
         var date = a.getDate();
         var hour = a.getHours();
-        var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(); 
+        var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
         var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
-        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+        var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec;
         return time;
     }
 
@@ -199,7 +198,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
 
                                 <tbody class="table is-primary">
                                     {staffComments.map((comment) => {
-                                        const { commentId, userId, animalId, commentDate, commentText} = comment
+                                        const { commentId, userId, animalId, commentDate, commentText } = comment
                                         return (
                                             <>
                                                 <tr key={commentId}>
@@ -214,6 +213,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                                         )
                                     })
                                     }
+                                    <tr class="border_bottom"></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -246,7 +246,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                             </textarea>
                         ) : null}
                         <div className="column is-full">
-                        <table className="table has-text-centered">
+                            <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
                                         <th>User ID</th>
@@ -259,7 +259,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
 
                                 <tbody class="table is-primary">
                                     {studentComments.map((comment) => {
-                                        const { commentId, userId, animalId, commentDate, commentText} = comment
+                                        const { commentId, userId, animalId, commentDate, commentText } = comment
                                         return (
                                             <>
                                                 <tr key={commentId}>
@@ -274,6 +274,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                                         )
                                     })
                                     }
+                                    <tr class="border_bottom"></tr>
                                 </tbody>
                             </table>
                         </div>
