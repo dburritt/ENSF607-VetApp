@@ -5,9 +5,8 @@ import axios from 'axios';
 
 const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
-    useEffect(() => {
-        console.log(animal)
-    }, []);
+    // useEffect(() => {
+    // }, []);
 
     const returnHandler = () => {
         pageDispatch({
