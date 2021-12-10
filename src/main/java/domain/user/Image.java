@@ -1,6 +1,7 @@
 package domain.user;
 
-import java.sql.Date;
+import java.sql.Blob;
+import java.sql.Timestamp;
 
 import lombok.Builder;
 import lombok.Value;
@@ -9,10 +10,11 @@ import lombok.Value;
 @Builder
 public class Image {
 	
-	byte[] imageData;
 	String imageId;
-    Date creationDate;
+	String imageLocation;
+    Timestamp creationDate;
     String userId;
     String animalId;
+    Blob imageData;
 }
 

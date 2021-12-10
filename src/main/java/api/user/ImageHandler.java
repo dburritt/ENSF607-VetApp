@@ -83,8 +83,8 @@ public class ImageHandler extends Handler {
                 .userId(imageRequest.getUserId())
                 .animalId(imageRequest.getAnimalId())
                 .imageId(imageRequest.getImageId())
-                .creationDate(imageRequest.getCreationDate())
-                .imageData(imageRequest.getImageData())
+                .creationDate(new java.sql.Timestamp((new java.util.Date()).getTime()))
+                .imageLocation(imageRequest.getImageLocation())
                 .build();
 
         String image = imageService.create(newImage);
@@ -112,8 +112,8 @@ public class ImageHandler extends Handler {
     			.imageId(imageId)
                 .userId(imageRequest.getUserId())
                 .animalId(imageRequest.getAnimalId())
-                .creationDate(imageRequest.getCreationDate())
-                .imageData(imageRequest.getImageData())
+                .creationDate(new java.sql.Timestamp((new java.util.Date()).getTime()))
+                .imageLocation(imageRequest.getImageLocation())
                 .build();
         Image imageAfterUpdate= imageService.updateImage(imageForUpdate);
         return new ResponseEntity<>(imageAfterUpdate,
