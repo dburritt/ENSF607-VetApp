@@ -608,7 +608,7 @@ public class MySQLJDBC implements IDBCredentials {
 		while (rs.next()) {
 			AnimalWeight w = AnimalWeight.builder()
 					.animalId(id)
-					.date(rs.getDate("Date"))
+					.date(rs.getTimestamp("Date"))
 					.weight(rs.getDouble("Weight"))
 					.notes(rs.getString("Notes"))
 					.build();
@@ -688,6 +688,19 @@ public class MySQLJDBC implements IDBCredentials {
 			e.printStackTrace();
 		}
 		// myApp.close();
+	}
+
+	public void insertAnimalWeight(AnimalWeight animalWeight) throws SQLException{
+		String query = "INSERT INTO WEIGHT (AnimalId, Date, Weight, notes) VALUES(?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalWeight.getAnimalId());
+		pStat.setTimestamp(2, animalWeight.getDate());
+		pStat.setDouble(3, animalWeight.getWeight());
+		pStat.setString(4, animalWeight.getNotes());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
 	}
 
 	
