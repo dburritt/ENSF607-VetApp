@@ -112,8 +112,11 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                     <title className="column has-text-left">Search by Animal</title>
                 </div>
                 <button class="button" onClick={fetchAllAnimals}>All Animals </button>
-                {user.accountType !== "Student" ? (           
+                {user.accountType !== "Student" ? (     
+                    <>      
                     <button class="button"onClick={fetchMyAnimals}>My Animals</button>
+                    <button class="button">Add Animal</button>
+                    </>
                 ) : null }
                 
             </header>
