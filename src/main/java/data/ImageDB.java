@@ -1,5 +1,6 @@
 package data;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,22 +24,25 @@ public class ImageDB implements ImageRepository{
 	}
 	
 	@Override
-	public String create(NewImage newImage, String imageLocation) {
+	public String create(NewImage newImage) {
 		String id = UUID.randomUUID().toString();
         Image image = Image.builder()
                 .imageId(id)
                 .userId(newImage.getUserId())
                 .animalId(newImage.getAnimalId())
                 .creationDate(newImage.getCreationDate())
-                .imageData(newImage.getImageData())
+                .imageLocation(newImage.getImageLocation())
                 .build();
         
         // COMMENTS_STORE.put(id, comment);
         try {
-			DB.insertImage(image, imageLocation);
+			DB.insertImage(image);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			//throw new ResourceNotFoundException(404, "comment not created");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return id;
 	}

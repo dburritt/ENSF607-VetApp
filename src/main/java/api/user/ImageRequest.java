@@ -10,9 +10,9 @@ import lombok.Value;
 public class ImageRequest {
 	
 	String imageId;
+	String imageLocation;
 	String userId;
 	String animalId;
 	Date creationDate;
-	byte[] imageData;
 
 }

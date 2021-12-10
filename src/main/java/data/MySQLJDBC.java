@@ -620,22 +620,54 @@ public class MySQLJDBC implements IDBCredentials {
 		return r;
 	}
 	
-	public void insertImage(Image image, String imageLocation) throws SQLException, FileNotFoundException {
+	public void insertImage(Image image) throws SQLException, FileNotFoundException {
 		String query = "INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		
-		File imageFile = new File(imageLocation);
+		File imageFile = new File(image.getImageLocation());
 		FileInputStream input = new FileInputStream(imageFile);
 		
 		pStat.setString(1, image.getImageId());
 		pStat.setBinaryStream(2, input);
-		pStat.setDate(3, image.getCreationDate());
+		pStat.setTimestamp(3, image.getCreationDate());
 		pStat.setString(4, image.getUserId());
 		pStat.setString(5, image.getAnimalId());
 		int rowCount = pStat.executeUpdate();
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
 
+	}
+	
+	public List<Image> getAllImages() throws SQLException {
+		List<Image> r =null;
+
+		String query = "SELECT * FROM IMAGE ORDER BY CreationDate DESC";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Image> images = new ArrayList<Image>();
+		while(rs.next()) {
+
+			String imageId;
+
+			if(rs.getString("ImageId") != null) {
+				imageId = rs.getString("ImageId");
+			} else{
+				imageId = "Deleted";
+			}
+
+			Image c = Image.builder()
+					.userId(rs.getString("UserId"))
+					.imageId(imageId)
+					.animalId(rs.getString("AnimalId"))
+					.creationDate(rs.getTimestamp("CreationDate"))
+					.imageData(rs.getBlob("ImageData"))
+					.build();
+			images.add(c);
+		}
+		r = images;
+		pStat.close();
+
+		return r;
 	}
 	
 	public static void main(String[] args0) {
