@@ -126,7 +126,7 @@ CREATE TABLE `COMMENTS` (
 	`CommentId`			VARCHAR(100) not null,
 	`UserId`				VARCHAR(100) DEFAULT 'Deleted',
 	`AnimalId`			VARCHAR(100) not null,
-    `CommentDate`			DATE not null,
+    `CommentDate`			DATETIME not null,
     `CommentText`			mediumtext not null,
 	primary key (CommentId),
 	foreign key (UserId) references USER(UserId) ON DELETE SET NULL,
