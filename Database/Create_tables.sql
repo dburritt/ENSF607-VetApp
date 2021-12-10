@@ -200,3 +200,16 @@ CREATE TABLE `health_record` (
 
 INSERT INTO `health_record` (`AnimalId`,`Date`,`Type`,`Record`,`Notes`) VALUES ('53195','2020-10-01 00:00:00','temp','a','1');
 INSERT INTO `health_record` (`AnimalId`,`Date`,`Type`,`Record`,`Notes`) VALUES ('53195','2020-11-01 00:00:00','blood','b','2');
+
+DROP TABLE IF EXISTS `reminders`;
+CREATE TABLE `reminders` (
+  `ReminderId` varchar(100) NOT NULL,
+  `DueDate` datetime NOT NULL,
+  `CreationDate` datetime NOT NULL,
+  `Text` mediumtext,
+  `AnimalId` varchar(100) NOT NULL,
+  `UserId` varchar(100) NOT NULL,
+  primary key (ReminderId),
+  foreign key (AnimalId) references ANIMAL(AnimalId),
+  foreign key (UserId) references USER(AnimalUser)
+);
