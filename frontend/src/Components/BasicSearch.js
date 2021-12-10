@@ -34,7 +34,8 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
                 setResults(res.data.animals);
-                selectHandler(res.data.animals[0]);
+                console.log(selected)
+                //selectHandler(res.data.animals[0]);
             })
             .catch((err) => {
                 console.log(err);
@@ -44,9 +45,12 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     const fetchMyAnimals = () => {
         axios.get(`http://localhost:8001/api/animals?userId=${user.userId}`)
             .then((res) => {
-                console.log(res);
+                if(res == null){
+                    setResults([]);
+                }else{
                 setResults(res.data.animals);
-                selectHandler(res.data.animals[0]);
+                }
+                selectHandler([]);
             })
             .catch((err) => {
                 setResults([]);
@@ -150,13 +154,24 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                             </select>
                         </div>
                     </div>
-                
-                    <div className="column is-three-quarters">
 
-                        <div class="box">
+                    <div className="column is-three-quarters">
+                        {selected.length === 0 && results.length !== 0? (
+                            <div class="box">
+                                <p>Select an animal </p>       
+                            </div>
+                        ) : null}
+                        {results.length === 0 ? (
+                            <div class="box">
+                            <p> No results</p>
+                        </div>
+                        ) : null}
+                        {selected.length !== 0 && results.length !== 0 ? (
+                            <div class="box">
                             <p> {selected.id} :  {selected.name}, {selected.species}, {selected.subspecies}</p>
                             <button className="button is-small is-success" css={css`width: 90%;`} onClick={animalProfileHandler}>Animal Profile</button>
                         </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
