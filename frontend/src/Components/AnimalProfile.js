@@ -4,9 +4,13 @@ import { css } from "@emotion/react";
 import axios from 'axios';
 
 const AnimalProfile = ({ user, animal, pageDispatch }) => {
+    
+    const [value, setValue] = useState(true);
+    const [currentAnimal, setCurrentAnimal] = useState(animal);
 
-    // useEffect(() => {
-    // }, []);
+    useEffect(() => {
+        fetchAnimalHandler();
+    }, [value]);
 
     const returnHandler = () => {
         pageDispatch({
@@ -42,6 +46,25 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
     }
 
+    const fetchAnimalHandler = () => {
+        axios.get(`http://localhost:8001/api/animals?id=${animal.id}`)
+        .then((res) => {
+            setCurrentAnimal(res.data.animals[0]);
+            console.log(currentAnimal)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    const editHandler = () => {
+        setEditState(!editState)
+        if (editState) {
+            axios.put(`http://localhost:8001/api/animals?id=${animal.id}`, JSON.stringify(currentAnimal))
+            setValue(!value);
+        }
+    };
+
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -51,6 +74,8 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         var time = date + ' ' + month + ' ' + year;
         return time;
     }
+
+    const [editState, setEditState] = useState(false);
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -92,8 +117,12 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                 Basic Info
                             </div>
                             <div className="column is-half has-text-right">
-                                {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Edit</button>
+                                {user.accountType === "Admin" ? (
+                                    <button className="button is-success" onClick={editHandler}>
+                                        {!editState ? (
+                                            "Edit"
+                                        ) : "Save"}
+                                    </button>
                                 ) : null}
                             </div>
                         </div>
@@ -154,6 +183,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Tattoo Number</td>
                                         <td>{animal.tattooNum}</td>
                                     </tr>
+                                    <tr class="border_bottom"></tr>
                                 </tbody>
                             </table>
                         </div>

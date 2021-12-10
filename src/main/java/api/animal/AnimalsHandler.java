@@ -52,6 +52,12 @@ public class AnimalsHandler extends Handler {
 		        exchange.getResponseHeaders().putAll(e.getHeaders());
 		        exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 		        response = super.writeResponse(e.getBody());
+			} else if ("OPTIONS".equals(exchange.getRequestMethod())) {
+				ResponseEntity e = new ResponseEntity<>("ok",
+						getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+				exchange.getResponseHeaders().putAll(e.getHeaders());
+				exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+				response = super.writeResponse(e.getBody());
 			} else {
 	        throw ApplicationExceptions.methodNotAllowed(
 	                "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
@@ -64,9 +70,9 @@ public class AnimalsHandler extends Handler {
 		private ResponseEntity<Animal> doPut(HttpExchange exchange) {
 			Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
 	        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
-	        NewAnimal newAnimal = super.readRequest(exchange.getRequestBody(), NewAnimal.class);
+	        Animal newAnimal = super.readRequest(exchange.getRequestBody(), Animal.class);
 	        Animal animalForUpdate = Animal.builder()
-	        		.id(animalId)
+	        		.id(newAnimal.getId())
 	                .name(newAnimal.getName())
 	                .species(newAnimal.getSpecies())
 	                .subspecies(newAnimal.getSubspecies())
