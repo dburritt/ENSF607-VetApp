@@ -5,6 +5,7 @@ import data.CommentDB;
 import data.MailingDB;
 import data.UserDB;
 import data.AdminDB;
+import data.ImageDB;
 import domain.admin.AdminMailingService;
 import domain.admin.CommentRepository;
 import domain.admin.CommentService;
@@ -15,6 +16,8 @@ import domain.user.AdminRepository;
 import domain.user.AdminService;
 import domain.user.UserRepository;
 import domain.user.UserService;
+import domain.user.ImageRepository;
+import domain.user.ImageService;
 import errors.GlobalExceptionHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +35,8 @@ class Configuration {
     private static final AdminMailingService EMAIL_SERVICE = new AdminMailingService(EMAIL_REPOSITORY);
     private static final CommentRepository COMMENT_REPOSITORY = new CommentDB();
     private static final CommentService COMMENT_SERVICE = new CommentService(COMMENT_REPOSITORY);
+    private static final ImageRepository IMAGE_REPOSITORY = new ImageDB();
+    private static final ImageService IMAGE_SERVICE = new ImageService(IMAGE_REPOSITORY);
     private static final GlobalExceptionHandler GLOBAL_ERROR_HANDLER = new GlobalExceptionHandler(OBJECT_MAPPER);
 
     static ObjectMapper getObjectMapper() {
@@ -68,6 +73,14 @@ class Configuration {
 
 	public static CommentService getCommentService() {
 		return COMMENT_SERVICE;
+	}
+	
+	public static ImageRepository getImageRepository() {
+		return IMAGE_REPOSITORY;
+	}
+	
+	public static ImageService getImageService() {
+		return IMAGE_SERVICE;
 	}
 
 	public static GlobalExceptionHandler getErrorHandler() {

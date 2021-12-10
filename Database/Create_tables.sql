@@ -126,7 +126,7 @@ CREATE TABLE `COMMENTS` (
 	`CommentId`			VARCHAR(100) not null,
 	`UserId`				VARCHAR(100) DEFAULT 'Deleted',
 	`AnimalId`			VARCHAR(100) not null,
-    `CommentDate`			DATE not null,
+    `CommentDate`			DATETIME not null,
     `CommentText`			mediumtext not null,
 	primary key (CommentId),
 	foreign key (UserId) references USER(UserId) ON DELETE SET NULL,
@@ -211,5 +211,24 @@ CREATE TABLE `reminders` (
   `UserId` varchar(100) NOT NULL,
   primary key (ReminderId),
   foreign key (AnimalId) references ANIMAL(AnimalId),
-  foreign key (UserId) references USER(AnimalUser)
+  foreign key (UserId) references USER(UserId)
 );
+
+/*'select @@GLOBAL.secure_file_priv' to find location for where to store images for upload into database*/
+/*Must have global privilege FILE in order to upload image data*/
+
+DROP TABLE IF EXISTS IMAGE;
+CREATE TABLE IMAGE (
+	ImageId VARCHAR(100) NOT NULL,
+    ImageData MEDIUMBLOB,
+    CreationDate DATETIME NOT NULL,
+    UserId VARCHAR(100) NOT NULL,
+    AnimalId VARCHAR(100) NOT NULL,
+    primary key (ImageId),
+    foreign key (UserId) references USER(UserId),
+    foreign key (AnimalId) references ANIMAL(AnimalId)
+);
+
+INSERT INTO IMAGE (ImageId, CreationDate, UserId, AnimalId)
+VALUES
+('1908046', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles.jpg'), '2021-11-29 00:01:02', '2', '53197');

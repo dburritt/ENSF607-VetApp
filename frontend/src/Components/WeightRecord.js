@@ -172,13 +172,13 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                     <button className="button is-small" css={css`width: 100%;`} value="Comments" onClick={navigationHandler}>Comments</button>
                 </div>
             </div>
-            <div className="columns"
+            <div className="columns is-centered"
                 css={css`position: relative;
                             width: 30%;
-                            margin-right: auto;
-                            margin-left: auto;`}>
+                            margin-left: auto;
+                            margin-right: auto;`}>
                 <div className="column">
-                    <button className="button is-small" css={css`width: 90%;`} onClick={returnHandler}>Return to Search</button>
+                    <button className="button is-fullwidth is-small is-success" css={css`width: 90%;`} onClick={returnHandler}>Return to Search</button>
                 </div>
             </div>
         </div>

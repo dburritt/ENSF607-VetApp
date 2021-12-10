@@ -1,6 +1,7 @@
 package domain.admin;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Value;
 public class NewComment {
 	String userId;
 	String animalId;
-	Date commentDate;
+	Timestamp commentDate;
 	String commentText;
 
 }

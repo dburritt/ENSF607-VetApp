@@ -25,6 +25,7 @@ public class CommentDB implements CommentRepository{
 	@Override
 	public String create(NewComment newComment) {
 		String id = UUID.randomUUID().toString();
+		
         Comment comment = Comment.builder()
                 .commentId(id)
                 .userId(newComment.getUserId())
@@ -47,6 +48,24 @@ public class CommentDB implements CommentRepository{
 	public List<Comment> getComments() {
 		try {
 			return DB.getAllComments();
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Comments not found.");
+		}
+	}
+	
+	@Override
+	public List<Comment> getStudentComments(String animalId) {
+		try {
+			return DB.getStudentComments(animalId);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Comments not found.");
+		}
+	}
+	
+	@Override
+	public List<Comment> getStaffComments(String animalId) {
+		try {
+			return DB.getStaffComments(animalId);
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "Comments not found.");
 		}

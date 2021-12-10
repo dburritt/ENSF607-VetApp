@@ -5,9 +5,12 @@ import axios from 'axios';
 
 const AnimalComments = ({ user, animal, pageDispatch }) => {
 
+    const [value, setValue] = useState(true);
+
     useEffect(() => {
-        fetchComments();
-    }, []);
+        fetchStudentComments();
+        fetchStaffComments();
+    }, [value]);
 
     const returnHandler = () => {
         pageDispatch({
@@ -43,15 +46,65 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         }
     }
 
-    const fetchComments = () => {
-        axios.get('http://localhost:8001/api/admin/comment')
+    const fetchStudentComments = () => {
+        axios.get(`http://localhost:8001/api/admin/comment?commentType=student&animalId=${animal.id}`)
             .then((res) => {
-                setComments(res.data.comments);
+                setStudentComments(res.data.comments);
             })
             .catch((err) => {
                 console.log(err);
             });
     };
+
+    const fetchStaffComments = () => {
+        axios.get(`http://localhost:8001/api/admin/comment?commentType=staff&animalId=${animal.id}`)
+            .then((res) => {
+                setStaffComments(res.data.comments);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const addCommentHandler = (event) => {
+        setNewComment(event.target.value)
+    };
+
+    const addSaveHandler = () => {
+        setAddState(!addState)
+        if (addState) {
+            console.log(newComment.length)
+            if (newComment.length > 0) {
+                axios.post('http://localhost:8001/api/admin/comment', JSON.stringify({
+                    commentText: newComment, userId: user.userId, animalId: animal.id
+                }))
+            }
+            setNewComment("");
+            setValue(!value);
+        }
+    };
+
+    const getUserFirstName = (commentId, userId) => {
+        axios.get(`http://localhost:8001/api/users/register?id=${userId}`)
+        .then((res) => {
+            document.getElementById(commentId+1).innerText = res.data.users[0].fname;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+    }
+
+    const getUserLastName = (commentId, userId) => {
+        axios.get(`http://localhost:8001/api/users/register?id=${userId}`)
+        .then((res) => {
+            document.getElementById(commentId+2).innerText = res.data.users[0].lname;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+    }
 
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
@@ -59,11 +112,17 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
-        var time = date + ' ' + month + ' ' + year;
+        var hour = a.getHours();
+        var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(); 
+        var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
+        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
         return time;
     }
 
-    const [comments, setComments] = useState([]);
+    const [studentComments, setStudentComments] = useState([]);
+    const [staffComments, setStaffComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
+    const [addState, setAddState] = useState(false);
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -106,27 +165,47 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Add Comment</button>
+                                    <button className="button is-success" onClick={addSaveHandler}>
+                                        {!addState ? (
+                                            "Add Comment"
+                                        ) : "Save"}
+                                    </button>
                                 ) : null}
                             </div>
                         </div>
+                        {(addState && user.accountType !== "Student") ? (
+                            <textarea css={css`
+                                max-width: 100%;
+                                height: 15vh;
+                                `}
+                                onChange={addCommentHandler}
+                                className="input"
+                                type="text"
+                                placeholder="Please enter your comment here.">
+
+                            </textarea>
+                        ) : null}
                         <div className="column is-full">
                             <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
                                         <th>User ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
                                         <th>Comment Date</th>
                                         <th>Comment Text</th>
                                     </tr>
                                 </thead>
 
                                 <tbody class="table is-primary">
-                                    {comments.map((comment) => {
-                                        const { commentId, userId, animalId, commentDate, commentText } = comment
+                                    {staffComments.map((comment) => {
+                                        const { commentId, userId, animalId, commentDate, commentText} = comment
                                         return (
                                             <>
                                                 <tr key={commentId}>
                                                     <td>{userId}</td>
+                                                    <td id={commentId + 1}>{getUserFirstName(commentId, userId)}</td>
+                                                    <td id={commentId + 2}>{getUserLastName(commentId, userId)}</td>
                                                     <td>{timeConverter(commentDate)}</td>
                                                     <td>{commentText}</td>
                                                 </tr>
@@ -146,27 +225,47 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType === "Student" ? (
-                                    <button className="button is-success">Add Comment</button>
+                                    <button className="button is-success" onClick={addSaveHandler}>
+                                        {!addState ? (
+                                            "Add Comment"
+                                        ) : "Save"}
+                                    </button>
                                 ) : null}
                             </div>
                         </div>
+                        {(addState && user.accountType === "Student") ? (
+                            <textarea css={css`
+                                max-width: 100%;
+                                height: 15vh;
+                                `}
+                                onChange={addCommentHandler}
+                                className="input"
+                                type="text"
+                                placeholder="Please enter your comment here.">
+
+                            </textarea>
+                        ) : null}
                         <div className="column is-full">
                         <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
                                         <th>User ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
                                         <th>Comment Date</th>
                                         <th>Comment Text</th>
                                     </tr>
                                 </thead>
 
                                 <tbody class="table is-primary">
-                                    {comments.map((comment) => {
-                                        const { commentId, userId, animalId, commentDate, commentText } = comment
+                                    {studentComments.map((comment) => {
+                                        const { commentId, userId, animalId, commentDate, commentText} = comment
                                         return (
                                             <>
                                                 <tr key={commentId}>
                                                     <td>{userId}</td>
+                                                    <td id={commentId + 1}>{getUserFirstName(commentId, userId)}</td>
+                                                    <td id={commentId + 2}>{getUserLastName(commentId, userId)}</td>
                                                     <td>{timeConverter(commentDate)}</td>
                                                     <td>{commentText}</td>
                                                 </tr>
@@ -205,13 +304,13 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                     <button className="button is-small" css={css`width: 100%;`} value="Comments" onClick={navigationHandler}>Comments</button>
                 </div>
             </div>
-            <div className="columns"
+            <div className="columns is-centered"
                 css={css`position: relative;
                             width: 30%;
-                            margin-right: auto;
-                            margin-left: auto;`}>
+                            margin-left: auto;
+                            margin-right: auto;`}>
                 <div className="column">
-                    <button className="button is-small" css={css`width: 90%;`} onClick={returnHandler}>Return to Search</button>
+                    <button className="button is-fullwidth is-small is-success" css={css`width: 90%;`} onClick={returnHandler}>Return to Search</button>
                 </div>
             </div>
         </div>

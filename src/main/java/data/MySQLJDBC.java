@@ -12,8 +12,12 @@ import java.sql.Date;
 
 import com.mysql.cj.protocol.StandardSocketFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import domain.animal.*;
+import domain.user.Image;
 import domain.user.User;
 import domain.admin.*;
 
@@ -270,15 +274,14 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 
 	public void insertComment(Comment comment) throws SQLException {
-		String query = "INSERT INTO COMMENT (CommentId, UserId, AnimalId, CommentDate, CommentText) VALUES(?,?,?,?,?)";
+		String query = "INSERT INTO COMMENTS (CommentId, UserId, AnimalId, CommentDate, CommentText) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, comment.getCommentId());
 		pStat.setString(2, comment.getUserId());
 		pStat.setString(3, comment.getAnimalId());
-		pStat.setDate(4, comment.getCommentDate());
+		pStat.setTimestamp(4, comment.getCommentDate());
 		pStat.setString(5, comment.getCommentText());
 		int rowCount = pStat.executeUpdate();
-		System.out.println("row Count = " + rowCount);
 		pStat.close();
 
 		// for testing on windows curl -X POST localhost:8001/api/admin/comment -d
@@ -290,7 +293,7 @@ public class MySQLJDBC implements IDBCredentials {
 	public List<Comment> getAllComments() throws SQLException {
 		List<Comment> r =null;
 
-		String query = "SELECT * FROM COMMENTS";
+		String query = "SELECT * FROM COMMENTS ORDER BY CommentDate DESC";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		rs = pStat.executeQuery(query);
 		List<Comment> comments = new ArrayList<Comment>();
@@ -308,7 +311,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.commentId(rs.getString("CommentId"))
 					.userId(userId)
 					.animalId(rs.getString("AnimalId"))
-					.commentDate(rs.getDate("CommentDate"))
+					.commentDate(rs.getTimestamp("CommentDate"))
 					.commentText(rs.getString("CommentText"))
 					.build();
 			comments.add(c);
@@ -318,10 +321,76 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	
+	public List<Comment> getStudentComments(String animalId) throws SQLException {
+		List<Comment> r =null;
+
+		String query = "SELECT C.CommentId, C.UserId, C.AnimalId, C.CommentDate, C.CommentText, U.FName, U.LName FROM COMMENTS AS C, USER AS U "
+				+ "WHERE C.AnimalId = " + animalId + " AND U.UserId = C.UserId AND U.AccountType = \"Student\" ORDER BY C.CommentDate DESC";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Comment> studentComments = new ArrayList<Comment>();
+		while(rs.next()) {
+
+			String userId;
+
+			if(rs.getString("UserId") != null) {
+				userId = rs.getString("UserId");
+			} else{
+				userId = "Deleted";
+			}
+
+			Comment c = Comment.builder()
+					.commentId(rs.getString("CommentId"))
+					.userId(userId)
+					.animalId(rs.getString("AnimalId"))
+					.commentDate(rs.getTimestamp("CommentDate"))
+					.commentText(rs.getString("CommentText"))
+					.build();
+			studentComments.add(c);
+		}
+		r = studentComments;
+		pStat.close();
+
+		return r;
+	}
+	
+	public List<Comment> getStaffComments(String animalId) throws SQLException {
+		List<Comment> r =null;
+
+		String query = "SELECT C.CommentId, C.UserId, C.AnimalId, C.CommentDate, C.CommentText, U.FName, U.LName FROM COMMENTS AS C, USER AS U "
+				+ "WHERE C.AnimalId = " + animalId + " AND U.UserId = C.UserId AND U.AccountType <> \"Student\" ORDER BY C.CommentDate DESC";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Comment> studentComments = new ArrayList<Comment>();
+		while(rs.next()) {
+
+			String userId;
+
+			if(rs.getString("UserId") != null) {
+				userId = rs.getString("UserId");
+			} else{
+				userId = "Deleted";
+			}
+
+			Comment c = Comment.builder()
+					.commentId(rs.getString("CommentId"))
+					.userId(userId)
+					.animalId(rs.getString("AnimalId"))
+					.commentDate(rs.getTimestamp("CommentDate"))
+					.commentText(rs.getString("CommentText"))
+					.build();
+			studentComments.add(c);
+		}
+		r = studentComments;
+		pStat.close();
+
+		return r;
+	}
 
 	public void deleteComment(String commentId) throws SQLException {
 
-		String query = "DELETE FROM COMMENTS WHERE CommentId=" + commentId + ";";
+		String query = "DELETE FROM COMMENTS WHERE CommentId=\"" + commentId + "\";";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.executeUpdate();
 		pStat.close();
@@ -550,6 +619,25 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	
+	public void insertImage(Image image, String imageLocation) throws SQLException, FileNotFoundException {
+		String query = "INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId) VALUES(?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		
+		File imageFile = new File(imageLocation);
+		FileInputStream input = new FileInputStream(imageFile);
+		
+		pStat.setString(1, image.getImageId());
+		pStat.setBinaryStream(2, input);
+		pStat.setDate(3, image.getCreationDate());
+		pStat.setString(4, image.getUserId());
+		pStat.setString(5, image.getAnimalId());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+
+	}
+	
 	public static void main(String[] args0) {
 		MySQLJDBC myApp = new MySQLJDBC();
 		myApp.initializeConnection();
