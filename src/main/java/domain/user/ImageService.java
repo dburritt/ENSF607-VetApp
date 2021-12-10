@@ -13,8 +13,8 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
-    public String create(NewImage image) {
-        return imageRepository.create(image);
+    public String create(NewImage image, String imageLocation) {
+        return imageRepository.create(image, imageLocation);
     }
 
     public List<Image> getImages(){return  imageRepository.getImages();}

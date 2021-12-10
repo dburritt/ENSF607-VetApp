@@ -23,7 +23,7 @@ public class ImageDB implements ImageRepository{
 	}
 	
 	@Override
-	public String create(NewImage newImage) {
+	public String create(NewImage newImage, String imageLocation) {
 		String id = UUID.randomUUID().toString();
         Image image = Image.builder()
                 .imageId(id)
@@ -35,7 +35,7 @@ public class ImageDB implements ImageRepository{
         
         // COMMENTS_STORE.put(id, comment);
         try {
-			DB.insertImage(image);
+			DB.insertImage(image, imageLocation);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			//throw new ResourceNotFoundException(404, "comment not created");
