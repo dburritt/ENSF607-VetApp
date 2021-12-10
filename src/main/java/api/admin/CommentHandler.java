@@ -100,7 +100,6 @@ public class CommentHandler extends Handler {
 		
 		if (commentType.equals("staff")) {
 			commentListResponse = new CommentListResponse(commentService.getStaffComments(animalId));
-			System.out.println(commentListResponse.getComments().get(0).getCommentDate());
 		}else if(commentType.equals("student")) {
 			commentListResponse = new CommentListResponse(commentService.getStudentComments(animalId));
 		}else {
