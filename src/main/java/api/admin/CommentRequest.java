@@ -1,6 +1,6 @@
 package api.admin;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Builder;
 import lombok.Value;
@@ -11,7 +11,7 @@ public class CommentRequest {
 	
 	String userId;
 	String animalId;
-	Date commentDate;
+	Timestamp commentDate;
 	String commentText;
 
 }

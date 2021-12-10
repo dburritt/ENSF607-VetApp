@@ -16,6 +16,10 @@ public class CommentService {
     }
 
     public List<Comment> getComments(){return  commentRepository.getComments();}
+    
+    public List<Comment> getStudentComments(String animalId){return  commentRepository.getStudentComments(animalId);}
+
+    public List<Comment> getStaffComments(String animalId){return  commentRepository.getStaffComments(animalId);}
 
     public void deleteComment(String id) throws ResourceNotFoundException{
         Objects.requireNonNull(id,"Comment id is required");
