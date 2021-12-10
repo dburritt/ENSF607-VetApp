@@ -82,7 +82,6 @@ const Admin = ({ user, pageDispatch }) => {
     }
 
     const deleteHandler = (userId) => {
-        console.log(userId)
         axios.delete('http://localhost:8001/api/users/register?id=' + userId)
             .then((res) => {
                 setValue(!value)
@@ -93,7 +92,7 @@ const Admin = ({ user, pageDispatch }) => {
     }
 
     const addHandler = () => {
-        if (newUsername.length === 0 || newPassword.length === 0 || newActivationDate.length !== 10 || 
+        if (newUsername.length === 0 || newPassword.length === 0 || newActivationDate.length !== 10 ||
             newFirstName.length === 0 || newLastName.length === 0 || newEmail.length === 0) {
             alert("All fields must be entered.")
             return
@@ -109,6 +108,9 @@ const Admin = ({ user, pageDispatch }) => {
             .catch((err) => {
                 console.log(err);
             });
+
+        resetNewUserStates();
+        editingHandler();
     }
 
     const usernameHandler = (event) => {
@@ -131,6 +133,16 @@ const Admin = ({ user, pageDispatch }) => {
     }
     const emailHandler = (event) => {
         setNewEmail(event.target.value)
+    }
+
+    const resetNewUserStates = () => {
+        setNewUsername("")
+        setNewPassword("")
+        setNewAccountType("")
+        setNewActivationDate("")
+        setNewFirstName("")
+        setNewLastName("")
+        setNewEmail("")
     }
 
     const timeConverter = (UNIX_timestamp) => {
@@ -238,7 +250,7 @@ const Admin = ({ user, pageDispatch }) => {
                                                     `}
                                                     className="input is-small"
                                                     type="text" /> */}
-                                                    </td>
+                                            </td>
                                             <td><input
                                                 onChange={activationDateHandler}
                                                 css={css`
@@ -323,6 +335,7 @@ const Admin = ({ user, pageDispatch }) => {
                                         )
                                     })
                                 }
+                                <tr class="border_bottom"></tr>
                             </tbody>
                         </table>
                     </div>
@@ -361,6 +374,7 @@ const Admin = ({ user, pageDispatch }) => {
                                         )
                                     })
                                 }
+                                <tr class="border_bottom"></tr>
                             </tbody>
                         </table>
                     </div>
