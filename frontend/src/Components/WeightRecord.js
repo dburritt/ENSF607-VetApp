@@ -2,10 +2,12 @@
 import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
+import WeightRecordGraph from './WeightRecordGraph'
+  
 
 const WeightRecord = ({ user, animal, pageDispatch }) => {
     const [weightRecords, setWeightRecords] = useState([]);
-
+  
     useEffect(() => {
         fetchAnimalWeightRecord()
         console.log(animal)
@@ -64,6 +66,8 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
         var time = date + ' ' + month + ' ' + year;
         return time;
     }
+    
+    
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -110,11 +114,10 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                             </div>
                         </div>
                         <div className="columns is-full">
+                            
                             <div className="column">
                             <div className="box is-fullwidth">
-                               <p>Graph
-                                    <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
-                                </p>
+                            <WeightRecordGraph data={weightRecords} />
                             </div>
                             </div>
                         </div>
