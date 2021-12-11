@@ -5,6 +5,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -619,7 +620,16 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
-	
+	public void deleteAnimalWeight(String deleteAnimalId, String deleteTime) throws SQLException{
+		String query = "DELETE FROM WEIGHT WHERE AnimalId=? AND date = ?";		
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1,deleteAnimalId);
+		pStat.setTimestamp(2, Timestamp.from(Instant.ofEpochMilli(Long.parseLong(deleteTime))));
+		pStat.executeUpdate();
+		pStat.close();
+
+	}
+
 	public void insertImage(Image image) throws SQLException, FileNotFoundException {
 		String query = "INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
@@ -716,6 +726,7 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.close();
 	}
 
+	
 	
 
 	

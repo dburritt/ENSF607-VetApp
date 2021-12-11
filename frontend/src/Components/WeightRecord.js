@@ -8,6 +8,7 @@ import WeightRecordGraph from './WeightRecordGraph'
 const WeightRecord = ({ user, animal, pageDispatch }) => {
     const [weightRecords, setWeightRecords] = useState([]);
     const [inEditMode, setEditState] = useState(false);
+    const [inDeleteMode, setDeleteState] = useState(false);
     const [newWeight, setNewWeight] = useState("");
     const [newNotes, setNewNotes] = useState("");
     const [value, setValue] = useState(true);
@@ -25,7 +26,12 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
 
 
     const editingHandler = () => {
+        setDeleteState(false)
         setEditState(!inEditMode)
+    }
+    const deletingHandler = () => {
+        setEditState(false)
+        setDeleteState(!inDeleteMode)
     }
 
     const navigationHandler = (event) => {
@@ -106,7 +112,15 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
         resetState();
 
     }
-
+    const deleteHandler = (animalId,date) => {
+        axios.delete(`http://localhost:8001/api/animals/weight?id=${animalId}&time=${date}`)
+        .then((res) => {
+            setValue(!value)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
@@ -148,7 +162,11 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                             {user.accountType !== "Student" ? (
                                 <button className="button is-success" onClick={editingHandler}>Add Record</button>
                             ) : null}
+                            {user.accountType === "Admin" ? (
+                                <button className="button is-danger" onClick={deletingHandler}>Delete Record</button>
+                            ) : null}
                         </div>
+
                     </div>
                     <div className="box is-fullwidth">
                         {weightRecords != null ? (
@@ -186,15 +204,22 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                             ADD</button></td>
                                     </tr>
                                 ) : null}
+
                                 {weightRecords != null ? (
                                     weightRecords.map((weightRecord, index) => {
-                                        const { date, weight, notes } = weightRecord
+                                        const {animalId, date, weight, notes } = weightRecord
                                         return (
                                             <>
                                                 <tr key={date}>
                                                     <td>{weight}</td>
                                                     <td>{timeConverter(date)}</td>
                                                     <td>{notes}</td>
+                                                    {inDeleteMode ? (
+                                                        <button
+                                                            onClick={() => deleteHandler(animalId,date)}
+                                                            className="delete is-small is-danger has-text-centered">
+                                                        </button>
+                                                    ) : null}
                                                 </tr>
 
                                             </>

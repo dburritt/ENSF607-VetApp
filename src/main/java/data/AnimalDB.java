@@ -239,8 +239,13 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public void deleteAnimalWeight(String id) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
+	public void deleteAnimalWeight(String deleteAnimalId, String deleteTime) {
+		try {
+			DB.deleteAnimalWeight(deleteAnimalId,deleteTime);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -250,7 +255,7 @@ public class AnimalDB implements AnimalRepository{
 		ANIMAL_WEIGHT_STORE.replace(animalWeight.getAnimalId(), animalWeight);
         return  animalWeight;
 	}
-
+	
 	@Override
 	public String createAnimalStatus(AnimalStatus animalStatus) {
         ANIMAL_STATUS_STORE.put(animalStatus.getAnimalId(), animalStatus);
@@ -459,6 +464,8 @@ public class AnimalDB implements AnimalRepository{
 		}
 	
 	}
+
+	
 
 	
 

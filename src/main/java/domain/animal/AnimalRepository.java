@@ -19,9 +19,9 @@ public interface AnimalRepository {
 	 
 	 String createAnimalWeight(AnimalWeight animalWeight);
 	 List<AnimalWeight> getAnimalWeight(String id);
-	 void deleteAnimalWeight(String id) throws ResourceNotFoundException;
 	 AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) throws ResourceNotFoundException;
-	 
+	 void deleteAnimalWeight(String deleteAnimalId, String deleteTime) throws ResourceNotFoundException;
+
 	 String createAnimalStatus(AnimalStatus animalStatus);
 	 AnimalStatus getAnimalStatus(String id);
 	 AnimalStatus updateAnimalStatus(AnimalStatus animalStatus);
