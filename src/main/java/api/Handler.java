@@ -5,6 +5,7 @@ import java.io.InputStream;
 import errors.ApplicationExceptions;
 import errors.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -17,6 +18,7 @@ public abstract class Handler {
 
     public Handler(ObjectMapper objectMapper, GlobalExceptionHandler exceptionHandler) {
         this.objectMapper = objectMapper;
+        this.objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         this.exceptionHandler = exceptionHandler;
     }
 

@@ -14,6 +14,7 @@ import api.Constants;
 import api.Handler;
 import api.ResponseEntity;
 import api.StatusCode;
+import api.animal.AnimalListResponse;
 import domain.user.Image;
 import domain.user.NewImage;
 import domain.user.ImageService;
@@ -41,7 +42,7 @@ public class ImageHandler extends Handler {
 
         } else if ("GET".equals(exchange.getRequestMethod())) {
 
-            ResponseEntity e = doGet();
+            ResponseEntity e = doGet(exchange);
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
@@ -95,10 +96,24 @@ public class ImageHandler extends Handler {
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
     }
 
-    private ResponseEntity<ImageListResponse> doGet() {
-
-    	ImageListResponse commentListResponse = new ImageListResponse(imageService.getImages());
-        return new ResponseEntity<>(commentListResponse,
+    private ResponseEntity<ImageListResponse> doGet(HttpExchange exchange) {
+    	Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+        String noId= "";
+        String animalId = params.getOrDefault("AnimalId", List.of(noId)).stream().findFirst().orElse(noId); 
+        String imageId = params.getOrDefault("ImageId", List.of(noId)).stream().findFirst().orElse(noId);
+        
+        ImageListResponse imageListResponse = null;
+        
+        if (imageId.equals("0")) {
+        	imageListResponse = new ImageListResponse(imageService.getImages());
+        }
+         
+        else if (!animalId.equals("")){
+        	imageListResponse = new ImageListResponse(imageService.getImages(animalId));
+        }
+        
+    	//ImageListResponse commentListResponse = new ImageListResponse(imageService.getImages());
+        return new ResponseEntity<>(imageListResponse,
                 getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 
     }

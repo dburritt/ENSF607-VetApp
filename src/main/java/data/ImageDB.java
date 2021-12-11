@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import domain.animal.Animal;
 import domain.user.*;
 import errors.ResourceNotFoundException;
 import errors.ImageNotFoundException;
@@ -50,20 +51,35 @@ public class ImageDB implements ImageRepository{
 	@Override
 	public List<Image> getImages() {
 		try {
+			System.out.println("called getImages");
 			return DB.getAllImages();
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "Comments not found.");
 		}
 	}
-
+	
 	@Override
+	public List<Image> getImages(String id) throws ResourceNotFoundException{
+		List<Image> images = null;
+		try {
+			images = DB.getImage(id);
+			if (images == null)
+				throw new ResourceNotFoundException(404, "Image not found.");
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Image not found.");
+		}
+		
+		return  images;
+	}
+
+	/*@Override
 	public void deleteImage(String id) throws ResourceNotFoundException {
 		try {
 			DB.deleteImage(id);
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "Comments not found.");
 		}
-	}
+	}*/
 
 	@Override
 	public Image updateImage(Image image) throws ResourceNotFoundException {

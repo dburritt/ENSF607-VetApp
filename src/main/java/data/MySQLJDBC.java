@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.sql.Date;
@@ -641,10 +642,13 @@ public class MySQLJDBC implements IDBCredentials {
 	public List<Image> getAllImages() throws SQLException {
 		List<Image> r =null;
 
-		String query = "SELECT * FROM IMAGE ORDER BY CreationDate DESC";
+		String query = "SELECT * FROM IMAGE";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		rs = pStat.executeQuery(query);
 		List<Image> images = new ArrayList<Image>();
+		
+		System.out.println("Called getAllImages");
+		
 		while(rs.next()) {
 
 			String imageId;
@@ -654,17 +658,55 @@ public class MySQLJDBC implements IDBCredentials {
 			} else{
 				imageId = "Deleted";
 			}
+			
+			Blob imageBinary = rs.getBlob("ImageData");
+			byte[] imageByte = imageBinary.getBytes(1, (int)imageBinary.length());
+			String imageBase64 = Base64.getEncoder().encodeToString(imageByte);
 
 			Image c = Image.builder()
 					.userId(rs.getString("UserId"))
 					.imageId(imageId)
 					.animalId(rs.getString("AnimalId"))
 					.creationDate(rs.getTimestamp("CreationDate"))
-					.imageData(rs.getBlob("ImageData"))
+					.imageData(imageBase64)
 					.build();
 			images.add(c);
 		}
 		r = images;
+		pStat.close();
+		
+
+		return r;
+	}
+	
+	public List<Image> getImage(String id) throws SQLException {
+		
+		System.out.println("Called getImage(String id)");
+		
+		List<Image> r = null;
+		String query = "SELECT * FROM IMAGE WHERE AnimalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, id);
+		rs = pStat.executeQuery();
+		
+		List<Image> images = new ArrayList<Image>();
+
+		while (rs.next()) {
+			
+			Blob imageBinary = rs.getBlob("ImageData");
+			byte[] imageByte = imageBinary.getBytes(1, (int)imageBinary.length());
+			String imageBase64 = Base64.getEncoder().encodeToString(imageByte);
+			
+			Image c = Image.builder()
+					.userId(rs.getString("UserId"))
+					.animalId(id)
+					.imageId(rs.getString("ImageId"))
+					.creationDate(rs.getTimestamp("CreationDate"))
+					.imageData(imageBase64)
+					.build();
+			images.add(c);
+			r = images;
+		}
 		pStat.close();
 
 		return r;

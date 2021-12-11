@@ -14,5 +14,5 @@ public class NewImage {
     Timestamp creationDate;
     String userId;
     String animalId;
-    Blob imageData;
+    String imageData;
 }
