@@ -5,8 +5,12 @@ import axios from 'axios';
 
 const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
+    const [value, setValue] = useState(true);
+    const [currentAnimal, setCurrentAnimal] = useState(animal);
+
     // useEffect(() => {
-    // }, []);
+    //     fetchAnimalHandler();
+    // }, [value]);
 
     const returnHandler = () => {
         pageDispatch({
@@ -42,15 +46,119 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
     }
 
+    // const fetchAnimalHandler = () => {
+    //     axios.get(`http://localhost:8001/api/animals?id=${animal.id}`)
+    //         .then((res) => {
+    //             setCurrentAnimal(res.data.animals[0]);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
+
+    const editHandler = () => {
+        setEditState(!editState)
+        if (editState) {
+            axios.put(`http://localhost:8001/api/animals?id=${animal.id}`,
+                JSON.stringify({
+                    name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
+                    rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
+                }))
+            setValue(!value);
+        }
+    };
+
+    const animalNameHandler = (event) => {
+        setAnimalName(event.target.value)
+    }
+    const animalSexHandler = (event) => {
+        setAnimalSex(event.target.value)
+    }
+    const animalSpeciesHandler = (event) => {
+        setAnimalSpecies(event.target.value)
+    }
+    const animalSubspeciesHandler = (event) => {
+        setAnimalSubspecies(event.target.value)
+    }
+    const animalBreedHandler = (event) => {
+        setAnimalBreed(event.target.value)
+    }
+    const animalBirthdayHandler = (event) => {
+        setAnimalBirthdate(event.target.value)
+    }
+    const animalColorHandler = (event) => {
+        setAnimalColor(event.target.value)
+    }
+    const animalFeaturesHandler = (event) => {
+        setAnimalFeatures(event.target.value)
+    }
+    const animalMicrochipHandler = (event) => {
+        setAnimalMicrochip(event.target.value)
+    }
+    const animalRfidHandler = (event) => {
+        setAnimalRfid(event.target.value)
+    }
+    const animalTattooHandler = (event) => {
+        setAnimalTattoo(event.target.value)
+    }
+
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var time = date + ' ' + month + ' ' + year;
+        var month = (a.getMonth() + 1) < 10 ? '0' + (a.getMonth() + 1) : (a.getMonth() + 1);
+        var date = a.getDate() < 10 ? '0' + a.getDate() : a.getDate();
+        var time = year + '-' + month + '-' + date;
         return time;
     }
+
+    const dateToUnixConverter = (dateString) => {
+        let dateStringSplit = dateString.split("-")
+        let date = new Date();
+
+        date.setDate(dateStringSplit[2]);
+        date.setMonth(dateStringSplit[1]-1);
+        date.setFullYear(dateStringSplit[0]);
+
+        let unixSeconds = Math.floor(date.getTime())
+
+        return unixSeconds;
+
+    }
+
+    const getTodayForMax = () => {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        return today;
+
+    }
+
+    const [editState, setEditState] = useState(false);
+    const [animalId, setAnimalId] = useState(animal.id)
+    const [animalName, setAnimalName] = useState(animal.name)
+    const [animalBirthdate, setAnimalBirthdate] = useState(timeConverter(animal.bithdate))
+    const [animalBreed, setAnimalBreed] = useState(animal.breed)
+    const [animalColor, setAnimalColor] = useState(animal.color)
+    const [animalFeatures, setAnimalFeatures] = useState(animal.features)
+    const [animalMicrochip, setAnimalMicrochip] = useState(animal.microchip)
+    const [animalRfid, setAnimalRfid] = useState(animal.rfid)
+    const [animalSex, setAnimalSex] = useState(animal.sex)
+    const [animalSpecies, setAnimalSpecies] = useState(animal.species)
+    const [animalSubspecies, setAnimalSubspecies] = useState(animal.subspecies)
+    const [animalTattooNum, setAnimalTattoo] = useState(animal.tattooNum)
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -92,8 +200,12 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                 Basic Info
                             </div>
                             <div className="column is-half has-text-right">
-                                {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Edit</button>
+                                {user.accountType === "Admin" ? (
+                                    <button className="button is-success" onClick={editHandler}>
+                                        {!editState ? (
+                                            "Edit"
+                                        ) : "Save"}
+                                    </button>
                                 ) : null}
                             </div>
                         </div>
@@ -108,52 +220,188 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                 <tbody class="table is-primary">
                                     <tr>
                                         <td>Animal ID</td>
-                                        <td>{animal.id}</td>
+                                        <td>{animalId}</td>
                                     </tr>
                                     <tr>
                                         <td>Name</td>
-                                        <td>{animal.name}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalName}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalName}
+                                            onChange={animalNameHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalName} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Sex</td>
-                                        <td>{animal.sex}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalSex}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalSex}
+                                            onChange={animalSexHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalSex} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Species</td>
-                                        <td>{animal.species}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalSpecies}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalSpecies}
+                                            onChange={animalSpeciesHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalSpecies} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Subspecies</td>
-                                        <td>{animal.subspecies}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalSubspecies}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalSubspecies}
+                                            onChange={animalSubspeciesHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalSubspecies} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Breed</td>
-                                        <td>{animal.breed}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalBreed}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalBreed}
+                                            onChange={animalBreedHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalBreed} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Birthday</td>
-                                        <td>{timeConverter(animal.bithdate)}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalBirthdate}
+                                            </td>
+                                        ) : <td>{console.log(animalBirthdate)}<input
+                                            value={animalBirthdate}
+                                            onKeyDown={(e) => e.preventDefault()}
+                                            onChange={animalBirthdayHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="date"
+                                            min="1850-01-01"
+                                            max={getTodayForMax()}
+                                            placeholder={animalBirthdate} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Colour</td>
-                                        <td>{animal.color}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalColor}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalColor}
+                                            onChange={animalColorHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalColor} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Notable Features</td>
-                                        <td>{animal.features}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalFeatures}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalFeatures}
+                                            onChange={animalFeaturesHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalFeatures} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Microchip #</td>
-                                        <td>{animal.microchip}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalMicrochip}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalMicrochip}
+                                            onChange={animalMicrochipHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalMicrochip} /></td>}
                                     </tr>
                                     <tr>
                                         <td>RFID</td>
-                                        <td>{animal.rfid}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalRfid}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalRfid}
+                                            onChange={animalRfidHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalRfid} /></td>}
                                     </tr>
                                     <tr>
                                         <td>Tattoo Number</td>
-                                        <td>{animal.tattooNum}</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalTattooNum}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalTattooNum}
+                                            onChange={animalTattooHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalTattooNum} /></td>}
                                     </tr>
+                                    <tr class="border_bottom"></tr>
                                 </tbody>
                             </table>
                         </div>

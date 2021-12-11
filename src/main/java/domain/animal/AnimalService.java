@@ -51,6 +51,8 @@ public class AnimalService {
 		 Objects.requireNonNull(animalStatus.getAnimalId(),"animal id is required for update");
 	        return  animalRepository.updateAnimalStatus(animalStatus);
 	}
+	
+	
 	public AnimalStatus getAnimalStatus(String id) throws ResourceNotFoundException {
 		return animalRepository.getAnimalStatus(id);
 	}
@@ -68,7 +70,11 @@ public class AnimalService {
 		Objects.requireNonNull(animalWeight.getAnimalId(),"animal id is required for update");
         return  animalRepository.updateAnimalWeight(animalWeight);
 	}
-
+	public void deleteWeight(String deleteAnimalId, String deleteTime) {
+		Objects.requireNonNull(deleteAnimalId,"animal id is required for update");
+		Objects.requireNonNull(deleteTime,"animal id is required for update");
+		animalRepository.deleteAnimalWeight(deleteAnimalId,deleteTime);
+	}
 	public String createAnimalWeight(AnimalWeight animalWeight) {
 		return animalRepository.createAnimalWeight(animalWeight);				
 	}
@@ -113,6 +119,7 @@ public class AnimalService {
 	public  void deleteAnimalRequest(String id) throws ResourceNotFoundException{
 		
 	}
+
 
 
 	

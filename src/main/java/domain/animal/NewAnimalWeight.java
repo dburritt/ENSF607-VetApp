@@ -1,4 +1,5 @@
 package domain.animal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.TreeMap;
 import lombok.Builder;
@@ -9,7 +10,7 @@ import lombok.Value;
 @Getter
 @Builder
 public class NewAnimalWeight {
-	Date date;
+	Timestamp date;
 	double weight;
 	String notes;
 }

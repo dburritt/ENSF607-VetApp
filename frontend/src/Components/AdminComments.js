@@ -76,7 +76,7 @@ const AdminComments = ({ user, pageDispatch }) => {
         var hour = a.getHours();
         var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(); 
         var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
-        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+        var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec;
         return time;
     }
 
@@ -143,6 +143,7 @@ const AdminComments = ({ user, pageDispatch }) => {
                                 )
                             })
                             }
+                            <tr class="border_bottom"></tr>
                         </tbody>
                     </table>
                 </div>

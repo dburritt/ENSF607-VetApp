@@ -1,6 +1,7 @@
 package api.animal;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,17 @@ public class AnimalWeightHandler extends Handler {
 	        exchange.getResponseHeaders().putAll(e.getHeaders());
 	        exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 	        response = super.writeResponse(e.getBody());
+		} else if ("DELETE".equals(exchange.getRequestMethod())) {
+			ResponseEntity e = doDelete(exchange);
+			exchange.getResponseHeaders().putAll(e.getHeaders());
+			exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+			response = super.writeResponse(e.getBody());
+		} else if ("OPTIONS".equals(exchange.getRequestMethod())) {
+			ResponseEntity e = new ResponseEntity<>("ok",
+					getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+			exchange.getResponseHeaders().putAll(e.getHeaders());
+			exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+			response = super.writeResponse(e.getBody());
 		} else {
         throw ApplicationExceptions.methodNotAllowed(
                 "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
@@ -76,9 +88,13 @@ public class AnimalWeightHandler extends Handler {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalWeight newAnimalWeight = super.readRequest(exchange.getRequestBody(), NewAnimalWeight.class);
+        Timestamp date = newAnimalWeight.getDate();
+        System.out.println(newAnimalWeight.getDate()); 
         AnimalWeight animalWeight = AnimalWeight.builder()
                 .animalId(animalId)
                 .weight(newAnimalWeight.getWeight())
+                .date(new java.sql.Timestamp((new java.util.Date()).getTime()))
+                .notes(newAnimalWeight.getNotes())
                 .build();
         animalService.createAnimalWeight(animalWeight);
         return new ResponseEntity<>(animalId,
@@ -94,6 +110,14 @@ public class AnimalWeightHandler extends Handler {
         
 		return new ResponseEntity<>(animalWeightResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
-	
+	private ResponseEntity<String> doDelete(HttpExchange exchange) {
+		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+		String deleteAnimalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse(null);
+		String deleteTime = params.getOrDefault("time", List.of("")).stream().findFirst().orElse(null);
+		System.out.println(deleteTime);
+		animalService.deleteWeight(deleteAnimalId,deleteTime);
+		return new ResponseEntity<>("Comment successfully deleted",
+				getHeaders(Constants.CONTENT_TYPE, Constants.PLAIN_TXT), StatusCode.OK);
+	}
 }
 

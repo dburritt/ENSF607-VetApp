@@ -1,6 +1,7 @@
 package domain.animal;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Value;
 @Builder
 
 public class NewAnimalHealthRecord {
-	Date date;
+	Timestamp date;
 	String type;
     String record;	
     String notes;

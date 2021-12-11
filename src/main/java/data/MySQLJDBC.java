@@ -5,6 +5,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -142,7 +143,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID")).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -165,7 +166,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID" )).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -187,7 +188,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID")).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -585,7 +586,7 @@ public class MySQLJDBC implements IDBCredentials {
 		while (rs.next()) {
 			AnimalHealthRecord hr = AnimalHealthRecord.builder()
 					.animalId(id)
-					.date(rs.getDate("Date"))
+					.date(rs.getTimestamp("Date"))
 					.type(rs.getString("Type"))
 					.record(rs.getString("Record"))
 					.notes(rs.getString("Notes"))
@@ -609,7 +610,7 @@ public class MySQLJDBC implements IDBCredentials {
 		while (rs.next()) {
 			AnimalWeight w = AnimalWeight.builder()
 					.animalId(id)
-					.date(rs.getDate("Date"))
+					.date(rs.getTimestamp("Date"))
 					.weight(rs.getDouble("Weight"))
 					.notes(rs.getString("Notes"))
 					.build();
@@ -620,7 +621,16 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
-	
+	public void deleteAnimalWeight(String deleteAnimalId, String deleteTime) throws SQLException{
+		String query = "DELETE FROM WEIGHT WHERE AnimalId=? AND date = ?";		
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1,deleteAnimalId);
+		pStat.setTimestamp(2, Timestamp.from(Instant.ofEpochMilli(Long.parseLong(deleteTime))));
+		pStat.executeUpdate();
+		pStat.close();
+
+	}
+
 	public void insertImage(Image image) throws SQLException, FileNotFoundException {
 		String query = "INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId) VALUES(?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
@@ -732,6 +742,33 @@ public class MySQLJDBC implements IDBCredentials {
 		// myApp.close();
 	}
 
+	public void insertAnimalWeight(AnimalWeight animalWeight) throws SQLException{
+		String query = "INSERT INTO WEIGHT (AnimalId, Date, Weight, notes) VALUES(?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalWeight.getAnimalId());
+		pStat.setTimestamp(2, animalWeight.getDate());
+		pStat.setDouble(3, animalWeight.getWeight());
+		pStat.setString(4, animalWeight.getNotes());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
+	}
+
+	public void insertAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) throws SQLException {
+		String query = "INSERT INTO HEALTH_RECORD (AnimalId, Date, Type,Record, notes) VALUES(?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalHealthRecord.getAnimalId());
+		pStat.setTimestamp(2, animalHealthRecord.getDate());
+		pStat.setString(3, animalHealthRecord.getType());
+		pStat.setString(4, animalHealthRecord.getRecord());
+		pStat.setString(5, animalHealthRecord.getNotes());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+	}
+
+	
 	
 
 	

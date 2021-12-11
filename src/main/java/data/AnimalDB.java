@@ -47,8 +47,8 @@ public class AnimalDB implements AnimalRepository{
 			//ANIMAL_WEIGHT_STORE.put(id,w);
 			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
 			ANIMAL_STATUS_STORE.put(id,s);
-			AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(2020,03,01)).type("temp").record("37 degrees").build();
-			ANIMAL_HEALTH_RECORD_STORE.put(id,h);
+			//AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(2020,03,01)).type("temp").record("37 degrees").build();
+			//ANIMAL_HEALTH_RECORD_STORE.put(id,h);
 			NewAnimalReminder nr = NewAnimalReminder.builder().reminder("Feed dog").dateEntered("November 19").dateDue("November 25").build();
 			String r = createAnimalReminder(nr);
     }
@@ -217,7 +217,13 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimalWeight(AnimalWeight animalWeight) {
-		 ANIMAL_WEIGHT_STORE.put(animalWeight.getAnimalId(), animalWeight);
+		// ANIMAL_WEIGHT_STORE.put(animalWeight.getAnimalId(), animalWeight);
+		try {
+			DB.insertAnimalWeight(animalWeight);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	     return animalWeight.getAnimalId();
 	}
 
@@ -233,8 +239,13 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public void deleteAnimalWeight(String id) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
+	public void deleteAnimalWeight(String deleteAnimalId, String deleteTime) {
+		try {
+			DB.deleteAnimalWeight(deleteAnimalId,deleteTime);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -244,7 +255,7 @@ public class AnimalDB implements AnimalRepository{
 		ANIMAL_WEIGHT_STORE.replace(animalWeight.getAnimalId(), animalWeight);
         return  animalWeight;
 	}
-
+	
 	@Override
 	public String createAnimalStatus(AnimalStatus animalStatus) {
         ANIMAL_STATUS_STORE.put(animalStatus.getAnimalId(), animalStatus);
@@ -266,7 +277,13 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
-		ANIMAL_HEALTH_RECORD_STORE.put(animalHealthRecord.getAnimalId(), animalHealthRecord);
+		//ANIMAL_HEALTH_RECORD_STORE.put(animalHealthRecord.getAnimalId(), animalHealthRecord);
+		try {
+			DB.insertAnimalHealthRecord(animalHealthRecord);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    return animalHealthRecord.getAnimalId();
 	}
 
@@ -447,6 +464,8 @@ public class AnimalDB implements AnimalRepository{
 		}
 	
 	}
+
+	
 
 	
 
