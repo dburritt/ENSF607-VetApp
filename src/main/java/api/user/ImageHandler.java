@@ -83,7 +83,6 @@ public class ImageHandler extends Handler {
     	NewImage newImage = NewImage.builder()
                 .userId(imageRequest.getUserId())
                 .animalId(imageRequest.getAnimalId())
-                .imageId(imageRequest.getImageId())
                 .creationDate(new java.sql.Timestamp((new java.util.Date()).getTime()))
                 .imageLocation(imageRequest.getImageLocation())
                 .build();

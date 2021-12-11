@@ -639,7 +639,7 @@ public class MySQLJDBC implements IDBCredentials {
 		FileInputStream input = new FileInputStream(imageFile);
 		
 		pStat.setString(1, image.getImageId());
-		pStat.setBinaryStream(2, input);
+		pStat.setBlob(2, input);
 		pStat.setTimestamp(3, image.getCreationDate());
 		pStat.setString(4, image.getUserId());
 		pStat.setString(5, image.getAnimalId());
@@ -720,6 +720,15 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.close();
 
 		return r;
+	}
+	
+	public void deleteImage(String deleteImageId) throws SQLException{
+		String query = "DELETE FROM IMAGE WHERE ImageId=?";		
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, deleteImageId);
+		pStat.executeUpdate();
+		pStat.close();
+
 	}
 	
 	public static void main(String[] args0) {

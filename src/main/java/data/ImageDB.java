@@ -72,14 +72,14 @@ public class ImageDB implements ImageRepository{
 		return  images;
 	}
 
-	/*@Override
+	@Override
 	public void deleteImage(String id) throws ResourceNotFoundException {
 		try {
 			DB.deleteImage(id);
 		} catch (SQLException e) {
-			throw new ResourceNotFoundException(404, "Comments not found.");
+			throw new ResourceNotFoundException(404, "Image not found.");
 		}
-	}*/
+	}
 
 	@Override
 	public Image updateImage(Image image) throws ResourceNotFoundException {
