@@ -80,9 +80,11 @@ public class AnimalHealthRecordHandler extends Handler {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalHealthRecord newAnimalHealthRecord = super.readRequest(exchange.getRequestBody(), NewAnimalHealthRecord.class);
+        System.out.println("CREATE"); 
+
         AnimalHealthRecord animalHealthRecord = AnimalHealthRecord.builder()
         		.animalId(animalId)
-                .date(newAnimalHealthRecord.getDate())
+                .date(new java.sql.Timestamp((new java.util.Date()).getTime()))
                 .type(newAnimalHealthRecord.getType())
                 .record(newAnimalHealthRecord.getRecord())
                 .build();

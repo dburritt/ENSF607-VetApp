@@ -1,5 +1,6 @@
 package domain.animal;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.Value;
 
 public class AnimalHealthRecord {
 	String animalId;
-	Date date;
+	Timestamp date;
 	String type;
     String record;	
     String notes;

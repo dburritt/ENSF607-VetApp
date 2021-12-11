@@ -6,11 +6,16 @@ import axios from 'axios';
 const HealthRecord = ({ user, animal, pageDispatch }) => {
 
     const [healthRecords, setHealthRecords] = useState([]);
+    const [inEditMode, setEditState] = useState(false);
+    const [newRecordType, setNewRecordType] = useState("");
+    const [newRecord, setNewRecord] = useState("");
+    const [newNotes, setNewNotes] = useState("");
+    const [value, setValue] = useState(true);
 
     useEffect(() => {
         console.log(animal)
         fetchAnimalHealthRecord()
-    }, []);
+    }, [value]);
 
     const returnHandler = () => {
         pageDispatch({
@@ -56,16 +61,52 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                 setHealthRecords(null);
             });
     };
+    const resetState = () =>{
+        setEditState(false);
+        setNewRecordType("");
+        setNewRecord("");
+        setNewNotes("");
+    }
+    const addHandler = () => {
+        if(newRecord.length === 0){
+            alert("Record must be entered.")
+            return
+        }
+        axios.post(`http://localhost:8001/api/animals/healthrecord?id=${animal.id}`, JSON.stringify({
+            type: newRecordType, record: newRecord, notes: newNotes}))
+            .then((res) => {
+                setValue(!value)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+            resetState();
+
+    }
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
-        var time = date + ' ' + month + ' ' + year;
+        var hour = a.getHours();
+        var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
+        var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
+        var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec;
         return time;
     }
-
+    const editingHandler = () => {
+        setEditState(!inEditMode)
+    }
+    const recordTypeHandler = (event) => {
+        setNewRecordType(event.target.value)
+    }
+    const recordHandler = (event) => {
+        setNewRecord(event.target.value)
+    }
+    const notesHandler = (event) => {
+        setNewNotes(event.target.value)
+    }
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
@@ -107,7 +148,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
-                                    <button className="button is-success">Add Record</button>
+                                    <button className="button is-success" onClick={editingHandler}>Add Record</button>
                                 ) : null}
                             </div>
                         </div>
@@ -122,6 +163,33 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                     </tr>
                                 </thead>
                                 <tbody class="table is-primary">
+                                {inEditMode ? (
+                                        <tr>
+                                            <td>
+                                                <input
+                                                    className="input is-small"
+                                                    onChange={recordTypeHandler}
+                                                    type="text" step=".1" />
+                                            </td>
+                                            <td>
+                                                <input
+                                                    className="input is-small"
+                                                    onChange={recordHandler}
+                                                    type="text" step=".1" />
+                                            </td>
+                                            <td>Current Date</td>
+                                            <td>
+                                                <input
+                                                    className="input is-small"
+                                                    onChange= {notesHandler}
+                                                    type="text" />
+                                            </td>
+                                           <td> <button
+                                                    onClick={() => addHandler()}
+                                                    className="button is-small is-success is-rounded">
+                                                    ADD</button></td>
+                                        </tr>
+                                    ) : null}   
                                 {healthRecords != null ? (
                                     healthRecords.map((healthRecord, index) => {
                                         const { date, type, record, notes } = healthRecord

@@ -85,13 +85,10 @@ public class AnimalWeightHandler extends Handler {
         NewAnimalWeight newAnimalWeight = super.readRequest(exchange.getRequestBody(), NewAnimalWeight.class);
         Timestamp date = newAnimalWeight.getDate();
         System.out.println(newAnimalWeight.getDate()); 
-        if(date == null) {
-        	date = new java.sql.Timestamp((new java.util.Date()).getTime());
-        }
         AnimalWeight animalWeight = AnimalWeight.builder()
                 .animalId(animalId)
                 .weight(newAnimalWeight.getWeight())
-                .date(date)
+                .date(new java.sql.Timestamp((new java.util.Date()).getTime()))
                 .notes(newAnimalWeight.getNotes())
                 .build();
         animalService.createAnimalWeight(animalWeight);
