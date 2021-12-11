@@ -141,7 +141,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID")).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -164,7 +164,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID" )).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -186,7 +186,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID")).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -584,7 +584,7 @@ public class MySQLJDBC implements IDBCredentials {
 		while (rs.next()) {
 			AnimalHealthRecord hr = AnimalHealthRecord.builder()
 					.animalId(id)
-					.date(rs.getDate("Date"))
+					.date(rs.getTimestamp("Date"))
 					.type(rs.getString("Type"))
 					.record(rs.getString("Record"))
 					.notes(rs.getString("Notes"))
@@ -701,6 +701,19 @@ public class MySQLJDBC implements IDBCredentials {
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
 		
+	}
+
+	public void insertAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) throws SQLException {
+		String query = "INSERT INTO HEALTH_RECORD (AnimalId, Date, Type,Record, notes) VALUES(?,?,?,?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalHealthRecord.getAnimalId());
+		pStat.setTimestamp(2, animalHealthRecord.getDate());
+		pStat.setString(3, animalHealthRecord.getType());
+		pStat.setString(4, animalHealthRecord.getRecord());
+		pStat.setString(5, animalHealthRecord.getNotes());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
 	}
 
 	
