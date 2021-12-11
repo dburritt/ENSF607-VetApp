@@ -141,7 +141,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID")).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
@@ -164,7 +164,7 @@ public class MySQLJDBC implements IDBCredentials {
 					.species(rs.getString("species")).subspecies(rs.getString("subspecies"))
 					.breed(rs.getString("breed")).sex(rs.getString("sex")).color(rs.getString("colour"))
 					.features(rs.getString("features")).bithdate(rs.getDate("birthdate"))
-					.rfid(rs.getString("birthdate")).microchip(rs.getString("microchip"))
+					.rfid(rs.getString("RFID")).microchip(rs.getString("microchip"))
 					.tattooNum(rs.getString("tattooNum")).build();
 			animals.add(a);
 			r = animals;
