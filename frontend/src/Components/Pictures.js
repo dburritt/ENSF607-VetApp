@@ -4,8 +4,10 @@ import { css } from "@emotion/react";
 import axios from 'axios';
 
 const Pictures = ({ user, animal, pageDispatch }) => {
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
+        fetchAnimalImages()
         console.log(animal)
     }, []);
 
@@ -41,6 +43,29 @@ const Pictures = ({ user, animal, pageDispatch }) => {
                 nextPage: "comments"
             });
         }
+    }
+
+    const fetchAnimalImages = () => {
+        axios.get(`http://localhost:8001/api/users/image?AnimalId=${animal.id}`)
+            .then((res) => {
+                setImages(res.data.images)
+                console.log(res.data.images);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const PopulateAnimalImages = () => {
+        const populatedImages = images.map(im => (
+            <div className="column is-quarter">
+                <div className="box">
+                    <p><img src={`data:image/jpeg;base64,${im.imageData}`} /></p>
+                </div>
+            </div>
+        ));
+
+        return (populatedImages);
     }
 
     const timeConverter = (UNIX_timestamp) => {
@@ -97,67 +122,9 @@ const Pictures = ({ user, animal, pageDispatch }) => {
                                 ) : null}
                             </div>
                         </div>
-                        <div className="columns is-full">
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 1 
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div> 
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 2
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 3
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 4
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div>
 
-                        </div>
-                        <div className="columns is-full">
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 5
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div> 
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 6
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 7
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="column is-quarter">
-                                <div className="box">
-                                    <p>Picture 8
-                                        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-                                    </p>
-                                </div>
-                            </div>
-
+                        <div className="columns is-multiline">
+                            {PopulateAnimalImages()}
                         </div>
                        
                     </div>

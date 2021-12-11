@@ -214,13 +214,14 @@ CREATE TABLE `reminders` (
   foreign key (UserId) references USER(UserId)
 );
 
-/*'select @@GLOBAL.secure_file_priv' to find location for where to store images for upload into database*/
-/*Must have global privilege FILE in order to upload image data*/
+/*Run query 'select @@GLOBAL.secure_file_priv' to find default location for where to store images for upload into database*/
+/*User account must have global privilege FILE in order to upload image data*/
 
 DROP TABLE IF EXISTS IMAGE;
 CREATE TABLE IMAGE (
 	ImageId VARCHAR(100) NOT NULL,
     ImageData MEDIUMBLOB,
+	ImageLocation VARCHAR(300) DEFAULT NULL,
     CreationDate DATETIME NOT NULL,
     UserId VARCHAR(100) NOT NULL,
     AnimalId VARCHAR(100) NOT NULL,
@@ -229,6 +230,18 @@ CREATE TABLE IMAGE (
     foreign key (AnimalId) references ANIMAL(AnimalId)
 );
 
-INSERT INTO IMAGE (ImageId, CreationDate, UserId, AnimalId)
+INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId)
 VALUES
-('1908046', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles.jpg'), '2021-11-29 00:01:02', '2', '53197');
+('1908046', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles.jpg'), '2021-11-29 00:01:02', '2', '53197'),
+('1908047', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles2.jpg'), '2021-11-30 00:01:02', '2', '53197'),
+('1908048', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles3.jpg'), '2021-11-29 00:09:08', '3', '53197'),
+('1908049', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles4.jpg'), '2021-12-01 12:01:01', '3', '53197'),
+('1908050', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jack.jpg'), '2021-11-29 00:01:02', '1', '53199'),
+('1908051', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Johnny.jpg'), '2021-11-30 00:01:02', '1', '53200'),
+('1908052', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Johnny2.jpg'), '2021-12-01 00:01:02', '1', '53200'),
+('1908053', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Rex.jpg'), '2021-11-29 00:01:02', '14', '53195'),
+('1908054', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Rex2.jpg'), '2021-11-30 00:01:02', '14', '53195'),
+('1908055', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Spot.jpg'), '2021-10-09 00:01:02', '1', '53196'),
+('1908056', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Spot2.jpg'), '2021-10-19 00:01:02', '2', '53196'),
+('1908057', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Spot3.jpg'), '2021-10-29 00:01:02', '3', '53196'),
+('1908058', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Tom.jpg'), '2021-11-29 00:01:02', '2', '53198');
