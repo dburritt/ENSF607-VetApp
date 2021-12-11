@@ -46,15 +46,15 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
     }
 
-    const fetchAnimalHandler = () => {
-        axios.get(`http://localhost:8001/api/animals?id=${animal.id}`)
-            .then((res) => {
-                setCurrentAnimal(res.data.animals[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+    // const fetchAnimalHandler = () => {
+    //     axios.get(`http://localhost:8001/api/animals?id=${animal.id}`)
+    //         .then((res) => {
+    //             setCurrentAnimal(res.data.animals[0]);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
 
     const editHandler = () => {
         setEditState(!editState)
@@ -104,27 +104,45 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var time = date + ' ' + month + ' ' + year;
+        var month = (a.getMonth() + 1) < 10 ? '0' + (a.getMonth() + 1) : (a.getMonth() + 1);
+        var date = a.getDate() < 10 ? '0' + a.getDate() : a.getDate();
+        var time = year + '-' + month + '-' + date;
         return time;
     }
 
     const dateToUnixConverter = (dateString) => {
-        let dateStringSplit = dateString.split(" ")
+        let dateStringSplit = dateString.split("-")
         let date = new Date();
 
-        var months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 };
-
-        date.setDate(dateStringSplit[0]);
-        date.setMonth(months[dateStringSplit[1]]);
-        date.setFullYear(dateStringSplit[2]);
+        date.setDate(dateStringSplit[2]);
+        date.setMonth(dateStringSplit[1]-1);
+        date.setFullYear(dateStringSplit[0]);
 
         let unixSeconds = Math.floor(date.getTime())
 
         return unixSeconds;
+
+    }
+
+    const getTodayForMax = () => {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        return today;
 
     }
 
@@ -290,14 +308,17 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                             <td>
                                                 {animalBirthdate}
                                             </td>
-                                        ) : <td><input
+                                        ) : <td>{console.log(animalBirthdate)}<input
                                             value={animalBirthdate}
+                                            onKeyDown={(e) => e.preventDefault()}
                                             onChange={animalBirthdayHandler}
                                             css={css`
                                                 max-width: 50%;
                                                 `}
                                             className="input is-small"
-                                            type="text"
+                                            type="date"
+                                            min="1850-01-01"
+                                            max={getTodayForMax()}
                                             placeholder={animalBirthdate} /></td>}
                                     </tr>
                                     <tr>
