@@ -113,7 +113,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
 
     }
     const deleteHandler = (animalId,date) => {
-        axios.delete('http://localhost:8001/api/animals/weight?id=' + animalId)
+        axios.delete(`http://localhost:8001/api/animals/weight?id=${animalId}&time=${date}`)
         .then((res) => {
             setValue(!value)
         })

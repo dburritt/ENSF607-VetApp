@@ -51,6 +51,11 @@ public class AnimalWeightHandler extends Handler {
 	        exchange.getResponseHeaders().putAll(e.getHeaders());
 	        exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 	        response = super.writeResponse(e.getBody());
+		} else if ("DELETE".equals(exchange.getRequestMethod())) {
+			ResponseEntity e = doDelete(exchange);
+			exchange.getResponseHeaders().putAll(e.getHeaders());
+			exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+			response = super.writeResponse(e.getBody());
 		} else if ("OPTIONS".equals(exchange.getRequestMethod())) {
 			ResponseEntity e = new ResponseEntity<>("ok",
 					getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
@@ -105,6 +110,14 @@ public class AnimalWeightHandler extends Handler {
         
 		return new ResponseEntity<>(animalWeightResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
 	}
-	
+	private ResponseEntity<String> doDelete(HttpExchange exchange) {
+		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+		String deleteAnimalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse(null);
+		String deleteTime = params.getOrDefault("time", List.of("")).stream().findFirst().orElse(null);
+		System.out.println(deleteTime);
+		animalService.deleteWeight(deleteAnimalId,deleteTime);
+		return new ResponseEntity<>("Comment successfully deleted",
+				getHeaders(Constants.CONTENT_TYPE, Constants.PLAIN_TXT), StatusCode.OK);
+	}
 }
 
