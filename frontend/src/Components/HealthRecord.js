@@ -140,7 +140,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                 </div>
 
 
-                <div className="column is-full">
+                
                     <div className="box">
                         <div className="columns is-full">
                             <div className="column is-half">
@@ -210,7 +210,6 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                         </div>
                     </div>
 
-                </div>
 
             </div>
             <div className="columns"
