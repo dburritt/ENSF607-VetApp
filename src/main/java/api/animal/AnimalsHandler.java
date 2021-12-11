@@ -72,7 +72,7 @@ public class AnimalsHandler extends Handler {
 	        String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
 	        Animal newAnimal = super.readRequest(exchange.getRequestBody(), Animal.class);
 	        Animal animalForUpdate = Animal.builder()
-	        		.id(newAnimal.getId())
+	        		.id(animalId)
 	                .name(newAnimal.getName())
 	                .species(newAnimal.getSpecies())
 	                .subspecies(newAnimal.getSubspecies())
