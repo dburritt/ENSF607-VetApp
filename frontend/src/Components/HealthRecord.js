@@ -7,6 +7,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
 
     const [healthRecords, setHealthRecords] = useState([]);
     const [inEditMode, setEditState] = useState(false);
+    const [inDeleteMode, setDeleteState] = useState(false);
     const [newRecordType, setNewRecordType] = useState("");
     const [newRecord, setNewRecord] = useState("");
     const [newNotes, setNewNotes] = useState("");
@@ -96,7 +97,12 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
         return time;
     }
     const editingHandler = () => {
+        setDeleteState(false)
         setEditState(!inEditMode)
+    }
+    const deletingHandler = () => {
+        setEditState(false)
+        setDeleteState(!inDeleteMode)
     }
     const recordTypeHandler = (event) => {
         setNewRecordType(event.target.value)
@@ -106,6 +112,16 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
     }
     const notesHandler = (event) => {
         setNewNotes(event.target.value)
+    }
+    const deleteHandler = (animalId,date) => {
+        console.log(date)
+        axios.delete(`http://localhost:8001/api/animals/healthrecord?id=${animalId}&time=${date}`)
+        .then((res) => {
+            setValue(!value)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
     return (
         <div className="column is-centered is-three-quarters">
@@ -145,14 +161,17 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                         <div className="columns is-full">
                             <div className="column is-half">
                                 Health Record
-                            </div>
-                            <div className="column is-half has-text-right">
-                                {user.accountType !== "Student" ? (
-                                    <button className="button is-success" onClick={editingHandler}>Add Record</button>
-                                ) : null}
-                            </div>
                         </div>
-                        <div className="column is-full">
+                        <div className="column is-half has-text-right">
+                            {user.accountType !== "Student" ? (
+                                <button className="button is-success" onClick={editingHandler}>Add Record</button>
+                            ) : null}
+                            {user.accountType === "Admin" ? (
+                                <button className="button is-danger" onClick={deletingHandler}>Delete Record</button>
+                            ) : null}
+                        </div>
+                    </div>
+                    <div className="column is-full">
                             <table className="table has-text-centered">
                                 <thead class="table is-primary">
                                     <tr>
@@ -192,7 +211,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                     ) : null}   
                                 {healthRecords != null ? (
                                     healthRecords.map((healthRecord, index) => {
-                                        const { date, type, record, notes } = healthRecord
+                                        const { animalId, date, type, record, notes } = healthRecord
                                         return (
                                             <>
                                                 <tr key={date}>
@@ -200,6 +219,12 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                                     <td>{record}</td>
                                                     <td>{timeConverter(date)}</td>
                                                     <td>{notes}</td>
+                                                    {inDeleteMode ? (
+                                                        <button
+                                                            onClick={() => deleteHandler(animalId,date)}
+                                                            className="delete is-small is-danger has-text-centered">
+                                                        </button>
+                                                    ) : null}
                                                 </tr>
                                             </>
                                         )

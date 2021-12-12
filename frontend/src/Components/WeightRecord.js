@@ -173,7 +173,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                             <WeightRecordGraph data={weightRecords} />
                         ) : null}
                     </div>
-                    <div className="table-container has-text-centered is ">
+                    <div className="table-container has-text-centered is-scrollable">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -182,7 +182,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                     <th>Notes</th>
                                 </tr>
                             </thead>
-                            <tbody height="100px" >
+                            <tbody>
                                 {inEditMode ? (
                                     <tr>
                                         <td>

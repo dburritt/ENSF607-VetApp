@@ -1,6 +1,8 @@
 package domain.animal;
 
 import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,7 +67,12 @@ public class AnimalService {
 	public String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
 		return animalRepository.createAnimalHealthRecord(animalHealthRecord);		
 	}
-
+	public void deleteAnimalHealthRecord(String deleteAnimalId, String deleteTime) {
+		Objects.requireNonNull(deleteAnimalId,"animal id is required for update");
+		Objects.requireNonNull(deleteTime,"animal id is required for update");
+		animalRepository.deleteAnimalHealthRecord(deleteAnimalId,deleteTime);
+		
+	}
 	public AnimalWeight updateAnimalWeight(AnimalWeight animalWeight) {
 		Objects.requireNonNull(animalWeight.getAnimalId(),"animal id is required for update");
         return  animalRepository.updateAnimalWeight(animalWeight);
@@ -119,6 +126,8 @@ public class AnimalService {
 	public  void deleteAnimalRequest(String id) throws ResourceNotFoundException{
 		
 	}
+
+	
 
 
 

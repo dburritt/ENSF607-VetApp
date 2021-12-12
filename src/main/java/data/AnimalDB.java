@@ -1,6 +1,7 @@
 package data;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -299,10 +300,16 @@ public class AnimalDB implements AnimalRepository{
 	}
 
 	@Override
-	public void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException {
-		// TODO Auto-generated method stub
+	public void deleteAnimalHealthRecord(String deleteAnimalId, String deleteTime) throws ResourceNotFoundException {
+		try {
+			DB.deleteAnimalHealthRecord(deleteAnimalId,deleteTime);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
+	
 
 	@Override
 	public AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord) {
@@ -465,6 +472,7 @@ public class AnimalDB implements AnimalRepository{
 	
 	}
 
+	
 	
 
 	

@@ -1,8 +1,11 @@
 package api.animal;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
@@ -52,7 +55,18 @@ public class AnimalHealthRecordHandler extends Handler {
 	        exchange.getResponseHeaders().putAll(e.getHeaders());
 	        exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
 	        response = super.writeResponse(e.getBody());
-		} else {
+		} else if ("DELETE".equals(exchange.getRequestMethod())) {
+			ResponseEntity e = doDelete(exchange);
+			exchange.getResponseHeaders().putAll(e.getHeaders());
+			exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+			response = super.writeResponse(e.getBody());
+		} else if ("OPTIONS".equals(exchange.getRequestMethod())) {
+			ResponseEntity e = new ResponseEntity<>("ok",
+					getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+			exchange.getResponseHeaders().putAll(e.getHeaders());
+			exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+			response = super.writeResponse(e.getBody());
+		}else {
         throw ApplicationExceptions.methodNotAllowed(
                 "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
 		}
@@ -67,7 +81,7 @@ public class AnimalHealthRecordHandler extends Handler {
         NewAnimalHealthRecord newAnimalHealthRecord = super.readRequest(exchange.getRequestBody(), NewAnimalHealthRecord.class);
         AnimalHealthRecord animalHealthRecordForUpdate = AnimalHealthRecord.builder()
                 .animalId(animalId)
-                .date(newAnimalHealthRecord.getDate())
+                .date(new java.sql.Timestamp((new java.util.Date()).getTime()))
                 .type(newAnimalHealthRecord.getType())
                 .record(newAnimalHealthRecord.getRecord())
                 .build();
@@ -80,13 +94,12 @@ public class AnimalHealthRecordHandler extends Handler {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
         String animalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse("");
         NewAnimalHealthRecord newAnimalHealthRecord = super.readRequest(exchange.getRequestBody(), NewAnimalHealthRecord.class);
-        System.out.println("CREATE"); 
-
         AnimalHealthRecord animalHealthRecord = AnimalHealthRecord.builder()
         		.animalId(animalId)
                 .date(new java.sql.Timestamp((new java.util.Date()).getTime()))
                 .type(newAnimalHealthRecord.getType())
                 .record(newAnimalHealthRecord.getRecord())
+                .notes(newAnimalHealthRecord.getNotes())
                 .build();
         animalService.createAnimalHealthRecord(animalHealthRecord);
         return new ResponseEntity<>(animalId,
@@ -101,6 +114,14 @@ public class AnimalHealthRecordHandler extends Handler {
         List<AnimalHealthRecord> animalHealthRecordResponse = animalService.getAnimalHealthRecord(id);
         
 		return new ResponseEntity<>(animalHealthRecordResponse, getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
+	}
+	private ResponseEntity<String> doDelete(HttpExchange exchange) {
+		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
+		String deleteAnimalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse(null);
+		String deleteTime = params.getOrDefault("time", List.of("")).stream().findFirst().orElse(null);
+		animalService.deleteAnimalHealthRecord(deleteAnimalId,deleteTime);
+		return new ResponseEntity<>("Record successfully deleted",
+				getHeaders(Constants.CONTENT_TYPE, Constants.PLAIN_TXT), StatusCode.OK);
 	}
 	
 }
