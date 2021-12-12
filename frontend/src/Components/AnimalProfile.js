@@ -200,7 +200,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                 Basic Info
                             </div>
                             <div className="column is-half has-text-right">
-                                {user.accountType === "Admin" ? (
+                                {user.accountType !== "Student" ? (
                                     <button className="button is-success" onClick={editHandler}>
                                         {!editState ? (
                                             "Edit"
@@ -308,7 +308,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                             <td>
                                                 {animalBirthdate}
                                             </td>
-                                        ) : <td>{console.log(animalBirthdate)}<input
+                                        ) : <td><input
                                             value={animalBirthdate}
                                             onKeyDown={(e) => e.preventDefault()}
                                             onChange={animalBirthdayHandler}

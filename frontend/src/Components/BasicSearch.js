@@ -42,6 +42,13 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 setResults([]);
             });
     };
+
+    const addAnimalHandler = () => {
+        pageDispatch({
+            nextPage: "addAnimal"
+        });
+    }
+
     const fetchMyAnimals = () => {
         axios.get(`http://localhost:8001/api/animals?userId=${user.userId}`)
             .then((res) => {
@@ -119,7 +126,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 {user.accountType !== "Student" ? (     
                     <>      
                     <button class="button"onClick={fetchMyAnimals}>My Animals</button>
-                    <button class="button">Add Animal</button>
+                    <button class="button" onClick={addAnimalHandler}>Add Animal</button>
                     </>
                 ) : null }
                 

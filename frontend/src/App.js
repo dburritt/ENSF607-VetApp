@@ -5,13 +5,14 @@ import RequestsMenu from './Components/Requests';
 import Login from './Components/Login';
 import RequestApprovals from './Components/RequestApprovals';
 import Admin from './Components/Admin';
-import AdminComments from './Components/AdminComments'
-import BasicSearch from './Components/BasicSearch'
-import AnimalProfile from './Components/AnimalProfile'
-import HealthRecord from './Components/HealthRecord'
-import AnimalComments from './Components/Comments'
-import WeightRecord from './Components/WeightRecord'
-import Pictures from './Components/Pictures'
+import AdminComments from './Components/AdminComments';
+import BasicSearch from './Components/BasicSearch';
+import AnimalProfile from './Components/AnimalProfile';
+import HealthRecord from './Components/HealthRecord';
+import AnimalComments from './Components/Comments';
+import WeightRecord from './Components/WeightRecord';
+import Pictures from './Components/Pictures';
+import AddAnimal from './Components/AddAnimal';
 import React, { useReducer } from 'react';
 import { css } from "@emotion/react";
 
@@ -46,17 +47,20 @@ function App() {
         newState = "animalProfile";
         break;
       case 'healthRecord':
-          newState = "healthRecord";
-          break;  
+        newState = "healthRecord";
+        break;
       case 'comments':
-          newState = "comments";
-          break;
+        newState = "comments";
+        break;
       case 'pictures':
-          newState = "pictures";
-          break;
+        newState = "pictures";
+        break;
       case 'weightRecord':
-          newState = "weightRecord";
-          break;
+        newState = "weightRecord";
+        break;
+      case 'addAnimal':
+        newState = "addAnimal";
+        break;
       default:
         throw new Error();
     }
@@ -197,6 +201,12 @@ function App() {
               user={user}
               animal={animalSelection}
               pageDispatch={pageDispatch} />
+          ) : null}
+          {(currentView === "addAnimal") ? (
+            <AddAnimal
+              user={user}
+              pageDispatch={pageDispatch}
+              animalSelectionDispatch={animalSelectionDispatch}  />
           ) : null}
         </div>
       </body>

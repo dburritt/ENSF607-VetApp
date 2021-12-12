@@ -58,7 +58,7 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 
 	public void insertAnimal(Animal animal) throws SQLException {
-		String query = "INSERT INTO ANIMAL (AnimalId, Name, Species, Subspecies,Breed, Sex, Colour ,Features, Birthdate, RFID, Microchip, TattooNum) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO ANIMAL (AnimalId, Name, Species, Subspecies,Breed, Sex, Colour ,Features, Birthdate, RFID, Microchip, TattooNum) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, animal.getId());
 		pStat.setString(2, animal.getName());
