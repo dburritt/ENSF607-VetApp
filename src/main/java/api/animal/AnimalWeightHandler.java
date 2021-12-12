@@ -114,7 +114,6 @@ public class AnimalWeightHandler extends Handler {
 		Map<String, List<String>> params = ApiUtils.splitQuery(exchange.getRequestURI().getRawQuery());
 		String deleteAnimalId = params.getOrDefault("id", List.of("")).stream().findFirst().orElse(null);
 		String deleteTime = params.getOrDefault("time", List.of("")).stream().findFirst().orElse(null);
-		System.out.println(deleteTime);
 		animalService.deleteWeight(deleteAnimalId,deleteTime);
 		return new ResponseEntity<>("Comment successfully deleted",
 				getHeaders(Constants.CONTENT_TYPE, Constants.PLAIN_TXT), StatusCode.OK);

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -621,6 +622,16 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	public void deleteAnimalHealthRecord(String deleteAnimalId, String deleteTime) throws SQLException {
+		String query = "DELETE FROM HEALTH_RECORD WHERE AnimalId=? AND date = ?";		
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1,deleteAnimalId);
+		pStat.setTimestamp(2, Timestamp.from(Instant.ofEpochMilli(Long.parseLong(deleteTime))));
+		pStat.executeUpdate();
+		pStat.close();
+
+		
+	}
 	public void deleteAnimalWeight(String deleteAnimalId, String deleteTime) throws SQLException{
 		String query = "DELETE FROM WEIGHT WHERE AnimalId=? AND date = ?";		
 		PreparedStatement pStat = conn.prepareStatement(query);
@@ -776,6 +787,8 @@ public class MySQLJDBC implements IDBCredentials {
 		System.out.println("row Count = " + rowCount);
 		pStat.close();
 	}
+
+	
 
 	
 	

@@ -1,5 +1,6 @@
 package domain.animal;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import errors.ResourceNotFoundException;
@@ -34,8 +35,9 @@ public interface AnimalRepository {
 
 	 String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
 	 List<AnimalHealthRecord> getAnimalHealthRecord(String id);
-	 void deleteAnimalHealthRecord(String id) throws ResourceNotFoundException;
+	 void deleteAnimalHealthRecord(String id, String deleteTime) throws ResourceNotFoundException;
 	 AnimalHealthRecord updateAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);
+
 	
 	 String createAnimalRequest(NewAnimalRequest animalRequest);
 	 List<AnimalRequest> getAnimalRequests();
@@ -48,4 +50,4 @@ public interface AnimalRepository {
 	 List<Animal> getAnimalSubspecies();
 	 List<Animal> getAnimalsBySubspecies(String type);
 	 List<Animal> getAnimalsSearch(String search);
-	}
+}
