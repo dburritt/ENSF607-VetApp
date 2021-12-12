@@ -66,8 +66,8 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.setString(3, animal.getSpecies());
 		pStat.setString(4, animal.getSubspecies());
 		pStat.setString(5, animal.getBreed());
-		pStat.setString(6, animal.getColor());
-		pStat.setString(7, animal.getSex());
+		pStat.setString(6, animal.getSex());
+		pStat.setString(7, animal.getColor());
 		pStat.setString(8, animal.getFeatures());
 		pStat.setDate(9, animal.getBithdate());
 		pStat.setString(10, animal.getRfid());
