@@ -57,15 +57,24 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
     // }
 
     const editHandler = () => {
-        setEditState(!editState)
         if (editState) {
-            axios.put(`http://localhost:8001/api/animals?id=${animal.id}`,
-                JSON.stringify({
-                    name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
-                    rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
-                }))
-            setValue(!value);
+            if (animalName.length === 0 || animalSpecies.length === 0) {
+                alert("Animal must have a name and species entered.");
+                return;
+            } else if (animalSex.length > 1) {
+                alert("Sex must be one character.");
+                return;
+            }
+            else {
+                axios.put(`http://localhost:8001/api/animals?id=${animal.id}`,
+                    JSON.stringify({
+                        name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
+                        rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
+                    }))
+                setValue(!value);
+            }
         }
+        setEditState(!editState);
     };
 
     const animalNameHandler = (event) => {
@@ -116,7 +125,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         let date = new Date();
 
         date.setDate(dateStringSplit[2]);
-        date.setMonth(dateStringSplit[1]-1);
+        date.setMonth(dateStringSplit[1] - 1);
         date.setFullYear(dateStringSplit[0]);
 
         let unixSeconds = Math.floor(date.getTime())

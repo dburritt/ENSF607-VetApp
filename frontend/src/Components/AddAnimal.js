@@ -12,7 +12,12 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
     }
 
     const addHandler = () => {
-        if (animalName.length > 0 && animalSpecies.length > 0 ) {
+        if (animalName.length === 0 || animalSpecies.length === 0 ) {
+            alert("You must at least enter an animal name and species.")
+        } else if(animalSex.length > 1) {
+            alert("Sex must be one character.")
+        }
+        else {
             axios.post(`http://localhost:8001/api/animals`,
                 JSON.stringify({
                     name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
@@ -35,9 +40,6 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 .catch((err) => {
                     console.log(err);
                 });
-            
-        } else {
-            alert("You must at least enter an animal name and species.")
         }
     };
 
