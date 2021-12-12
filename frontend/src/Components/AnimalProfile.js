@@ -8,9 +8,9 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
     const [value, setValue] = useState(true);
     const [currentAnimal, setCurrentAnimal] = useState(animal);
 
-    // useEffect(() => {
-    //     fetchAnimalHandler();
-    // }, [value]);
+    useEffect(() => {
+        fetchAnimalHandler();
+    }, [value]);
 
     const returnHandler = () => {
         pageDispatch({
@@ -46,15 +46,15 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         }
     }
 
-    // const fetchAnimalHandler = () => {
-    //     axios.get(`http://localhost:8001/api/animals?id=${animal.id}`)
-    //         .then((res) => {
-    //             setCurrentAnimal(res.data.animals[0]);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }
+    const fetchAnimalHandler = () => {
+        axios.get(`http://localhost:8001/api/animals?id=${animal.id}`)
+            .then((res) => {
+                setCurrentAnimal(res.data.animals[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     const editHandler = () => {
         if (editState) {
@@ -74,6 +74,17 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                             rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
                         }))
                     setValue(!value);
+                } else{
+                    setAnimalName(currentAnimal.name);
+                    setAnimalSex(currentAnimal.sex);
+                    setAnimalSpecies(currentAnimal.species);
+                    setAnimalSubspecies(currentAnimal.subspecies);
+                    setAnimalBirthdate(timeConverter(currentAnimal.bithdate));
+                    setAnimalColor(currentAnimal.color);
+                    setAnimalFeatures(currentAnimal.features);
+                    setAnimalMicrochip(currentAnimal.microchip);
+                    setAnimalRfid(currentAnimal.rfid);
+                    setAnimalTattoo(currentAnimal.tattooNum);
                 }
             }
         }
@@ -232,13 +243,13 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                 <tbody class="table is-primary">
                                     <tr>
                                         <td>Animal ID</td>
-                                        <td>{animalId}</td>
+                                        <td>{currentAnimal.id}</td>
                                     </tr>
                                     <tr>
                                         <td>Name</td>
                                         {!editState ? (
                                             <td>
-                                                {animalName}
+                                                {currentAnimal.name}
                                             </td>
                                         ) : <td><input
                                             value={animalName}
@@ -254,7 +265,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Sex</td>
                                         {!editState ? (
                                             <td>
-                                                {animalSex}
+                                                {currentAnimal.sex}
                                             </td>
                                         ) : <td><input
                                             value={animalSex}
@@ -270,7 +281,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Species</td>
                                         {!editState ? (
                                             <td>
-                                                {animalSpecies}
+                                                {currentAnimal.species}
                                             </td>
                                         ) : <td><input
                                             value={animalSpecies}
@@ -286,7 +297,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Subspecies</td>
                                         {!editState ? (
                                             <td>
-                                                {animalSubspecies}
+                                                {currentAnimal.subspecies}
                                             </td>
                                         ) : <td><input
                                             value={animalSubspecies}
@@ -302,7 +313,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Breed</td>
                                         {!editState ? (
                                             <td>
-                                                {animalBreed}
+                                                {currentAnimal.breed}
                                             </td>
                                         ) : <td><input
                                             value={animalBreed}
@@ -318,7 +329,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Birthday</td>
                                         {!editState ? (
                                             <td>
-                                                {animalBirthdate}
+                                                {timeConverter(currentAnimal.bithdate)}
                                             </td>
                                         ) : <td><input
                                             value={animalBirthdate}
@@ -337,7 +348,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Colour</td>
                                         {!editState ? (
                                             <td>
-                                                {animalColor}
+                                                {currentAnimal.color}
                                             </td>
                                         ) : <td><input
                                             value={animalColor}
@@ -353,7 +364,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Notable Features</td>
                                         {!editState ? (
                                             <td>
-                                                {animalFeatures}
+                                                {currentAnimal.features}
                                             </td>
                                         ) : <td><input
                                             value={animalFeatures}
@@ -369,7 +380,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Microchip #</td>
                                         {!editState ? (
                                             <td>
-                                                {animalMicrochip}
+                                                {currentAnimal.microchip}
                                             </td>
                                         ) : <td><input
                                             value={animalMicrochip}
@@ -385,7 +396,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>RFID</td>
                                         {!editState ? (
                                             <td>
-                                                {animalRfid}
+                                                {currentAnimal.rfid}
                                             </td>
                                         ) : <td><input
                                             value={animalRfid}
@@ -401,7 +412,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                         <td>Tattoo Number</td>
                                         {!editState ? (
                                             <td>
-                                                {animalTattooNum}
+                                                {currentAnimal.tattooNum}
                                             </td>
                                         ) : <td><input
                                             value={animalTattooNum}
