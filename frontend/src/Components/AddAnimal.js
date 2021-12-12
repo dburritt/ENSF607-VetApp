@@ -12,34 +12,37 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
     }
 
     const addHandler = () => {
-        if (animalName.length === 0 || animalSpecies.length === 0 ) {
+        if (animalName.length === 0 || animalSpecies.length === 0) {
             alert("You must at least enter an animal name and species.")
-        } else if(animalSex.length > 1) {
+        } else if (animalSex.length > 1) {
             alert("Sex must be one character.")
         }
         else {
-            axios.post(`http://localhost:8001/api/animals`,
-                JSON.stringify({
-                    name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
-                    rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
-                }))
-                .then((res) => {
-                    console.log(res.data);
-                    setAnimalId(res.data);
-                    animalSelectionDispatch({
-                        command: "add",
-                        animal: {
-                            id: res.data, name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
-                            rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
-                        }
+            var confirmation = window.confirm("Create " + animalName + "?");
+            if (confirmation) {
+                axios.post(`http://localhost:8001/api/animals`,
+                    JSON.stringify({
+                        name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
+                        rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
+                    }))
+                    .then((res) => {
+                        console.log(res.data);
+                        setAnimalId(res.data);
+                        animalSelectionDispatch({
+                            command: "add",
+                            animal: {
+                                id: res.data, name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
+                                rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
+                            }
+                        });
+                        pageDispatch({
+                            nextPage: "animalProfile"
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
                     });
-                    pageDispatch({
-                        nextPage: "animalProfile"
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            }
         }
     };
 
