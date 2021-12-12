@@ -66,12 +66,15 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                 return;
             }
             else {
-                axios.put(`http://localhost:8001/api/animals?id=${animal.id}`,
-                    JSON.stringify({
-                        name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
-                        rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
-                    }))
-                setValue(!value);
+                var confirmation = window.confirm("Apply changes?");
+                if (confirmation) {
+                    axios.put(`http://localhost:8001/api/animals?id=${animal.id}`,
+                        JSON.stringify({
+                            name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
+                            rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
+                        }))
+                    setValue(!value);
+                }
             }
         }
         setEditState(!editState);
