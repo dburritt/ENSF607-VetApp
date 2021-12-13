@@ -94,7 +94,7 @@ public class AnimalService {
         return animalRepository.createAnimalReminder(newAnimalReminder);
     }
 
-    public List<AnimalReminder> getAnimalReminders(){return  animalRepository.getAnimalReminders();}
+    public List<AnimalReminder> getAnimalReminders(String animalId){return  animalRepository.getAnimalReminders(animalId);}
 
     public void deleteAnimalReminder(String id) throws ResourceNotFoundException{
         Objects.requireNonNull(id,"Reminder id is required");
@@ -102,9 +102,8 @@ public class AnimalService {
     }
     public AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException{
     	Objects.requireNonNull(animalReminder.getReminderId(),"Reminder Id is required for update");
-        Objects.requireNonNull(animalReminder.getReminder(),"Reminder text is required for update");
-        Objects.requireNonNull(animalReminder.getDateEntered(),"Date of entry is required for update");
-        Objects.requireNonNull(animalReminder.getDateDue(),"Due date is required for update");
+        Objects.requireNonNull(animalReminder.getText(),"Reminder text is required for update");
+        Objects.requireNonNull(animalReminder.getCreationDate(),"Date of entry is required for update");
         return  animalRepository.updateAnimalReminder(animalReminder);
 
     }

@@ -214,6 +214,10 @@ CREATE TABLE `reminders` (
   foreign key (UserId) references USER(UserId)
 );
 
+INSERT INTO REMINDERS (ReminderId, DueDate, CreationDate, Text, AnimalId, UserId) 
+VALUES
+(1,'2012-10-11','2021-12-25',"pick up kibble","53197","1");
+
 /*Run query 'select @@GLOBAL.secure_file_priv' to find default location for where to store images for upload into database*/
 /*User account must have global privilege FILE in order to upload image data*/
 

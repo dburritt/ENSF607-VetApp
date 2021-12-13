@@ -30,7 +30,7 @@ public interface AnimalRepository {
 	 String createAnimalReminder(NewAnimalReminder animalReminder);
 	 void deleteAnimalReminder(String id) throws ResourceNotFoundException;
 	 AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException;
-	 List<AnimalReminder> getAnimalReminders();
+	 List<AnimalReminder> getAnimalReminders(String animalId);
 	 
 
 	 String createAnimalHealthRecord(AnimalHealthRecord animalHealthRecord);

@@ -788,10 +788,79 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.close();
 	}
 
-	
+	public void insertAnimalReminder(NewAnimalReminder newAnimalReminder) throws SQLException{
+		String query = "INSERT INTO REMINDERS (ReminderId, DueDate, CreationDate, Text, AnimalId, UserId) VALUES(?,?,?,?,?,?);";
+		String reminderId = UUID.randomUUID().toString();
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, reminderId);
+		pStat.setTimestamp(2, newAnimalReminder.getDueDate());
+		pStat.setTimestamp(3, newAnimalReminder.getCreationDate());
+		pStat.setString(4, newAnimalReminder.getText());
+		pStat.setString(5, newAnimalReminder.getAnimalId());
+		pStat.setString(6, newAnimalReminder.getUserId());
+		int rowCount = pStat.executeUpdate();
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
+	}
 
-	
-	
+	public List<AnimalReminder> getAnimalReminders(String animalId) throws SQLException {
+		List<AnimalReminder> r =null;
+
+		String query = "SELECT * FROM REMINDERS WHERE AnimalId = ? ORDER BY DueDate DESC;";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalId);
+		rs = pStat.executeQuery(query);
+		List<AnimalReminder> reminders = new ArrayList<AnimalReminder>();
+		while(rs.next()) {
+
+			String userId;
+
+			if(rs.getString("UserId") != null) {
+				userId = rs.getString("UserId");
+			} else{
+				userId = "Deleted";
+			}
+
+			AnimalReminder ar = AnimalReminder.builder()
+					.reminderId(rs.getString("CommentId"))
+					.userId(userId)
+					.animalId(rs.getString("AnimalId"))
+					.dueDate(rs.getTimestamp("DueDate"))
+					.creationDate(rs.getTimestamp("CreationDate"))
+					.text(rs.getString("Text"))
+					.build();
+			reminders.add(ar);
+		}
+		r = reminders;
+		pStat.close();
+
+		return r;
+	}
+
+	public void deleteAnimalReminder(String reminderId) throws SQLException {
+
+		String query = "DELETE FROM REMINDERS WHERE ReminderId=?;";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, reminderId);
+		pStat.executeUpdate();
+		pStat.close();
+		
+	}
+
+	public void updateAnimalReminder(AnimalReminder animalReminder) throws SQLException {
+		String query = "UPDATE REMINDERS SET DueDate=?, Text=? WHERE ReminderId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setTimestamp(1, animalReminder.getDueDate());
+		pStat.setString(2, animalReminder.getText());
+		pStat.setString(3, animalReminder.getReminderId());
+
+		int rowCount = pStat.executeUpdate();
+
+		System.out.println("row Count = " + rowCount);
+		pStat.close();
+		
+	}
 
 	
 }

@@ -50,8 +50,6 @@ public class AnimalDB implements AnimalRepository{
 			ANIMAL_STATUS_STORE.put(id,s);
 			//AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(2020,03,01)).type("temp").record("37 degrees").build();
 			//ANIMAL_HEALTH_RECORD_STORE.put(id,h);
-			NewAnimalReminder nr = NewAnimalReminder.builder().reminder("Feed dog").dateEntered("November 19").dateDue("November 25").build();
-			String r = createAnimalReminder(nr);
     }
 
 	@Override
@@ -321,34 +319,42 @@ public class AnimalDB implements AnimalRepository{
 
 	@Override
 	public String createAnimalReminder(NewAnimalReminder newAnimalReminder) {
-		String id = UUID.randomUUID().toString();
-        AnimalReminder animalReminder = AnimalReminder.builder()
-                .reminderId(id)
-                .reminder(newAnimalReminder.getReminder())
-                .dateEntered(newAnimalReminder.getDateEntered())
-                .dateDue(newAnimalReminder.getDateDue())
-                .build();
-        ANIMAL_REMINDER_STORE.put(id, animalReminder);
-
-            return id;
+        
+        try {
+			DB.insertAnimalReminder(newAnimalReminder);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	     return newAnimalReminder.getAnimalId();
+	     
 	}
 	
 	@Override
-	public List<AnimalReminder> getAnimalReminders() {
-		return new ArrayList<>( ANIMAL_REMINDER_STORE.values());
+	public List<AnimalReminder> getAnimalReminders(String animalId) {
+		try {
+			return DB.getAnimalReminders(animalId);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Reminders not found.");
+		}
 	}
 
 	@Override
-	public void deleteAnimalReminder(String id) throws ResourceNotFoundException {
-        AnimalReminder deleteReminder = Optional.of(ANIMAL_REMINDER_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
-        ANIMAL_REMINDER_STORE.remove(deleteReminder.getReminderId(),deleteReminder);
+	public void deleteAnimalReminder(String reminderId) throws ResourceNotFoundException {
+		try {
+			DB.deleteAnimalReminder(reminderId);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Reminders not found.");
+		}
 		
 	}
 
 	@Override
 	public AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException {
-		Optional.of(ANIMAL_REMINDER_STORE.get(animalReminder.getReminderId())).orElseThrow(()->  new ResourceNotFoundException(404, "Reminder id not found."));
-		ANIMAL_REMINDER_STORE.replace(animalReminder.getReminderId(), animalReminder);
+		try {
+			DB.updateAnimalReminder(animalReminder);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Reminder not found.");
+		}
         return  animalReminder;
 	}
 
