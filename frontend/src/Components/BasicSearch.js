@@ -16,6 +16,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
     const [searchSpeciesFilter, setSearchSpeciesFilter] = useState([]);
     const [searchFilterOptions, setSearchFilterOptions] = useState([]);
+    const [test, setTest] = useState(0);
 
     const toggleAdvancedSearch = () => {
         setAdvancedSearchOpen(!advancedSearchOpen);
@@ -118,33 +119,36 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         });
     };
 
-    const AdvancedSearchPopup = props => {
+    const AdvancedSearchPopup = () => {
         return (
             <div className="popup-box">
               <div className="box">
-                <button className="button" onClick={props.handleClose}>Close</button>
+                
                 <div>
                 <header>
                     <span>Advanced Search</span>
                 </header>
     
                 <div class="box">
-                    <div class="select is-primary">
-                        <select>
-                            <option>Filter By</option>
+                    <div>
+                        <select multiple size="5">
+                            <option class="has-background-success">Filter By</option>
                             <option onClick={() => setSearchFilterOptions(searchSpeciesFilter.map(sp => (
                                                             <option onClick={() => setResults(results.filter(r => 
                                                             r.species === sp.species))}>{sp.species}</option>)))}>Species</option>
-                            <option>Subspecies</option>
-                            <option>Breed</option>
+                            <option onClick={() => setSearchFilterOptions(searchSpeciesFilter.map(sp => (
+                                                            <option onClick={() => setResults(results.filter(r => 
+                                                            r.subspecies === sp.subspecies))}>{sp.subspecies}</option>)))}>Subspecies</option>
+                            <option onClick={() => setTest(1)}>Breed</option>
                             <option>Sex</option>
                         </select>
-                    </div>
-                    <div class="select is-primary">
-                        <select>
-                            <option>Options</option>
+                        <select multiple size="5">
+                            <option class="has-background-success">Options</option>
                             {searchFilterOptions}
                         </select>
+                    </div>
+                    <div>
+                        
                     </div>
                 </div>
             </div>
@@ -179,7 +183,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 <div class="column is-half">
                     <button class="button" onClick={searchHandler}>Search</button>
                     <button class="button" onClick={toggleAdvancedSearch}>Advanced Search</button>
-                    {advancedSearchOpen && <AdvancedSearchPopup handleClose={toggleAdvancedSearch} />}
+                    {advancedSearchOpen && <AdvancedSearchPopup />}
                 </div>
                 </div>
             
