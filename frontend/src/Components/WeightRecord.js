@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
 import WeightRecordGraph from './WeightRecordGraph'
+import AnimalHeader from './AnimalHeader';
 
 
 const WeightRecord = ({ user, animal, pageDispatch }) => {
@@ -112,46 +113,22 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
         resetState();
 
     }
-    const deleteHandler = (animalId,date) => {
+    const deleteHandler = (animalId, date) => {
         axios.delete(`http://localhost:8001/api/animals/weight?id=${animalId}&time=${date}`)
-        .then((res) => {
-            setValue(!value)
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                setValue(!value)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
-                <div className="columns is-full"
-                    css={css`max-height: 90px;`}>
-                    <div className="column is-one-quarter" >
-                        <div className="box" css={css`height: 90px;`}>
-                            Profile picture
-                        </div>
-                    </div>
-                    <div className="column is-one-quarter">
-                        <div className="box" css={css`height: 90px;`}>
-                            <nav >
-                                <ul css={css`list-style-type: none;
-                                margin: 0em;
-                                padding: 0;
-                                max-height: 90px;`}>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Name: {animal.name}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Type: {animal.subspecies}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Colour: {animal.color}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Status: { }</li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="column is-one-half">
-                        <div className="box" css={css`height: 90px;`}>
-                            Reminders
-                        </div>
-                    </div>
-                </div>
+
+                <AnimalHeader
+                    user={user}
+                    animal={animal} />
 
                 <div className="box">
                     <div className="columns is-full">
@@ -207,7 +184,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
 
                                 {weightRecords != null ? (
                                     weightRecords.map((weightRecord, index) => {
-                                        const {animalId, date, weight, notes } = weightRecord
+                                        const { animalId, date, weight, notes } = weightRecord
                                         return (
                                             <>
                                                 <tr key={date}>
@@ -216,7 +193,7 @@ const WeightRecord = ({ user, animal, pageDispatch }) => {
                                                     <td>{notes}</td>
                                                     {inDeleteMode ? (
                                                         <button
-                                                            onClick={() => deleteHandler(animalId,date)}
+                                                            onClick={() => deleteHandler(animalId, date)}
                                                             className="delete is-small is-danger has-text-centered">
                                                         </button>
                                                     ) : null}

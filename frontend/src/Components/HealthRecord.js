@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
+import AnimalHeader from './AnimalHeader';
 
 const HealthRecord = ({ user, animal, pageDispatch }) => {
 
@@ -62,26 +63,27 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                 setHealthRecords(null);
             });
     };
-    const resetState = () =>{
+    const resetState = () => {
         setEditState(false);
         setNewRecordType("");
         setNewRecord("");
         setNewNotes("");
     }
     const addHandler = () => {
-        if(newRecord.length === 0){
+        if (newRecord.length === 0) {
             alert("Record must be entered.")
             return
         }
         axios.post(`http://localhost:8001/api/animals/healthrecord?id=${animal.id}`, JSON.stringify({
-            type: newRecordType, record: newRecord, notes: newNotes}))
+            type: newRecordType, record: newRecord, notes: newNotes
+        }))
             .then((res) => {
                 setValue(!value)
             })
             .catch((err) => {
                 console.log(err);
             });
-            resetState();
+        resetState();
 
     }
     const timeConverter = (UNIX_timestamp) => {
@@ -113,54 +115,28 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
     const notesHandler = (event) => {
         setNewNotes(event.target.value)
     }
-    const deleteHandler = (animalId,date) => {
+    const deleteHandler = (animalId, date) => {
         console.log(date)
         axios.delete(`http://localhost:8001/api/animals/healthrecord?id=${animalId}&time=${date}`)
-        .then((res) => {
-            setValue(!value)
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+            .then((res) => {
+                setValue(!value)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
-                <div className="columns is-full"
-                    css={css`max-height: 90px;`}>
-                    <div className="column is-one-quarter" >
-                        <div className="box" css={css`height: 90px;`}>
-                            Profile picture
-                        </div>
-                    </div>
-                    <div className="column is-one-quarter">
-                        <div className="box" css={css`height: 90px;`}>
-                            <nav >
-                                <ul css={css`list-style-type: none;
-                                margin: 0em;
-                                padding: 0;
-                                max-height: 90px;`}>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Name: {animal.name}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Type: {animal.subspecies}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Colour: {animal.color}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Status: { }</li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="column is-one-half">
-                        <div className="box" css={css`height: 90px;`}>
-                            Reminders
-                        </div>
-                    </div>
-                </div>
 
+                <AnimalHeader
+                    user={user}
+                    animal={animal} />
 
-                
-                    <div className="box">
-                        <div className="columns is-full">
-                            <div className="column is-half">
-                                Health Record
+                <div className="box">
+                    <div className="columns is-full">
+                        <div className="column is-half">
+                            Health Record
                         </div>
                         <div className="column is-half has-text-right">
                             {user.accountType !== "Student" ? (
@@ -172,43 +148,43 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                         </div>
                     </div>
                     <div className="column is-full">
-                            <table className="table has-text-centered">
-                                <thead class="table is-primary">
-                                    <tr>
-                                        <th>Record Type</th>
-                                        <th>Record</th>
-                                        <th>Date</th>
-                                        <th>Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table is-primary">
+                        <table className="table has-text-centered">
+                            <thead class="table is-primary">
+                                <tr>
+                                    <th>Record Type</th>
+                                    <th>Record</th>
+                                    <th>Date</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table is-primary">
                                 {inEditMode ? (
-                                        <tr>
-                                            <td>
-                                                <input
-                                                    className="input is-small"
-                                                    onChange={recordTypeHandler}
-                                                    type="text" step=".1" />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    className="input is-small"
-                                                    onChange={recordHandler}
-                                                    type="text" step=".1" />
-                                            </td>
-                                            <td>Current Date</td>
-                                            <td>
-                                                <input
-                                                    className="input is-small"
-                                                    onChange= {notesHandler}
-                                                    type="text" />
-                                            </td>
-                                           <td> <button
-                                                    onClick={() => addHandler()}
-                                                    className="button is-small is-success is-rounded">
-                                                    ADD</button></td>
-                                        </tr>
-                                    ) : null}   
+                                    <tr>
+                                        <td>
+                                            <input
+                                                className="input is-small"
+                                                onChange={recordTypeHandler}
+                                                type="text" step=".1" />
+                                        </td>
+                                        <td>
+                                            <input
+                                                className="input is-small"
+                                                onChange={recordHandler}
+                                                type="text" step=".1" />
+                                        </td>
+                                        <td>Current Date</td>
+                                        <td>
+                                            <input
+                                                className="input is-small"
+                                                onChange={notesHandler}
+                                                type="text" />
+                                        </td>
+                                        <td> <button
+                                            onClick={() => addHandler()}
+                                            className="button is-small is-success is-rounded">
+                                            ADD</button></td>
+                                    </tr>
+                                ) : null}
                                 {healthRecords != null ? (
                                     healthRecords.map((healthRecord, index) => {
                                         const { animalId, date, type, record, notes } = healthRecord
@@ -221,7 +197,7 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                                     <td>{notes}</td>
                                                     {inDeleteMode ? (
                                                         <button
-                                                            onClick={() => deleteHandler(animalId,date)}
+                                                            onClick={() => deleteHandler(animalId, date)}
                                                             className="delete is-small is-danger has-text-centered">
                                                         </button>
                                                     ) : null}
@@ -229,11 +205,11 @@ const HealthRecord = ({ user, animal, pageDispatch }) => {
                                             </>
                                         )
                                     })
-                                    ) : null}
-                                </tbody>
-                            </table>
-                        </div>
+                                ) : null}
+                            </tbody>
+                        </table>
                     </div>
+                </div>
 
 
             </div>

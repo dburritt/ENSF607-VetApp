@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
+import AnimalHeader from './AnimalHeader';
 
-const AddImagePopup = ({user, animal}) => {
+const AddImagePopup = ({ user, animal }) => {
     const [imageLocation, setImageLocation] = useState("");
     const [imageNotification, setImageNotification] = useState("");
-    
+
     const addImage = () => {
         axios.post('http://localhost:8001/api/users/image', JSON.stringify({ animalId: animal.id, userId: user.userId, imageLocation: imageLocation }))
             .then((res) => {
@@ -25,13 +26,13 @@ const AddImagePopup = ({user, animal}) => {
 
     return (
         <div className="popup-box">
-          <div className="box">
-            <input class="input" value={imageLocation} onChange={imageLocationChangeHandler} type="text" placeholder="Enter image location"></input> 
-            <button className="button" onClick={addImage}>Add</button>
-            <p>{imageNotification}</p>
-          </div>
+            <div className="box">
+                <input class="input" value={imageLocation} onChange={imageLocationChangeHandler} type="text" placeholder="Enter image location"></input>
+                <button className="button" onClick={addImage}>Add</button>
+                <p>{imageNotification}</p>
+            </div>
         </div>
-      );
+    );
 }
 
 const Pictures = ({ user, animal, pageDispatch }) => {
@@ -118,37 +119,14 @@ const Pictures = ({ user, animal, pageDispatch }) => {
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
-                <div className="columns is-full"
-                    css={css`max-height: 90px;`}>
-                    <div className="column is-one-quarter" >
-                        <div className="box" css={css`height: 90px;`}>
-                            Profile picture
-                        </div>
-                    </div>
-                    <div className="column is-one-quarter">
-                        <div className="box" css={css`height: 90px;`}>
-                            <nav >
-                                <ul css={css`list-style-type: none;
-                                margin: 0em;
-                                padding: 0;
-                                max-height: 90px;`}>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Name: {animal.name}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Type: {animal.subspecies}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Colour: {animal.color}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Status: { }</li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="column is-one-half">
-                        <div className="box" css={css`height: 90px;`}>
-                            Reminders
-                        </div>
-                    </div>
-                </div>
+
+                <AnimalHeader
+                    user={user}
+                    animal={animal} />
+
                 <div className="column is-full">
                     <div className="box">
-                        
+
                         <div className="columns is-full">
                             <div className="column is-half">
                                 Pictures
@@ -157,14 +135,14 @@ const Pictures = ({ user, animal, pageDispatch }) => {
                                 {user.accountType !== "Student" ? (
                                     <button className="button is-success" onClick={toggleAddImagePopup}>Add Picture</button>
                                 ) : null}
-                                {addImagePopupOpen && <AddImagePopup user={user} animal={animal}/>}
+                                {addImagePopupOpen && <AddImagePopup user={user} animal={animal} />}
                             </div>
                         </div>
 
                         <div className="columns is-multiline">
                             {PopulateAnimalImages()}
                         </div>
-                       
+
                     </div>
 
                 </div>

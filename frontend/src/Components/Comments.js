@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
+import AnimalHeader from './AnimalHeader';
 
 const AnimalComments = ({ user, animal, pageDispatch }) => {
 
@@ -126,35 +127,9 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
-                <div className="columns is-full"
-                    css={css`max-height: 90px;`}>
-                    <div className="column is-one-quarter" >
-                        <div className="box" css={css`height: 90px;`}>
-                            Profile picture
-                        </div>
-                    </div>
-                    <div className="column is-one-quarter">
-                        <div className="box" css={css`height: 90px;`}>
-                            <nav >
-                                <ul css={css`list-style-type: none;
-                                margin: 0em;
-                                padding: 0;
-                                max-height: 90px;`}>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Name: {animal.name}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Type: {animal.subspecies}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Colour: {animal.color}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Status: { }</li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="column is-one-half">
-                        <div className="box" css={css`height: 90px;`}>
-                            Reminders
-                        </div>
-                    </div>
-                </div>
-
+                <AnimalHeader
+                    user={user}
+                    animal={animal} />
 
                 <div className="column is-full">
                     <div className="box">
