@@ -1,3 +1,6 @@
+-- ENSF 608 Final Project - Query Demonstration
+-- Group Members: Gregory Slowski, Drew Burritt, Thomas Scott
+
 USE VETAPP608;
 -- # 1 SHOW TABLES
 SELECT * FROM ANIMAL;

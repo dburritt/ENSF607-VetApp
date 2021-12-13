@@ -1,3 +1,6 @@
+-- ENSF 608 Final Project - Database Creation
+-- Group Members: Gregory Slowski, Drew Burritt, Thomas Scott
+
 DROP DATABASE IF EXISTS VETAPP608;
 CREATE DATABASE VETAPP608; 
 USE VETAPP608;
