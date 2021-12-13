@@ -99,16 +99,6 @@ VALUES
 ('53196', '2021-11-30', '25'),
 ('53197', '2021-10-29', '300');
 
--- CREATE TABLE `animal` (
---   `AnimalId` varchar(45) NOT NULL,
---   `type` varchar(45) DEFAULT NULL,
---   `weight` double DEFAULT NULL,
---   `breed` varchar(45) DEFAULT NULL,
---   `color` varchar(45) DEFAULT NULL,
---   PRIMARY KEY (`AnimalId`),
---   UNIQUE KEY `AnimalId_UNIQUE` (`AnimalId`)
--- );
-
 DROP TABLE IF EXISTS `PRESCRIPTION`;
 CREATE TABLE `PRESCRIPTION` (
 	`PrescriptionId`		VARCHAR(100) not null,
@@ -170,21 +160,6 @@ VALUES
 (6, '53196', '1', 'requested'),
 (7, '53197', '1', 'requested'),
 (8, '53197', '2', 'requested');
--- SELECT * FROM `Weight`;
-
-DROP TABLE IF EXISTS `assigned_animals`;
-CREATE TABLE `assigned_animals` (
-  `UserId` VARCHAR(100) NOT NULL,
-  `AnimalId` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`UserId`, `AnimalId`),
-  FOREIGN KEY (`UserId`) REFERENCES `vetapp`.`user` (`UserId`),
-  FOREIGN KEY (`AnimalId`) REFERENCES `vetapp`.`animal` (`AnimalId`)
- );
- INSERT INTO `assigned_animals` (`UserId`, animalId)
-VALUES
-(5, '53195'),
-(5, '53196');
--- SELECT * FROM `Weight`;
 
 DROP TABLE IF EXISTS `health_record`;
 CREATE TABLE `health_record` (
@@ -219,3 +194,32 @@ VALUES
 (1,'2021-12-25','2010-12-25',"pick up kibble","53197","1"),
 (2,'2021-12-26','2011-12-25',"pick up catfood","53197","1"),
 (3,'2021-12-27','2012-12-25',"pick up treats","53197","1");
+
+DROP TABLE IF EXISTS IMAGE;
+CREATE TABLE IMAGE (
+	ImageId VARCHAR(100) NOT NULL,
+    ImageData MEDIUMBLOB,
+	ImageLocation VARCHAR(300) DEFAULT NULL,
+    CreationDate DATETIME NOT NULL,
+    UserId VARCHAR(100) NOT NULL,
+    AnimalId VARCHAR(100) NOT NULL,
+    primary key (ImageId),
+    foreign key (UserId) references USER(UserId),
+    foreign key (AnimalId) references ANIMAL(AnimalId)
+);
+
+INSERT INTO IMAGE (ImageId, ImageData, CreationDate, UserId, AnimalId)
+VALUES
+('1908046', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles.jpg'), '2021-11-29 00:01:02', '2', '53197'),
+('1908047', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles2.jpg'), '2021-11-30 00:01:02', '2', '53197'),
+('1908048', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles3.jpg'), '2021-11-29 00:09:08', '3', '53197'),
+('1908049', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Charles4.jpg'), '2021-12-01 12:01:01', '3', '53197'),
+('1908050', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Jack.jpg'), '2021-11-29 00:01:02', '1', '53199'),
+('1908051', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Johnny.jpg'), '2021-11-30 00:01:02', '1', '53200'),
+('1908052', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Johnny2.jpg'), '2021-12-01 00:01:02', '1', '53200'),
+('1908053', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Rex.jpg'), '2021-11-29 00:01:02', '14', '53195'),
+('1908054', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Rex2.jpg'), '2021-11-30 00:01:02', '14', '53195'),
+('1908055', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Spot.jpg'), '2021-10-09 00:01:02', '1', '53196'),
+('1908056', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Spot2.jpg'), '2021-10-19 00:01:02', '2', '53196'),
+('1908057', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Spot3.jpg'), '2021-10-29 00:01:02', '3', '53196'),
+('1908058', LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Tom.jpg'), '2021-11-29 00:01:02', '2', '53198');
