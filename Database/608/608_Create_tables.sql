@@ -28,8 +28,8 @@ VALUES
 DROP TABLE IF EXISTS `STUDENT`;
 CREATE TABLE `STUDENT` (
   `StudentId` VARCHAR(100) NOT NULL,
-  `UserId` VARCHAR(100) DEFAULT NULL,
-  PRIMARY KEY (`StudentId`),
+  `UserId` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`UserId`),
   FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE
   );
   
@@ -106,7 +106,7 @@ CREATE TABLE `PRESCRIPTION` (
 	`AnimalId`				VARCHAR(100) not null,
     `Prescription`			VARCHAR(100) not null,
     `Notes`					mediumtext,
-	primary key (PrescriptionId),
+	primary key (PrescriptionId, TreatmentId),
     foreign key (TreatmentId) references TREATMENT(TreatmentId),
 	foreign key (AnimalId) references Animal(AnimalId)
 );
