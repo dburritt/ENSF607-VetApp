@@ -789,7 +789,7 @@ public class MySQLJDBC implements IDBCredentials {
 	}
 
 	public void insertAnimalReminder(NewAnimalReminder newAnimalReminder) throws SQLException{
-		String query = "INSERT INTO REMINDERS (ReminderId, DueDate, CreationDate, Text, AnimalId, UserId) VALUES(?,?,?,?,?,?);";
+		String query = "INSERT INTO REMINDERS (ReminderId, DueDate, CreationDate, Text, AnimalId, UserId) VALUES(?,?,?,?,?,?)";
 		String reminderId = UUID.randomUUID().toString();
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, reminderId);
@@ -799,7 +799,6 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.setString(5, newAnimalReminder.getAnimalId());
 		pStat.setString(6, newAnimalReminder.getUserId());
 		int rowCount = pStat.executeUpdate();
-		System.out.println("row Count = " + rowCount);
 		pStat.close();
 		
 	}
@@ -807,10 +806,10 @@ public class MySQLJDBC implements IDBCredentials {
 	public List<AnimalReminder> getAnimalReminders(String animalId) throws SQLException {
 		List<AnimalReminder> r =null;
 
-		String query = "SELECT * FROM REMINDERS WHERE AnimalId = ? ORDER BY DueDate DESC;";
+		String query = "SELECT * FROM REMINDERS WHERE AnimalId = ? ORDER BY DueDate ASC";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, animalId);
-		rs = pStat.executeQuery(query);
+		rs = pStat.executeQuery();
 		List<AnimalReminder> reminders = new ArrayList<AnimalReminder>();
 		while(rs.next()) {
 
@@ -823,7 +822,7 @@ public class MySQLJDBC implements IDBCredentials {
 			}
 
 			AnimalReminder ar = AnimalReminder.builder()
-					.reminderId(rs.getString("CommentId"))
+					.reminderId(rs.getString("ReminderId"))
 					.userId(userId)
 					.animalId(rs.getString("AnimalId"))
 					.dueDate(rs.getTimestamp("DueDate"))
@@ -840,7 +839,7 @@ public class MySQLJDBC implements IDBCredentials {
 
 	public void deleteAnimalReminder(String reminderId) throws SQLException {
 
-		String query = "DELETE FROM REMINDERS WHERE ReminderId=?;";
+		String query = "DELETE FROM REMINDERS WHERE ReminderId = ?";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		pStat.setString(1, reminderId);
 		pStat.executeUpdate();
@@ -857,7 +856,6 @@ public class MySQLJDBC implements IDBCredentials {
 
 		int rowCount = pStat.executeUpdate();
 
-		System.out.println("row Count = " + rowCount);
 		pStat.close();
 		
 	}

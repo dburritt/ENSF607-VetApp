@@ -216,7 +216,9 @@ CREATE TABLE `reminders` (
 
 INSERT INTO REMINDERS (ReminderId, DueDate, CreationDate, Text, AnimalId, UserId) 
 VALUES
-(1,'2012-10-11','2021-12-25',"pick up kibble","53197","1");
+(1,'2021-12-25','2010-12-25',"pick up kibble","53197","1"),
+(2,'2021-12-26','2011-12-25',"pick up catfood","53197","1"),
+(3,'2021-12-27','2012-12-25',"pick up treats","53197","1");
 
 /*Run query 'select @@GLOBAL.secure_file_priv' to find default location for where to store images for upload into database*/
 /*User account must have global privilege FILE in order to upload image data*/

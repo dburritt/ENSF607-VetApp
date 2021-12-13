@@ -103,7 +103,7 @@ public class AnimalService {
     public AnimalReminder updateAnimalReminder(AnimalReminder animalReminder) throws ResourceNotFoundException{
     	Objects.requireNonNull(animalReminder.getReminderId(),"Reminder Id is required for update");
         Objects.requireNonNull(animalReminder.getText(),"Reminder text is required for update");
-        Objects.requireNonNull(animalReminder.getCreationDate(),"Date of entry is required for update");
+        Objects.requireNonNull(animalReminder.getDueDate(),"Date of entry is required for update");
         return  animalRepository.updateAnimalReminder(animalReminder);
 
     }

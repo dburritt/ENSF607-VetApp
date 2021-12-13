@@ -334,6 +334,7 @@ public class AnimalDB implements AnimalRepository{
 		try {
 			return DB.getAnimalReminders(animalId);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new ResourceNotFoundException(404, "Reminders not found.");
 		}
 	}
