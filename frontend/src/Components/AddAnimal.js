@@ -26,8 +26,6 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
                         rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
                     }))
                     .then((res) => {
-                        console.log(res.data);
-                        setAnimalId(res.data);
                         animalSelectionDispatch({
                             command: "add",
                             animal: {
@@ -80,15 +78,6 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
         setAnimalTattoo(event.target.value)
     }
 
-    const timeConverter = (UNIX_timestamp) => {
-        var a = new Date(UNIX_timestamp);
-        var year = a.getFullYear();
-        var month = (a.getMonth() + 1) < 10 ? '0' + (a.getMonth() + 1) : (a.getMonth() + 1);
-        var date = a.getDate() < 10 ? '0' + a.getDate() : a.getDate();
-        var time = year + '-' + month + '-' + date;
-        return time;
-    }
-
     const dateToUnixConverter = (dateString) => {
         let dateStringSplit = dateString.split("-")
         let date = new Date();
@@ -124,7 +113,6 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
 
     }
 
-    const [animalId, setAnimalId] = useState("")
     const [animalName, setAnimalName] = useState("")
     const [animalBirthdate, setAnimalBirthdate] = useState(getTodayForMax())
     const [animalBreed, setAnimalBreed] = useState("")
