@@ -512,7 +512,7 @@ public class MySQLJDBC implements IDBCredentials {
 	public List<User> getAllUsers() throws SQLException {
 		List<User> r = null;
 
-		String query = "SELECT * FROM USER";
+		String query = "SELECT * FROM USER ORDER BY ActivationDate DESC";
 		PreparedStatement pStat = conn.prepareStatement(query);
 		rs = pStat.executeQuery(query);
 		List<User> users = new ArrayList<User>();
