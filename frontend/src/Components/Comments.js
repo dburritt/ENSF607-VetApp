@@ -38,6 +38,20 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         setNewComment(event.target.value)
     };
 
+    const deleteCommentsHandler = (commentId) => {
+        axios.delete('http://localhost:8001/api/admin/comment?id=' + commentId)
+        .then((res) => {
+            setValue(!value)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    const removeCommentsHandler = (commentId) => {
+        setDeleteState(!inDeleteMode);
+    }
+
     const addSaveHandler = () => {
         setAddState(!addState)
         if (addState) {
@@ -90,6 +104,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
     const [staffComments, setStaffComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [addState, setAddState] = useState(false);
+    const [inDeleteMode, setDeleteState] = useState(false)
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -108,10 +123,17 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
-                                    <button className="button is-success" onClick={addSaveHandler}>
+                                    <button className="button is-success is-small" css={css`margin-right: 4px;`} onClick={addSaveHandler}>
                                         {!addState ? (
                                             "Add Comment"
                                         ) : "Save"}
+                                    </button>
+                                ) : null}
+                                {user.accountType === "Admin" ? (
+                                    <button className="button is-danger is-small" onClick={removeCommentsHandler}>
+                                        {!inDeleteMode ? (
+                                            "Remove Comments"
+                                        ) : "Return"}
                                     </button>
                                 ) : null}
                             </div>
@@ -137,6 +159,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                                         <th>Last Name</th>
                                         <th>Comment Date</th>
                                         <th>Comment Text</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
 
@@ -151,6 +174,14 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                                                     <td id={commentId + 2}>{getUserLastName(commentId, userId)}</td>
                                                     <td>{timeConverter(commentDate)}</td>
                                                     <td>{commentText}</td>
+                                                    {inDeleteMode ? (
+                                                        <td>
+                                                            <button
+                                                                onClick={() => deleteCommentsHandler(commentId)}
+                                                                className="delete is-small is-danger">
+                                                            </button>
+                                                        </td>
+                                                    ) : <td></td>}
                                                 </tr>
 
                                             </>
@@ -198,6 +229,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                                         <th>Last Name</th>
                                         <th>Comment Date</th>
                                         <th>Comment Text</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
 
@@ -212,6 +244,14 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                                                     <td id={commentId + 2}>{getUserLastName(commentId, userId)}</td>
                                                     <td>{timeConverter(commentDate)}</td>
                                                     <td>{commentText}</td>
+                                                    {inDeleteMode ? (
+                                                        <td>
+                                                            <button
+                                                                onClick={() => deleteCommentsHandler(commentId)}
+                                                                className="delete is-small is-danger">
+                                                            </button>
+                                                        </td>
+                                                    ) : <td></td>}
                                                 </tr>
 
                                             </>
