@@ -146,9 +146,7 @@ CREATE TABLE `animal_request` (
   `animalId` varchar(100) NOT NULL,
   `userId` varchar(100),
   `state` varchar(100) NOT NULL,
-  PRIMARY KEY (`animalRequestId`),
-  KEY `userId_idx` (`userId`),
-  KEY `animalId_idx` (`animalId`),
+  PRIMARY KEY (`animalRequestId`, `userId`, `animalId`),
   CONSTRAINT `animalId` FOREIGN KEY (`animalId`) REFERENCES `animal` (`AnimalId`),
   CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE
 );
@@ -168,8 +166,7 @@ CREATE TABLE `health_record` (
   `Type` varchar(100) NOT NULL,
   `Record` varchar(100) NOT NULL,
   `Notes` mediumtext,
-  PRIMARY KEY (`Date`),
-  KEY `AnimalId` (`AnimalId`),
+  PRIMARY KEY (`Date`, `AnimalId`),
   CONSTRAINT `health_record_ibfk_1` FOREIGN KEY (`AnimalId`) REFERENCES `animal` (`AnimalId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
