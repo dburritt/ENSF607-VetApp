@@ -11,5 +11,11 @@ SELECT * FROM ANIMAL WHERE animalId NOT IN (SELECT animalId FROM ANIMAL_REQUEST 
 -- # 5 A retrieval query using joined tables
 SELECT A.Name, T.Description FROM  (ANIMAL AS A LEFT OUTER JOIN TREATMENT AS T ON T.AnimalId = A.AnimalId);
 -- # 6 An update operation with any necessary triggers
+SELECT * FROM REMINDERS;
+UPDATE REMINDERS SET DueDate="2021-12-25", Text="this is an updated reminder!" WHERE ReminderId = '1';
+SELECT * FROM REMINDERS;
 
 -- # 7 A deletion operation with any necessary triggers
+SELECT * FROM REMINDERS;
+DELETE FROM REMINDERS WHERE ReminderId = '2';
+SELECT * FROM REMINDERS;
