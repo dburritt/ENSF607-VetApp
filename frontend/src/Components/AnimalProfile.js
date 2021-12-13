@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
+import AnimalHeader from './AnimalHeader';
 
 const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
@@ -10,7 +11,6 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
     useEffect(() => {
         fetchAnimalHandler();
-        fetchReminders();
     }, [value]);
 
     const returnHandler = () => {
@@ -55,103 +55,6 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
             .catch((err) => {
                 console.log(err);
             });
-    }
-
-    const fetchReminders = () => {
-        axios.get(`http://localhost:8001/api/animals/reminders?animalId=${animal.id}`)
-            .then((res) => {
-                setAnimalReminders(res.data.animalReminders);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    const getReminderFirstName = (reminderId, userId) => {
-        axios.get(`http://localhost:8001/api/users/register?id=${userId}`)
-            .then((res) => {
-                if (document.getElementById(reminderId + 1) !== null) {
-                    document.getElementById(reminderId + 1).innerText = res.data.users[0].fname;
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-
-    }
-
-    const editRemindersHandler = () => {
-        setEditReminderState(!editReminderState);
-        if (editReminderState) {
-            var confirmation = window.confirm("Apply changes?");
-            if (confirmation) {
-                for (let reminder in animalReminders) {
-                    console.log(animalReminders[reminder].text)
-                    console.log(animalReminders[reminder].dueDate)
-                    axios.put(`http://localhost:8001/api/animals/reminders?reminderId=${animalReminders[reminder].reminderId}`, JSON.stringify({
-                        text: animalReminders[reminder].text, dueDate: animalReminders[reminder].dueDate
-                    }))
-                }
-            } else {
-                // setAnimalName(currentAnimal.name);
-                // setAnimalSex(currentAnimal.sex);
-                // setAnimalSpecies(currentAnimal.species);
-                // setAnimalSubspecies(currentAnimal.subspecies);
-                // setAnimalBirthdate(timeConverter(currentAnimal.bithdate));
-                // setAnimalColor(currentAnimal.color);
-                // setAnimalFeatures(currentAnimal.features);
-                // setAnimalMicrochip(currentAnimal.microchip);
-                // setAnimalRfid(currentAnimal.rfid);
-                // setAnimalTattoo(currentAnimal.tattooNum);
-            }
-        }
-        setValue(!value);
-    }
-
-    const addRemindersHandler = () => {
-        if (newReminderText.length === 0) {
-            alert("Reminder text field must be entered.")
-            return
-        }
-
-        axios.post('http://localhost:8001/api/animals/reminders', JSON.stringify({
-            userId: user.userId, text: newReminderText, creationDate: dateToUnixConverter(getTodayForMax()),
-            dueDate: dateToUnixConverter(newReminderDueDate), animalId: animal.id
-        }))
-            .then((res) => {
-                setValue(!value)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        setNewReminderText("");
-        setNewReminderDueDate(getTodayForMax());
-    }
-
-    const deleteReminderHandler = (reminderId) => {
-        axios.delete(`http://localhost:8001/api/animals/reminders?reminderId=${reminderId}`)
-            .then((res) => {
-                setValue(!value)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
-    const reminderTextUpdateHandler = (event, index) => {
-        setAnimalReminders(prevAnimalReminders => {
-            const newAnimalReminders = [...prevAnimalReminders];
-            newAnimalReminders[index].text = event.target.value;
-            return newAnimalReminders;
-        })
-    }
-
-    const reminderDueDateUpdateHandler = (event, index) => {
-        setAnimalReminders(prevAnimalReminders => {
-            const newAnimalReminders = [...prevAnimalReminders];
-            newAnimalReminders[index].dueDate = dateToUnixConverter(event.target.value);
-            return newAnimalReminders;
-        })
     }
 
     const editHandler = () => {
@@ -223,13 +126,6 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
         setAnimalTattoo(event.target.value)
     }
 
-    const reminderTextHandler = (event) => {
-        setNewReminderText(event.target.value)
-    }
-    const reminderDueDateHandler = (event) => {
-        setNewReminderDueDate(event.target.value)
-    }
-
     const timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp);
         var year = a.getFullYear();
@@ -275,7 +171,6 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
     }
 
     const [editState, setEditState] = useState(false);
-    const [animalId, setAnimalId] = useState(animal.id);
     const [animalName, setAnimalName] = useState(animal.name);
     const [animalBirthdate, setAnimalBirthdate] = useState(timeConverter(animal.bithdate));
     const [animalBreed, setAnimalBreed] = useState(animal.breed);
@@ -288,147 +183,12 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
     const [animalSubspecies, setAnimalSubspecies] = useState(animal.subspecies);
     const [animalTattooNum, setAnimalTattoo] = useState(animal.tattooNum);
 
-    const [editReminderState, setEditReminderState] = useState(false);
-    const [animalReminders, setAnimalReminders] = useState([]);
-    const [newReminderText, setNewReminderText] = useState("");
-    const [newReminderDueDate, setNewReminderDueDate] = useState(getTodayForMax());
-
     return (
         <div className="column is-centered is-three-quarters">
             <div className="box">
-                <div className="columns is-full"
-                    css={css`height: 150px;`}>
-                    <div className="column is-one-quarter" >
-                        <div className="box" css={css`height: 100%;`}>
-                            Profile picture
-                            <nav className="list is-pulled-right">
-                                <ul css={css`list-style-type: none;
-                                margin: 0em;
-                                padding: 0;
-                                max-height: 90px;`}>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>{animal.name}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>{animal.subspecies}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>{animal.color}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1.25rem; margin-top: -1.25rem;`}>Status: { }</li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="column is-three-quarters">
-                        <div className="box" css={css`height: 100%;
-                                                        padding:4px;
-                                                        overflow-x: hidden;
-                                                        overflow-y: auto;
-                                                        position: relative;`}>
-                            <div className="subtitle">
-                                Reminders
-                                <button className="button is-success is-small is-pulled-right" onClick={editRemindersHandler}>
-                                    {!editReminderState ? (
-                                        "Edit Reminders"
-                                    ) : "Save Reminders"}
-                                </button>
-                            </div>
-                            <div>
-                                <table className="table has-text-centered" css={css`position: absolute; top: 40px`}>
-                                    <thead class="table is-primary">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th css={css`width: 20%;`}>Due Date</th>
-                                            <th css={css`width: 20%;`}>Creation Date</th>
-                                            <th css={css`width: 50%;`}>Reminder</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody class="table is-primary">
-                                        {editReminderState ? (
-                                            <tr>
-                                                <td>{user.name}</td>
-                                                <td><input
-                                                    value={newReminderDueDate}
-                                                    onKeyDown={(e) => e.preventDefault()}
-                                                    onChange={reminderDueDateHandler}
-                                                    css={css`
-                                                            max-width: 100%;
-                                                            `}
-                                                    className="input is-small"
-                                                    type="date"
-                                                    min={getTodayForMax()} /></td>
-                                                <td>{getTodayForMax()}</td>
-                                                <td><input
-                                                    value={newReminderText}
-                                                    onChange={reminderTextHandler}
-                                                    css={css`
-                                                            max-width: 100%;
-                                                            `}
-                                                    className="input is-small"
-                                                    type="text"
-                                                    placeholder="Enter reminder text." /></td>
-                                                <td>
-                                                    <button
-                                                        onClick={() => addRemindersHandler()}
-                                                        className="button is-small is-success is-rounded">
-                                                        ADD</button>
-                                                </td>
-                                            </tr>
-                                        ) : null}
-                                        {animalReminders.map((reminder, index) => {
-                                            const { reminderId, dueDate, creationDate, text, animalId, userId } = reminder
-                                            return (
-                                                <>
-                                                    <tr key={reminderId}>
-                                                        <td id={reminderId + 1}>{getReminderFirstName(reminderId, userId)}</td>
-                                                        {!editReminderState ? (
-                                                            <td>
-                                                                {timeConverter(dueDate)}
-                                                            </td>
-                                                        ) : <td>
-                                                            <input
-                                                                value={timeConverter(animalReminders[index].dueDate)}
-                                                                onKeyDown={(e) => e.preventDefault()}
-                                                                onChange={() => reminderDueDateUpdateHandler(window.event, index)}
-                                                                css={css`
-                                                                max-width: 100%;
-                                                                `}
-                                                                className="input is-small"
-                                                                type="date"
-                                                                min={getTodayForMax()}
-                                                                placeholder={timeConverter(animalReminders[index].dueDate)} />
-                                                        </td>}
-                                                        <td>{timeConverter(creationDate)}</td>
-                                                        {!editReminderState ? (
-                                                            <td>
-                                                                {text}
-                                                            </td>
-                                                        ) : <td><input
-                                                            value={animalReminders[index].text}
-                                                            onChange={() => reminderTextUpdateHandler(window.event, index)}
-                                                            css={css`
-                                                                    max-width: 100%;
-                                                                    `}
-                                                            className="input is-small"
-                                                            type="text"
-                                                            placeholder={animalReminders[index].text} /></td>}
-                                                        {editReminderState ? (
-                                                            <button
-                                                                onClick={() => deleteReminderHandler(reminderId)}
-                                                                className="delete is-small is-danger">
-                                                            </button>
-                                                        ) : <td></td>}
-                                                    </tr>
-
-                                                </>
-                                            )
-                                        })
-                                        }
-                                        <tr class="border_bottom"></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <AnimalHeader
+                    user={user}
+                    animal={animal} />
 
                 <div className="column is-full">
                     <div className="box">
@@ -683,4 +443,4 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
 }
 
-export default AnimalProfile
+export default AnimalProfile;
