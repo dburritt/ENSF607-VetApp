@@ -182,11 +182,14 @@ const AnimalHeader = ({ user, animal }) => {
                                                         position: relative;`}>
                     <div className="subtitle">
                         Reminders
-                        <button className="button is-success is-small is-pulled-right" onClick={editRemindersHandler}>
-                            {!editReminderState ? (
-                                "Edit Reminders"
-                            ) : "Save / Return"}
-                        </button>
+                        {user.accountType !== "Student" ? (
+                            <button className="button is-success is-small is-pulled-right" onClick={editRemindersHandler}>
+                                {!editReminderState ? (
+                                    "Edit Reminders"
+                                ) : "Save / Return"}
+                            </button>
+                        ) : null}
+
                     </div>
                     <div>
                         <table className="table has-text-centered" css={css`position: absolute; top: 40px; width: 99%;`}>

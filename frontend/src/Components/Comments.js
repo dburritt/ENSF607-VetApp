@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import axios from 'axios';
 import AnimalHeader from './AnimalHeader';
+import AnimalFooter from './AnimalFooter';
 
 const AnimalComments = ({ user, animal, pageDispatch }) => {
 
@@ -12,40 +13,6 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
         fetchStudentComments();
         fetchStaffComments();
     }, [value]);
-
-    const returnHandler = () => {
-        pageDispatch({
-            nextPage: "basicSearch"
-        });
-    }
-
-    const navigationHandler = (event) => {
-        if (event.target.value === "Animal Profile") {
-            pageDispatch({
-                nextPage: "animalProfile"
-            });
-        }
-        if (event.target.value === "Weight Record") {
-            pageDispatch({
-                nextPage: "weightRecord"
-            });
-        }
-        if (event.target.value === "Health Record") {
-            pageDispatch({
-                nextPage: "healthRecord"
-            });
-        }
-        if (event.target.value === "Pictures") {
-            pageDispatch({
-                nextPage: "pictures"
-            });
-        }
-        if (event.target.value === "Comments") {
-            pageDispatch({
-                nextPage: "comments"
-            });
-        }
-    }
 
     const fetchStudentComments = () => {
         axios.get(`http://localhost:8001/api/admin/comment?commentType=student&animalId=${animal.id}`)
@@ -135,7 +102,9 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                     <div className="box">
                         <div className="columns is-full">
                             <div className="column is-half">
-                                Staff Comments
+                                <div className="title is-3">
+                                    Staff Comments
+                                </div>
                             </div>
                             <div className="column is-half has-text-right">
                                 {user.accountType !== "Student" ? (
@@ -195,7 +164,7 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                     </div>
                     <div className="box">
                         <div className="columns is-full">
-                            <div className="column is-half">
+                            <div className="title is-3">
                                 Student Comments
                             </div>
                             <div className="column is-half has-text-right">
@@ -258,37 +227,8 @@ const AnimalComments = ({ user, animal, pageDispatch }) => {
                 </div>
 
             </div>
-            <div className="columns"
-                css={css`position: relative;
-                            width: 100%;
-                            margin-right: auto;
-                            margin-left: auto;
-                            margin-bottom: 0.5rem;`}>
-                <div className="column" css={css`padding-left: 1px; padding-right: 1px;`}>
-                    <button className="button is-small" css={css`width: 100%;`} value="Animal Profile" onClick={navigationHandler}>Animal Profile</button>
-                </div>
-                <div className="column" css={css`padding-left: 1px; padding-right: 1px;`}>
-                    <button className="button is-small" css={css`width: 100%;`} value="Weight Record" onClick={navigationHandler}>Weight Record</button>
-                </div>
-                <div className="column" css={css`padding-left: 1px; padding-right: 1px;`}>
-                    <button className="button is-small" css={css`width: 100%;`} value="Health Record" onClick={navigationHandler}>Health Record</button>
-                </div>
-                <div className="column" css={css`padding-left: 1px; padding-right: 1px;`}>
-                    <button className="button is-small" css={css`width: 100%;`} value="Pictures" onClick={navigationHandler}>Pictures</button>
-                </div>
-                <div className="column" css={css`padding-left: 1px; padding-right: 1px;`}>
-                    <button className="button is-small" css={css`width: 100%;`} value="Comments" onClick={navigationHandler}>Comments</button>
-                </div>
-            </div>
-            <div className="columns is-centered"
-                css={css`position: relative;
-                            width: 30%;
-                            margin-left: auto;
-                            margin-right: auto;`}>
-                <div className="column">
-                    <button className="button is-fullwidth is-small is-success" css={css`width: 90%;`} onClick={returnHandler}>Return to Search</button>
-                </div>
-            </div>
+            <AnimalFooter
+                pageDispatch={pageDispatch} />
         </div>
     )
 
