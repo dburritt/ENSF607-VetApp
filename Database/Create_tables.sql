@@ -74,7 +74,6 @@ CREATE TABLE `TREATMENT` (
   `Description` mediumtext DEFAULT NULL,
   PRIMARY KEY (`TreatmentId`, `AnimalId`),
   FOREIGN KEY (`AnimalId`) REFERENCES `ANIMAL` (`AnimalId`)
-  -- FOREIGN KEY (`AdminsteredBy`) REFERENCES `TECHNICIAN` (`UserId`)
   );
 
 INSERT INTO `TREATMENT` (TreatmentId, AnimalId, `Date`, AdministeredBy, `Description`)
@@ -98,16 +97,6 @@ VALUES
 ('53195', '2021-11-29', '155'),
 ('53196', '2021-11-30', '25'),
 ('53197', '2021-10-29', '300');
-
--- CREATE TABLE `animal` (
---   `AnimalId` varchar(45) NOT NULL,
---   `type` varchar(45) DEFAULT NULL,
---   `weight` double DEFAULT NULL,
---   `breed` varchar(45) DEFAULT NULL,
---   `color` varchar(45) DEFAULT NULL,
---   PRIMARY KEY (`AnimalId`),
---   UNIQUE KEY `AnimalId_UNIQUE` (`AnimalId`)
--- );
 
 DROP TABLE IF EXISTS `PRESCRIPTION`;
 CREATE TABLE `PRESCRIPTION` (
@@ -178,7 +167,6 @@ VALUES
 (6, '53196', '1', 'requested'),
 (7, '53197', '1', 'requested'),
 (8, '53197', '2', 'requested');
--- SELECT * FROM `Weight`;
 
 DROP TABLE IF EXISTS `assigned_animals`;
 CREATE TABLE `assigned_animals` (
@@ -192,7 +180,6 @@ CREATE TABLE `assigned_animals` (
 VALUES
 (5, '53195'),
 (5, '53196');
--- SELECT * FROM `Weight`;
 
 DROP TABLE IF EXISTS `health_record`;
 CREATE TABLE `health_record` (
