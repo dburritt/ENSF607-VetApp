@@ -5,6 +5,9 @@
 Download video at:  
 https://github.com/Software-Engineering-Courses-Moshirpour/final-project-uofeng607-000/tree/main/Demo
 
+View on Youtube at:
+https://youtu.be/2vBsS3F8-rg
+
 ### Instructions to set up the database:   
 1. Run ./Database/Create_tables.sql/ within mySQL  
 2. Be connected to a local server (for example "ENSF607")  
