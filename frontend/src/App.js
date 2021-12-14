@@ -123,7 +123,14 @@ function App() {
       <header>
         <div className="App-header">
           <div className="columns is-full">
-            <div className="column has-text-centered">
+            <div className="column has-text-centered" css={css`margin: auto;`}>
+              {(currentView !== "login") ? (
+                <button
+                  onClick={logoutHandler}
+                  className="button is-small is-gray">
+                  Logout
+                </button>
+              ) : null}
             </div>
             <div className="column has-text-centered is-half"
               css={css`margin: auto;`}>
@@ -206,16 +213,11 @@ function App() {
             <AddAnimal
               user={user}
               pageDispatch={pageDispatch}
-              animalSelectionDispatch={animalSelectionDispatch}  />
+              animalSelectionDispatch={animalSelectionDispatch} />
           ) : null}
         </div>
       </body>
 
-      <footer class="App-footer">
-        <button
-          onClick={logoutHandler}
-          className="button is-small is-gray">Logout</button>
-      </footer>
     </>
   );
 }

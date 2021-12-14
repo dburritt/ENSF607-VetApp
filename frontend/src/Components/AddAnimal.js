@@ -36,6 +36,10 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
                         pageDispatch({
                             nextPage: "animalProfile"
                         });
+                        axios.post(`http://localhost:8001/api/animals/status?animalId=${res.data}`,
+                            JSON.stringify({
+                                status: animalStatus
+                            }))
                     })
                     .catch((err) => {
                         console.log(err);
@@ -76,6 +80,9 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
     }
     const animalTattooHandler = (event) => {
         setAnimalTattoo(event.target.value)
+    }
+    const animalStatusHandler = (event) => {
+        setAnimalStatus(event.target.value)
     }
 
     const dateToUnixConverter = (dateString) => {
@@ -124,6 +131,7 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
     const [animalSpecies, setAnimalSpecies] = useState("")
     const [animalSubspecies, setAnimalSubspecies] = useState("")
     const [animalTattooNum, setAnimalTattoo] = useState("")
+    const [animalStatus, setAnimalStatus] = useState("");
 
     return (
         <div className="column is-centered is-three-quarters">
@@ -308,6 +316,20 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
                                                 className="input is-small"
                                                 type="text"
                                                 placeholder={animalTattooNum} />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td>
+                                            <input
+                                                value={animalStatus}
+                                                onChange={animalStatusHandler}
+                                                css={css`
+                                                max-width: 50%;
+                                                `}
+                                                className="input is-small"
+                                                type="text"
+                                                placeholder={animalStatus} />
                                         </td>
                                     </tr>
                                     <tr class="border_bottom"></tr>
