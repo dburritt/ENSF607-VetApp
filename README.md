@@ -2,6 +2,7 @@
 ## Created by: Thomas Scott, Drew Burritt, Gregory Slowski  
 
 ### Demonstration Video:
+Download video at:  
 https://github.com/Software-Engineering-Courses-Moshirpour/final-project-uofeng607-000/tree/main/Demo
 
 ### Instructions to set up the database:   
