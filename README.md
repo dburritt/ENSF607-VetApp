@@ -25,9 +25,9 @@
 
 `npm install`
 
-    -   run:
+-   run:
 
-`npm start`
+`npm start`  
 
 Login information:
 Admin credentials ---                       Username: Admin_1       Password: pe
