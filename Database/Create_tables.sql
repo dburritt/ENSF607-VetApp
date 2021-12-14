@@ -126,7 +126,6 @@ INSERT INTO `COMMENTS` (CommentId, `UserId`, AnimalId, CommentDate, CommentText)
 VALUES
 (1, 2, '53195', '2015-11-29', 'this is test comment 1'),
 (2, 3, '53196', '2015-11-29', 'this is test comment 2'),
-(3, 14, '53197', '2015-11-29', 'bad comment 3'),
 (4, 5, '53197', '2015-11-29', 'good comment 4'),
 (5, 7, '53197', '2015-11-29', 'student comment 4');
 
