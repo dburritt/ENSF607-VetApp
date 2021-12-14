@@ -23,7 +23,7 @@ https://youtu.be/2vBsS3F8-rg
 - Requires Java version > 16  
 - Run application.java from IDE or directly run BackendAPI.jar  
 `java -jar ./BackendAPI.jar`
-- Ensure port 8001 is available for JDBC connection.  
+- Ensure port 8001 is available for API server connection.  
 
 ### Instructions to run the frontend  
 - React  
