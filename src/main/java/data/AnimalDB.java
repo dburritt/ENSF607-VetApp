@@ -141,6 +141,20 @@ public class AnimalDB implements AnimalRepository{
 		
 		return  animals;
 	}
+	
+	@Override
+	public List<Animal> getAnimalBreed() {
+		List<Animal> animals = null;
+		try {
+			animals = DB.getAnimalBreed();
+			if (animals == null)
+				throw new ResourceNotFoundException(404, "animal not found.");
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "animal not found.");
+		}
+		
+		return  animals;
+	}
 
 	@Override
 	public List<Animal> getAnimalsBySubspecies(String subspecies) {

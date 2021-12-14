@@ -7,7 +7,6 @@ import 'bulma/css/bulma.css';
 const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     useEffect(() => {
         fetchAllAnimals();
-        fetchSpecies();
     }, []);
     const [results, setResults] = useState([]);
 
@@ -15,8 +14,8 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     const [search, setSearch] = useState("");
     const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
     const [searchSpeciesFilter, setSearchSpeciesFilter] = useState([]);
-    const [searchFilterOptions, setSearchFilterOptions] = useState([]);
-    const [test, setTest] = useState(0);
+    const [filterTypeSet, setFilterTypeSet] = useState("");
+    const [tester, setTester] = useState([]);
 
     const toggleAdvancedSearch = () => {
         setAdvancedSearchOpen(!advancedSearchOpen);
@@ -26,6 +25,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
                 setResults(res.data.animals);
+                setTester(res.data.animals);
                 console.log(selected)
                 //selectHandler(res.data.animals[0]);
             })
@@ -67,6 +67,57 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                 console.log(err);
             });
       };
+
+    const fetchAnimalBreeds = () => {
+        axios.get('http://localhost:8001/api/animals?breed=0')
+            
+            .then((res) => {
+                setSearchSpeciesFilter(res.data.animals);
+                console.log(res.data.animals);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const setAdvancedSearchFilter = (filterType) => {
+        setFilterTypeSet(filterType);
+        if (filterType === "species") {
+            fetchSpecies();
+        }
+        else if (filterType === "subspecies") {
+            fetchSpecies();
+        }
+        else if (filterType === "breed") {
+            fetchAnimalBreeds();
+        }
+    };
+
+    const SetAdvancedSearchOptions = (filterType, props) => {
+        if (filterType === "species") {
+            return(<option onClick={() => filterResults(filterType, props)}>{props.species}</option>)
+        }
+        else if (filterType === "subspecies") {
+            return(<option onClick={() => filterResults(filterType, props)}>{props.subspecies}</option>)
+        }
+        else if (filterType === "breed") {
+            return(<option onClick={() => filterResults(filterType, props)}>{props.breed}</option>)
+        }
+    };
+
+    const filterResults = (filterType, props) => {
+        var tempResults = results;
+
+        if (filterType === "species") {
+            setResults(tempResults.filter(r => r.species === props.species));
+        }
+        else if (filterType === "subspecies") {
+            setResults(tempResults.filter(r => r.subspecies === props.subspecies));
+        }
+        else if (filterType === "breed") {
+            setResults(tempResults.filter(r => r.breed === props.breed));
+        }
+    }
 
 
     const selectHandler = (animal) => {
@@ -133,18 +184,13 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                     <div>
                         <select multiple size="5">
                             <option class="has-background-success">Filter By</option>
-                            <option onClick={() => setSearchFilterOptions(searchSpeciesFilter.map(sp => (
-                                                            <option onClick={() => setResults(results.filter(r => 
-                                                            r.species === sp.species))}>{sp.species}</option>)))}>Species</option>
-                            <option onClick={() => setSearchFilterOptions(searchSpeciesFilter.map(sp => (
-                                                            <option onClick={() => setResults(results.filter(r => 
-                                                            r.subspecies === sp.subspecies))}>{sp.subspecies}</option>)))}>Subspecies</option>
-                            <option onClick={() => setTest(1)}>Breed</option>
-                            <option>Sex</option>
+                            <option onClick={() => setAdvancedSearchFilter("species")}>Species</option>
+                            <option onClick={() => setAdvancedSearchFilter("subspecies")}>Subspecies</option>
+                            <option onClick={() => setAdvancedSearchFilter("breed")}>Breed</option>
                         </select>
                         <select multiple size="5">
                             <option class="has-background-success">Options</option>
-                            {searchFilterOptions}
+                            {searchSpeciesFilter.map(sp => (SetAdvancedSearchOptions(filterTypeSet, sp)))}
                         </select>
                     </div>
                     <div>
