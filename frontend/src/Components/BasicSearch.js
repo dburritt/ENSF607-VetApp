@@ -4,18 +4,32 @@ import React, { useState, useEffect } from 'react';
 import { css } from "@emotion/react";
 import 'bulma/css/bulma.css';
 
+//Search screen and all associated functionality
 const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
     useEffect(() => {
         fetchAllAnimals();
     }, []);
+
+    //results stores entire list of animals in db
     const [results, setResults] = useState([]);
 
+    //selected stores animal user selects
     const [selected, setSelected] = useState([]);
+
+    //search stores animal name or ID entered for filtering animal list
     const [search, setSearch] = useState("");
+
+    //advancedSearchOpen controls whether advanced search window is open/close
     const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
+
+    //searchSpeciesFilter controls which option to filter animal list in advanved search
     const [searchSpeciesFilter, setSearchSpeciesFilter] = useState([]);
+
+    //filterTypeSet stores animal filter type for advanced search functionality
     const [filterTypeSet, setFilterTypeSet] = useState("");
-    const [tester, setTester] = useState([]);
+
+    //filtered displays the search results to the user
+    const [filtered, setFiltered] = useState([]);
 
     const toggleAdvancedSearch = () => {
         setAdvancedSearchOpen(!advancedSearchOpen);
@@ -25,9 +39,8 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         axios.get('http://localhost:8001/api/animals?id=0')
             .then((res) => {
                 setResults(res.data.animals);
-                setTester(res.data.animals);
-                console.log(selected)
-                //selectHandler(res.data.animals[0]);
+                setFiltered(res.data.animals);
+                console.log(res.data.animals);
             })
             .catch((err) => {
                 console.log(err);
@@ -93,6 +106,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         }
     };
 
+    //Set opitions for user to pick from in advanced search
     const SetAdvancedSearchOptions = (filterType, props) => {
         if (filterType === "species") {
             return(<option onClick={() => filterResults(filterType, props)}>{props.species}</option>)
@@ -105,24 +119,22 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         }
     };
 
+    //Filter animal list based on option user picked in advanced search
     const filterResults = (filterType, props) => {
-        var tempResults = results;
 
         if (filterType === "species") {
-            setResults(tempResults.filter(r => r.species === props.species));
+            setFiltered(results.filter(r => r.species === props.species))
         }
         else if (filterType === "subspecies") {
-            setResults(tempResults.filter(r => r.subspecies === props.subspecies));
+            setFiltered(results.filter(r => r.subspecies === props.subspecies))
         }
         else if (filterType === "breed") {
-            setResults(tempResults.filter(r => r.breed === props.breed));
+            setFiltered(results.filter(r => r.breed === props.breed))
         }
-    }
-
+    };
 
     const selectHandler = (animal) => {
         setSelected(animal);
-        // console.log(selected);
     };
     const searchChangeHandler = (event) => {
         setSearch(event.target.value)
@@ -136,10 +148,11 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
             .then((res) => {
                 console.log(res);
                 setResults(res.data.animals);
-                //selectHandler(res.data.animals[0]);
+                setFiltered(res.data.animals);
             })
             .catch((err) => {
                 setResults([]);
+                setFiltered([]);
             });
     }
     const staffPageHandler = () => {
@@ -170,6 +183,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
         });
     };
 
+    //Advanced search window
     const AdvancedSearchPopup = () => {
         return (
             <div className="popup-box">
@@ -239,7 +253,7 @@ const BasicSearchView = ({ user, pageDispatch, animalSelectionDispatch }) => {
                     <div className="column is-one-quarter">
                         <div class="select is-multiple is-fullwidth">
                             <select multiple size="5"  >
-                                {results.map((animal, index) => {
+                                {filtered.map((animal, index) => {
                                     const { id, name, species, subspecies, breed } = animal
                                     return (
                                         

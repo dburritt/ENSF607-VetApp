@@ -181,14 +181,14 @@ const AnimalHeader = ({ user, animal }) => {
 
     return (
         <div className="columns is-full"
-            css={css`height: 150px;`}>
+            css={css`height: 200px;`}>
             <div className="column is-one-quarter" >
                 <div className="box" css={css`height: 100%;`}>
                     <div className="columns is-full"
-                        css={css`height: 150px;`}>
+                        css={css`height: 200px;`}>
                         <div className="column is-half" >
                             {(images !== null && images.length !== 0) ? (
-                                <img id="profilePic" />
+                                <img id="profilePic"/>
                             ) :
                                 <div className="subtitle is-6 has-text-centered">
                                     No picture available
