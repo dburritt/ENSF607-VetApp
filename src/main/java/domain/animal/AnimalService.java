@@ -22,6 +22,7 @@ public class AnimalService {
     public List<Animal> getAnimals(String id) throws ResourceNotFoundException {return animalRepository.getAnimals(id);}
     public List<Animal> getAvailableAnimals() {return animalRepository.getAvailableAnimals();}
 	public List<Animal> getAnimalSubspecies() {return animalRepository.getAnimalSubspecies();}
+	public List<Animal> getAnimalBreed() {return animalRepository.getAnimalBreed();}
 	public List<Animal> getAnimalsBySubspecies(String subspecies) {return animalRepository.getAnimalsBySubspecies(subspecies);}
 	public List<Animal> getAnimalsByUserId(String userId) {return animalRepository.getAnimalsByUserId(userId); }
 	public List<Animal> getAnimalsSearch(String search) {return animalRepository.getAnimalsSearch(search); }

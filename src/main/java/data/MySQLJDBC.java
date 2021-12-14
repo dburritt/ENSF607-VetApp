@@ -214,6 +214,23 @@ public class MySQLJDBC implements IDBCredentials {
 
 		return r;
 	}
+	
+	public List<Animal> getAnimalBreed() throws SQLException {
+		List<Animal> r = null;
+		String query = "SELECT DISTINCT Breed FROM ANIMAL";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		rs = pStat.executeQuery(query);
+		List<Animal> animals = new ArrayList<Animal>();
+		while (rs.next()) {
+			Animal a = Animal.builder().breed(rs.getString("breed")).build();
+			animals.add(a);
+			r = animals;
+		}
+		pStat.close();
+
+		return r;
+	}
+	
 	public List<Animal> getAnimalsSearch(String search) throws SQLException {
 		List<Animal> r = null;
 

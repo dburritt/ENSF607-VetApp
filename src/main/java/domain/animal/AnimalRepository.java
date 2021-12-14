@@ -49,6 +49,7 @@ public interface AnimalRepository {
 	 
 	 
 	 List<Animal> getAnimalSubspecies();
+	 List<Animal> getAnimalBreed();
 	 List<Animal> getAnimalsBySubspecies(String type);
 	 List<Animal> getAnimalsSearch(String search);
 }
