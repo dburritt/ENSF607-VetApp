@@ -2,7 +2,7 @@
 ## Created by: Thomas Scott, Drew Burritt, Gregory Slowski  
 
 ### Demonstration Video:
-
+https://github.com/Software-Engineering-Courses-Moshirpour/final-project-uofeng607-000/tree/main/Demo
 
 ### Instructions to set up the database:   
 1. Run ./Database/Create_tables.sql/ within mySQL  
@@ -44,5 +44,3 @@ Student credentials ----------------------  Username: btables       Password: 12
 - On Windows All pictures first need to be added to 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\' in order to add them to the database.   
     - Ensure hidden folders are visible for access.  
     - On other OS use the query 'select @@GLOBAL.secure_file_priv;' to locate your file path.  
-
-### Contributions
