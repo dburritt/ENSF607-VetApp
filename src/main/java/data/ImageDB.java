@@ -51,7 +51,7 @@ public class ImageDB implements ImageRepository{
 	@Override
 	public List<Image> getImages() {
 		try {
-			System.out.println("called getImages");
+//			System.out.println("called getImages");
 			return DB.getAllImages();
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "Comments not found.");
@@ -63,8 +63,8 @@ public class ImageDB implements ImageRepository{
 		List<Image> images = null;
 		try {
 			images = DB.getImage(id);
-			if (images == null)
-				throw new ResourceNotFoundException(404, "Image not found.");
+//			if (images == null)
+//				throw new ResourceNotFoundException(404, "Image not found.");
 		} catch (SQLException e) {
 			throw new ResourceNotFoundException(404, "Image not found.");
 		}

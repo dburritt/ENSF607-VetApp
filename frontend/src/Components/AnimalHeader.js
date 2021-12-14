@@ -13,6 +13,7 @@ const AnimalHeader = ({ user, animal }) => {
             document.getElementById("profilePic").src = `data:image/jpeg;base64,${await fetchAnimalImages()}`;
         }
         fetchReminders();
+        fetchStatus();
     }, [value]);
 
     const fetchReminders = () => {
@@ -109,7 +110,16 @@ const AnimalHeader = ({ user, animal }) => {
                 console.log(err);
             });
         
-            
+    };
+
+    const fetchStatus = () => {
+        axios.get(`http://localhost:8001/api/animals/status?animalId=${animal.id}`)
+            .then((res) => {
+                setAnimalStatus(res.data.animalStatus.status);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const reminderTextHandler = (event) => {
@@ -167,6 +177,7 @@ const AnimalHeader = ({ user, animal }) => {
     const [animalReminders, setAnimalReminders] = useState([]);
     const [newReminderText, setNewReminderText] = useState("");
     const [newReminderDueDate, setNewReminderDueDate] = useState(getTodayForMax());
+    const [animalStatus, setAnimalStatus] = useState("");
 
     return (
         <div className="columns is-full"
@@ -176,7 +187,7 @@ const AnimalHeader = ({ user, animal }) => {
                     <div className="columns is-full"
                         css={css`height: 150px;`}>
                         <div className="column is-half" >
-                            {(images.length !== 0) ? (
+                            {(images !== null && images.length !== 0) ? (
                                 <img id="profilePic" />
                             ) :
                                 <div className="subtitle is-6 has-text-centered">
@@ -196,7 +207,7 @@ const AnimalHeader = ({ user, animal }) => {
                                     </li>
                                     <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>{animal.subspecies}</li>
                                     <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>{animal.color}</li>
-                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>Status: { }</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>Status: {animalStatus}</li>
                                 </ul>
                             </nav>
                         </div>

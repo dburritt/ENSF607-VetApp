@@ -67,6 +67,7 @@ public class CommentDB implements CommentRepository{
 		try {
 			return DB.getStaffComments(animalId);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new ResourceNotFoundException(404, "Comments not found.");
 		}
 	}

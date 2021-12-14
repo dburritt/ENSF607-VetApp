@@ -287,10 +287,6 @@ public class MySQLJDBC implements IDBCredentials {
 		int rowCount = pStat.executeUpdate();
 		pStat.close();
 
-		// for testing on windows curl -X POST localhost:8001/api/admin/comment -d
-		// "{\"userId\": \"1\", \"animalId\": \"53195\", \"commentDate\":
-		// \"2021-11-29\", \"commentText\": \"this is a test comment\"}"
-
 	}
 
 	public List<Comment> getAllComments() throws SQLException {
@@ -329,9 +325,10 @@ public class MySQLJDBC implements IDBCredentials {
 		List<Comment> r =null;
 
 		String query = "SELECT C.CommentId, C.UserId, C.AnimalId, C.CommentDate, C.CommentText, U.FName, U.LName FROM COMMENTS AS C, USER AS U "
-				+ "WHERE C.AnimalId = " + animalId + " AND U.UserId = C.UserId AND U.AccountType = \"Student\" ORDER BY C.CommentDate DESC";
+				+ "WHERE C.AnimalId = ? AND U.UserId = C.UserId AND U.AccountType = \"Student\" ORDER BY C.CommentDate DESC";
 		PreparedStatement pStat = conn.prepareStatement(query);
-		rs = pStat.executeQuery(query);
+		pStat.setString(1, animalId);
+		rs = pStat.executeQuery();
 		List<Comment> studentComments = new ArrayList<Comment>();
 		while(rs.next()) {
 
@@ -362,9 +359,10 @@ public class MySQLJDBC implements IDBCredentials {
 		List<Comment> r =null;
 
 		String query = "SELECT C.CommentId, C.UserId, C.AnimalId, C.CommentDate, C.CommentText, U.FName, U.LName FROM COMMENTS AS C, USER AS U "
-				+ "WHERE C.AnimalId = " + animalId + " AND U.UserId = C.UserId AND U.AccountType <> \"Student\" ORDER BY C.CommentDate DESC";
+				+ "WHERE C.AnimalId = ? AND U.UserId = C.UserId AND U.AccountType <> \"Student\" ORDER BY C.CommentDate DESC";
 		PreparedStatement pStat = conn.prepareStatement(query);
-		rs = pStat.executeQuery(query);
+		pStat.setString(1, animalId);
+		rs = pStat.executeQuery();
 		List<Comment> studentComments = new ArrayList<Comment>();
 		while(rs.next()) {
 
@@ -393,8 +391,9 @@ public class MySQLJDBC implements IDBCredentials {
 
 	public void deleteComment(String commentId) throws SQLException {
 
-		String query = "DELETE FROM COMMENTS WHERE CommentId=\"" + commentId + "\";";
+		String query = "DELETE FROM COMMENTS WHERE CommentId=?";
 		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, commentId);
 		pStat.executeUpdate();
 		pStat.close();
 
@@ -502,8 +501,9 @@ public class MySQLJDBC implements IDBCredentials {
 
 	public void deleteUser(String userId) throws SQLException {
 
-		String query = "DELETE FROM USER WHERE UserId='" + userId + "';";
+		String query = "DELETE FROM USER WHERE UserId=?";
 		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, userId);
 		pStat.executeUpdate();
 		pStat.close();
 
@@ -702,7 +702,7 @@ public class MySQLJDBC implements IDBCredentials {
 	
 	public List<Image> getImage(String id) throws SQLException {
 		
-		System.out.println("Called getImage(String id)");
+//		System.out.println("Called getImage(String id)");
 		
 		List<Image> r = null;
 		String query = "SELECT * FROM IMAGE WHERE AnimalId = ?";
@@ -853,6 +853,48 @@ public class MySQLJDBC implements IDBCredentials {
 		pStat.setTimestamp(1, animalReminder.getDueDate());
 		pStat.setString(2, animalReminder.getText());
 		pStat.setString(3, animalReminder.getReminderId());
+
+		int rowCount = pStat.executeUpdate();
+
+		pStat.close();
+		
+	}
+
+	public void insertAnimalStatus(AnimalStatus animalStatus) throws SQLException {
+		String query = "INSERT INTO ANIMAL_STATUS (AnimalId, AnimalStatus) VALUES(?,?)";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalStatus.getAnimalId());
+		pStat.setString(2, animalStatus.getStatus());
+		int rowCount = pStat.executeUpdate();
+		pStat.close();
+		
+	}
+
+	public AnimalStatus getAnimalStaus(String animalId) throws SQLException {
+		AnimalStatus r =null;
+
+		String query = "SELECT * FROM ANIMAL_STATUS WHERE AnimalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalId);
+		rs = pStat.executeQuery();
+		if (rs.next() == false) {
+			return r;
+		}
+		AnimalStatus ar = AnimalStatus.builder()
+				.status(rs.getString("AnimalStatus"))
+				.animalId(rs.getString("AnimalId"))
+				.build();
+		r = ar;
+		pStat.close();
+
+		return r;
+	}
+
+	public void updateAnimalStatus(AnimalStatus animalStatus) throws SQLException {
+		String query = "UPDATE ANIMAL_STATUS SET AnimalStatus=? WHERE AnimalId = ?";
+		PreparedStatement pStat = conn.prepareStatement(query);
+		pStat.setString(1, animalStatus.getStatus());
+		pStat.setString(2, animalStatus.getAnimalId());
 
 		int rowCount = pStat.executeUpdate();
 

@@ -37,17 +37,17 @@ public class AnimalDB implements AnimalRepository{
 			//Animal a = Animal.builder().id(id).type("dog").weight(123).breed("lab").color("black").build();
 			
 		  //  ANIMAL_STORE.put(id,a);
-		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
-		    ANIMAL_DETAILS_STORE.put(id,d);
-				TreeMap<Date, Double> weight = new 	TreeMap<Date, Double>();
-				weight.put(new Date(55415412), 123.1);
-				weight.put(new Date(55445412), 120.0);
-				weight.put(new Date(55455412), 125.1);
-				weight.put(new Date(55459000), 121.1);
+//		    AnimalDetails d = AnimalDetails.builder().id(id).tattoo("234234").RFID("1231223").DOB("2018-08-12").build();
+//		    ANIMAL_DETAILS_STORE.put(id,d);
+//				TreeMap<Date, Double> weight = new 	TreeMap<Date, Double>();
+//				weight.put(new Date(55415412), 123.1);
+//				weight.put(new Date(55445412), 120.0);
+//				weight.put(new Date(55455412), 125.1);
+//				weight.put(new Date(55459000), 121.1);
 			//AnimalWeight w = AnimalWeight.builder().id(id).weight(weight).build();
 			//ANIMAL_WEIGHT_STORE.put(id,w);
-			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
-			ANIMAL_STATUS_STORE.put(id,s);
+//			AnimalStatus s = AnimalStatus.builder().animalId(id).status("GOOD").build();
+//			ANIMAL_STATUS_STORE.put(id,s);
 			//AnimalHealthRecord h = AnimalHealthRecord.builder().animalId(id).date(new Date(2020,03,01)).type("temp").record("37 degrees").build();
 			//ANIMAL_HEALTH_RECORD_STORE.put(id,h);
     }
@@ -257,20 +257,36 @@ public class AnimalDB implements AnimalRepository{
 	
 	@Override
 	public String createAnimalStatus(AnimalStatus animalStatus) {
-        ANIMAL_STATUS_STORE.put(animalStatus.getAnimalId(), animalStatus);
+		
+		try {
+			DB.insertAnimalStatus(animalStatus);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
        return animalStatus.getAnimalId();
 	}
 
 	@Override
-	public AnimalStatus getAnimalStatus(String id) {
-		AnimalStatus status = Optional.ofNullable(ANIMAL_STATUS_STORE.get(id)).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		return  status;
+	public AnimalStatus getAnimalStatus(String animalId) {
+		
+		try {
+			return DB.getAnimalStaus(animalId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ResourceNotFoundException(404, "Animal not found.");
+		}
 	}
 
 	@Override
 	public AnimalStatus updateAnimalStatus(AnimalStatus animalStatus) {
-		Optional.of(ANIMAL_STATUS_STORE.get(animalStatus.getAnimalId())).orElseThrow(()->  new ResourceNotFoundException(404, "animal not found."));
-		ANIMAL_STATUS_STORE.replace(animalStatus.getAnimalId(), animalStatus);
+		
+		try {
+			DB.updateAnimalStatus(animalStatus);
+		} catch (SQLException e) {
+			throw new ResourceNotFoundException(404, "Animal not found.");
+		}
+		
         return  animalStatus;
 	}
 

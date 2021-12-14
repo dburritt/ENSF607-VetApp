@@ -145,10 +145,18 @@ DROP TABLE IF EXISTS `ANIMAL_STATUS`;
 CREATE TABLE `ANIMAL_STATUS` (
 	`AnimalId`			VARCHAR(100) not null,
 	`AnimalStatus`		VARCHAR(100) not null,
-    `StatusDate`			DATETIME not null,
 	primary key (AnimalId),
 	foreign key (AnimalId) references Animal(AnimalId)
 );
+
+INSERT INTO ANIMAL_STATUS (AnimalId, AnimalStatus)
+VALUES
+('53195','Healthy'),
+('53196','Healthy'),
+('53197','Sick'),
+('53198','Injured'),
+('53199','Deceased'),
+('53200','Healthy');
 
 DROP TABLE IF EXISTS `animal_request`;
 CREATE TABLE `animal_request` (

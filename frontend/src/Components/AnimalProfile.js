@@ -12,6 +12,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
 
     useEffect(() => {
         fetchAnimalHandler();
+        fetchStatus()
     }, [value]);
 
     const fetchAnimalHandler = () => {
@@ -23,6 +24,16 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                 console.log(err);
             });
     }
+
+    const fetchStatus = () => {
+        axios.get(`http://localhost:8001/api/animals/status?animalId=${animal.id}`)
+            .then((res) => {
+                setAnimalStatus(res.data.animalStatus.status);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     const editHandler = () => {
         if (editState) {
@@ -41,6 +52,10 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                             name: animalName, bithdate: dateToUnixConverter(animalBirthdate), breed: animalBreed, color: animalColor, features: animalFeatures, microchip: animalMicrochip,
                             rfid: animalRfid, sex: animalSex, species: animalSpecies, subspecies: animalSubspecies, tattooNum: animalTattooNum
                         }))
+                    axios.put(`http://localhost:8001/api/animals/status?animalId=${animal.id}`,
+                        JSON.stringify({
+                            status: animalStatus
+                        }))
                     setValue(!value);
                 } else {
                     setAnimalName(currentAnimal.name);
@@ -53,6 +68,7 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                     setAnimalMicrochip(currentAnimal.microchip);
                     setAnimalRfid(currentAnimal.rfid);
                     setAnimalTattoo(currentAnimal.tattooNum);
+                    setAnimalTattoo(animalStatus);
                 }
             }
         }
@@ -91,6 +107,9 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
     }
     const animalTattooHandler = (event) => {
         setAnimalTattoo(event.target.value)
+    }
+    const animalStatusHandler = (event) => {
+        setAnimalStatus(event.target.value)
     }
 
     const timeConverter = (UNIX_timestamp) => {
@@ -149,10 +168,15 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
     const [animalSpecies, setAnimalSpecies] = useState(animal.species);
     const [animalSubspecies, setAnimalSubspecies] = useState(animal.subspecies);
     const [animalTattooNum, setAnimalTattoo] = useState(animal.tattooNum);
+    const [animalStatus, setAnimalStatus] = useState("");
 
     return (
         <div className="column is-centered is-three-quarters">
-            <div className="box">
+            <div className="box" css={css`height: 72vh;
+                                                        padding:4px;
+                                                        overflow-x: hidden;
+                                                        overflow-y: auto;
+                                                        position: relative;`}>
                 <AnimalHeader
                     user={user}
                     animal={animal} />
@@ -364,6 +388,22 @@ const AnimalProfile = ({ user, animal, pageDispatch }) => {
                                             className="input is-small"
                                             type="text"
                                             placeholder={animalTattooNum} /></td>}
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        {!editState ? (
+                                            <td>
+                                                {animalStatus}
+                                            </td>
+                                        ) : <td><input
+                                            value={animalStatus}
+                                            onChange={animalStatusHandler}
+                                            css={css`
+                                                max-width: 50%;
+                                                `}
+                                            className="input is-small"
+                                            type="text"
+                                            placeholder={animalStatus} /></td>}
                                     </tr>
                                     <tr class="border_bottom"></tr>
                                 </tbody>
