@@ -1,6 +1,9 @@
 # ENSF 607 Final Project - Veterinary Medicine Animal Management App  
 ## Created by: Thomas Scott, Drew Burritt, Gregory Slowski  
 
+### Demonstration Video:
+
+
 ### Instructions to set up the database:   
 1. Run ./Database/Create_tables.sql/ within mySQL  
 2. Be connected to a local server (for example "ENSF607")  
@@ -41,3 +44,5 @@ Student credentials ----------------------  Username: btables       Password: 12
 - On Windows All pictures first need to be added to 'C:\ProgramData\MySQL\MySQL Server 8.0\Uploads\' in order to add them to the database.   
     - Ensure hidden folders are visible for access.  
     - On other OS use the query 'select @@GLOBAL.secure_file_priv;' to locate your file path.  
+
+### Contributions
