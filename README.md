@@ -30,10 +30,10 @@
 `npm start`  
 
 Login information:  
-Admin credentials ---                       Username: Admin_1       Password: pe  
-Health Technician credentials ---           Username: Technician    Password: pa  
-Instructor credentials ---                  Username: tscott        Password: thomas123  
-Student credentials ---                     Username: btables       Password: 12345  
+Admin credentials ------------------------  Username: Admin_1       Password: pe  
+Health Technician credentials ------------  Username: Technician    Password: pa  
+Instructor credentials -------------------  Username: tscott        Password: thomas123  
+Student credentials ----------------------  Username: btables       Password: 12345  
 
 
 ### Additional notes
