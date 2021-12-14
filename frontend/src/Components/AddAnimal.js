@@ -135,7 +135,11 @@ const AddAnimal = ({ user, pageDispatch, animalSelectionDispatch }) => {
 
     return (
         <div className="column is-centered is-three-quarters">
-            <div className="box">
+            <div className="box" css={css`height: 72vh;
+                                                        padding:4px;
+                                                        overflow-x: hidden;
+                                                        overflow-y: auto;
+                                                        position: relative;`}>
                 <div className="column is-full">
                     <div className="box">
                         <div className="columns is-full">
