@@ -23,7 +23,8 @@ VALUES
 ('14','Instructor_1','pt@123','Instructor', '2021-11-29', 'Mohammad', 'Moshirpour', 'mohammad@gmail.ca'),
 ('5','Technician','pa','Health Technician', '2021-11-29', 'Emily', 'Marasco', 'emily@gmail.ca'),
 ('6','Admin_1','pe','Admin', '2021-11-29', 'Greg', 'Theclient', 'admin1@gmail.ca'),
-('7','btables','12345','Student', '2021-11-29', 'Bobby', 'Droptables', 'bobby.droptables@gmail.ca');
+('7','btables','12345','Student', '2021-11-29', 'Bobby', 'Droptables', 'bobby.droptables@gmail.ca'),
+('8','Healthtech1','ht1','Health Technician', '2021-07-25', 'John', 'Doe', 'JD1@shaw.ca');
 
 DROP TABLE IF EXISTS `STUDENT`;
 CREATE TABLE `STUDENT` (
@@ -172,7 +173,7 @@ CREATE TABLE `assigned_animals` (
   `UserId` VARCHAR(100) NOT NULL,
   `AnimalId` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`UserId`, `AnimalId`),
-  FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`),
+  FOREIGN KEY (`UserId`) REFERENCES `user` (`UserId`) ON DELETE CASCADE,
   FOREIGN KEY (`AnimalId`) REFERENCES `animal` (`AnimalId`)
  );
  INSERT INTO `assigned_animals` (`UserId`, animalId)
@@ -202,10 +203,10 @@ CREATE TABLE `reminders` (
   `CreationDate` datetime NOT NULL,
   `Text` mediumtext,
   `AnimalId` varchar(100) NOT NULL,
-  `UserId` varchar(100) NOT NULL,
+  `UserId` varchar(100),
   primary key (ReminderId),
   foreign key (AnimalId) references ANIMAL(AnimalId),
-  foreign key (UserId) references USER(UserId)
+  foreign key (UserId) references USER(UserId) ON DELETE CASCADE
 );
 
 INSERT INTO REMINDERS (ReminderId, DueDate, CreationDate, Text, AnimalId, UserId) 
@@ -223,10 +224,10 @@ CREATE TABLE IMAGE (
     ImageData MEDIUMBLOB,
 	ImageLocation VARCHAR(300) DEFAULT NULL,
     CreationDate DATETIME NOT NULL,
-    UserId VARCHAR(100) NOT NULL,
+    UserId VARCHAR(100),
     AnimalId VARCHAR(100) NOT NULL,
     primary key (ImageId),
-    foreign key (UserId) references USER(UserId),
+    foreign key (UserId) references USER(UserId) ON DELETE SET NULL,
     foreign key (AnimalId) references ANIMAL(AnimalId)
 );
 
