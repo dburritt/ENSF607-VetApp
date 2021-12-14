@@ -6,8 +6,12 @@ import axios from 'axios';
 const AnimalHeader = ({ user, animal }) => {
 
     const [value, setValue] = useState(true);
+    const [images, setImages] = useState([]);
 
-    useEffect(() => {
+    useEffect(async () => {
+        if (typeof(await fetchAnimalImages()) !== 'undefined'){
+            document.getElementById("profilePic").src = `data:image/jpeg;base64,${await fetchAnimalImages()}`;
+        }
         fetchReminders();
     }, [value]);
 
@@ -95,6 +99,19 @@ const AnimalHeader = ({ user, animal }) => {
         })
     }
 
+    const fetchAnimalImages = async () => {
+        return await axios.get(`http://localhost:8001/api/users/image?AnimalId=${animal.id}`)
+            .then((res) => {
+                setImages(res.data.images);
+                return res.data.images[0].imageData;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        
+            
+    };
+
     const reminderTextHandler = (event) => {
         setNewReminderText(event.target.value)
     }
@@ -156,22 +173,34 @@ const AnimalHeader = ({ user, animal }) => {
             css={css`height: 150px;`}>
             <div className="column is-one-quarter" >
                 <div className="box" css={css`height: 100%;`}>
-                    Profile picture
-                    <nav className="list is-pulled-right">
-                        <ul css={css`list-style-type: none;
+                    <div className="columns is-full"
+                        css={css`height: 150px;`}>
+                        <div className="column is-half" >
+                            {(images.length !== 0) ? (
+                                <img id="profilePic" />
+                            ) :
+                                <div className="subtitle is-6 has-text-centered">
+                                    No picture available
+                                </div>}
+                        </div>
+                        <div className="column is-half" >
+                            <nav className="list is-pulled-right">
+                                <ul css={css`list-style-type: none;
                                 margin: 0em;
                                 padding: 0;
                                 max-height: 90px;`}>
-                            <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>
-                                <div className="subtitle">
-                                    {animal.name}
-                                </div>
-                            </li>
-                            <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>{animal.subspecies}</li>
-                            <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>{animal.color}</li>
-                            <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>Status: { }</li>
-                        </ul>
-                    </nav>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>
+                                        <div className="subtitle">
+                                            {animal.name}
+                                        </div>
+                                    </li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>{animal.subspecies}</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>{animal.color}</li>
+                                    <li className="content is-small" css={css`list-style-type: none; margin-bottom: -1rem; margin-top: -1rem;`}>Status: { }</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="column is-three-quarters">
